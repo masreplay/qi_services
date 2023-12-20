@@ -2,6 +2,10 @@
   "ar": [
     "appName",
     "password",
+    "account",
+    "transfer",
+    "services",
+    "more",
     "validationMaxLength",
     "validationMinLength",
     "validationRequired",

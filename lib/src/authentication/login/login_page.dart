@@ -79,7 +79,7 @@ class LoginPage extends HookWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(l10n.loginSuccessfully)),
                         );
-                        Navigator.of(context).push(
+                        Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (_) => const MainPage(),
                           ),

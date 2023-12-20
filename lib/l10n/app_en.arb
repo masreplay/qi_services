@@ -1,6 +1,10 @@
 {
     "appName": "Qi Services",
     "password": "Password",
+    "account": "Account",
+    "transfer": "Transfer",
+    "services": "Services",
+    "more": "More",
     "validationMaxLength": "max length is $n",
     "@validationMaxLength": {
         "placeholders": {

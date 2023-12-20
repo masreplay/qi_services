@@ -27,6 +27,7 @@ class MainTheme {
         onSecondary: Colors.black,
         surface: Colors.white,
         onSurface: Colors.black,
+        onSurfaceVariant: Color(0xffA0A0A0),
         background: Colors.white,
         onBackground: Colors.black,
         error: Color(0xffF44336),
