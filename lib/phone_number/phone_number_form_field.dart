@@ -1,5 +1,4 @@
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/validator/extension.dart';
 
 import 'area_code.dart';
 import 'area_code_bottom_sheet.dart';
@@ -25,6 +24,7 @@ class PhoneNumberFormField extends StatelessWidget {
     final isIraqiAreaCode = areaCode.code == iraqAreaCode.code;
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           flex: 1,
