@@ -10,7 +10,13 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # fonts
   google_fonts: ^6.1.0
+
+  # l10n
+  intl: any
+  flutter_localizations:
+    sdk: flutter
 
   # riverpod
   flutter_hooks: ^0.20.3
@@ -22,6 +28,7 @@ dependencies:
   # model
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
+  form_validator: ^2.1.1
 
 dev_dependencies:
   # test
@@ -41,5 +48,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
+  
   assets:
     - assets/app/

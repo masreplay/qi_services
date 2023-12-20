@@ -1,6 +1,10 @@
 import 'area_code.dart';
 
-abstract final class PhoneNumberUtils {
+abstract final class PhoneNumberConvertor {
+  RegExp iraqLocalePhoneRegex() {
+    return RegExp(r"07[3-9][0-9]{8}");
+  }
+
   static String merge({
     required AreaCode areaCode,
     required String mobileNumber,

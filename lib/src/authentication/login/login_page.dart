@@ -1,18 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:qi_services/api/models/login_model.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/phone_number/phone_number.dart';
 import 'package:useful_hook/useful_hook.dart';
+
+import 'login_repository.dart';
 
 class LoginPage extends HookWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final state = useAsyncState();
-
-    final textTheme = theme.textTheme;
 
     final formKey = useFormKey();
 
@@ -21,6 +20,11 @@ class LoginPage extends HookWidget {
     final password = useTextEditingController();
 
     final obscure = useState(false);
+
+    final l10n = context.l10n;
+
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
 
     return Scaffold(
       body: SafeArea(
@@ -45,7 +49,7 @@ class LoginPage extends HookWidget {
                           ),
                         ),
                         Text(
-                          "Qi Services",
+                          l10n.appName,
                           style: textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -54,41 +58,10 @@ class LoginPage extends HookWidget {
                     ),
                   ),
                   const SizedBox.square(dimension: 24.0),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                          controller: TextEditingController(
-                            text: areaCode.value.code,
-                          ),
-                          readOnly: true,
-                          onTap: () async {
-                            final value = await showAreaCodeBottomSheet(
-                              context: context,
-                              value: areaCode.value,
-                            );
-
-                            if (value != null) areaCode.value = value;
-                          },
-                          decoration: const InputDecoration(
-                            labelText: "Area Code",
-                          ),
-                        ),
-                      ),
-                      const SizedBox.square(dimension: 8.0),
-                      Expanded(
-                        flex: 4,
-                        child: TextFormField(
-                          controller: mobileNumber,
-                          keyboardType: TextInputType.phone,
-                          decoration: const InputDecoration(
-                            labelText: "Mobile Number",
-                            prefixIcon: Icon(AppIcons.phone),
-                          ),
-                        ),
-                      ),
-                    ],
+                  PhoneNumberFormField(
+                    areaCode: areaCode.value,
+                    onAreaCodeChanged: areaCode.update,
+                    controller: mobileNumber,
                   ),
                   const SizedBox.square(dimension: 24.0),
                   TextFormField(
@@ -96,7 +69,7 @@ class LoginPage extends HookWidget {
                     obscureText: obscure.value,
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
-                      labelText: "Password",
+                      labelText: l10n.password,
                       prefixIcon: const Icon(AppIcons.password),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -114,24 +87,41 @@ class LoginPage extends HookWidget {
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
-                      final phone = PhoneNumberUtils.merge(
-                        areaCode: areaCode.value,
-                        mobileNumber: mobileNumber.text,
+
+                      final body = LoginRequest(
+                        phone: PhoneNumberConvertor.merge(
+                          areaCode: areaCode.value,
+                          mobileNumber: mobileNumber.text,
+                        ),
+                        password: password.text,
                       );
 
-                      // await state();
+                      await state(LoginRepository.instance.login(body));
+
+                      state.value.whenOrNull(
+                        data: (data) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(l10n.loginSuccessfully)),
+                          );
+                        },
+                        error: (error, stackTrace) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(l10n.defaultErrorMessage)),
+                          );
+                        },
+                      );
                     },
-                    child: const Text("Login"),
+                    child: Text(l10n.login),
                   ),
                   const SizedBox.square(dimension: 16.0),
                   TextButton(
                     onPressed: () {},
-                    child: const Text("Forgot Your Password?"),
+                    child: Text(l10n.forgotYourPassword),
                   ),
                   const SizedBox.square(dimension: 16.0),
                   TextButton(
                     onPressed: () {},
-                    child: const Text("Create new account"),
+                    child: Text(l10n.createNewAccount),
                   ),
                 ],
               ),

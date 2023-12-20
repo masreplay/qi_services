@@ -56,4 +56,6 @@ class MainTheme {
       ),
     );
   }
+
+  ThemeData buildDark() => buildLight();
 }

@@ -1,0 +1,26 @@
+{
+    "appName": "Qi Services",
+    "password": "Password",
+    "validationMaxLength": "max length is $n",
+    "@validationMaxLength": {
+        "placeholders": {
+            "n": {}
+        }
+    },
+    "validationMinLength": "min length is $n",
+    "@validationMinLength": {
+        "placeholders": {
+            "n": {}
+        }
+    },
+    "validationRequired": "this field is required",
+    "validationUrl": "invalid url",
+    "invalidPhoneNumber": "invalid phone number",
+    "loginSuccessfully": "Login successfully",
+    "defaultErrorMessage": "Something went wrong",
+    "forgotYourPassword": "Forgot your password?",
+    "createNewAccount": "Create new account",
+    "login": "Login",
+    "mobileNumber": "Mobile number",
+    "areaCode": "Area Code"
+}

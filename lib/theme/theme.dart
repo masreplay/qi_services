@@ -1,2 +1,2 @@
-export 'icons.dart';
-export 'main_theme.dart';
+export "main_theme.dart";
+export "icons.dart";

@@ -1,0 +1,18 @@
+{
+  "ar": [
+    "appName",
+    "password",
+    "validationMaxLength",
+    "validationMinLength",
+    "validationRequired",
+    "validationUrl",
+    "invalidPhoneNumber",
+    "loginSuccessfully",
+    "defaultErrorMessage",
+    "forgotYourPassword",
+    "createNewAccount",
+    "login",
+    "mobileNumber",
+    "areaCode"
+  ]
+}

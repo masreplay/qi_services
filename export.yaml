@@ -1,0 +1,13 @@
+project type: unknown
+export:
+  - lib/
+
+ignore:
+  - "**/*.g.dart"
+  - "**/*.freezed.dart"
+  - "**/*.gr.dart"
+  - "**/*.data.dart"
+  - "**/*.arb"
+  - "**/_*"
+  - "**/.DS_Store"
+  

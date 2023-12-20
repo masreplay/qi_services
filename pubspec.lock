@@ -270,6 +270,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_riverpod:
     dependency: transitive
     description:
@@ -288,6 +293,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  form_validator:
+    dependency: "direct main"
+    description:
+      name: form_validator
+      sha256: "8cbe91b7d5260870d6fb9e23acd55d5d1d1fdf2397f0279a4931ac3c0c7bf8fb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   freezed:
     dependency: "direct dev"
     description:
@@ -376,6 +389,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   io:
     dependency: transitive
     description:
