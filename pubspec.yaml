@@ -1,15 +1,15 @@
 name: qi_services
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ">=3.2.3 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  
+
   google_fonts: ^6.1.0
 
   # riverpod
@@ -19,7 +19,6 @@ dependencies:
   useful_hook:
     path: ../useful_hook
 
-
   # model
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
@@ -28,7 +27,7 @@ dev_dependencies:
   # test
   flutter_test:
     sdk: flutter
-  
+
   # lint
   flutter_lints: ^3.0.1
   custom_lint: ^0.5.7

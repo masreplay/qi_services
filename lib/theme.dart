@@ -7,6 +7,8 @@ class MainTheme {
     final theme = ThemeData(
       useMaterial3: false,
       colorScheme: colorScheme,
+      inputDecorationTheme: _buildInputDecorationTheme(colorScheme),
+      filledButtonTheme: _buildFilledButtonTheme(colorScheme),
     );
 
     // Copy with theme to get the updated theme with color scheme
@@ -29,6 +31,28 @@ class MainTheme {
         onBackground: Colors.black,
         error: Color(0xffF44336),
         onError: Colors.white,
+      ),
+    );
+  }
+
+  InputDecorationTheme _buildInputDecorationTheme(ColorScheme colorScheme) {
+    return InputDecorationTheme(
+      contentPadding: const EdgeInsets.all(12.0),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    );
+  }
+
+  FilledButtonThemeData _buildFilledButtonTheme(ColorScheme colorScheme) {
+    return FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        elevation: 2.0,
+        textStyle: const TextStyle(fontSize: 14.0),
+        padding: const EdgeInsets.all(20.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
       ),
     );
   }
