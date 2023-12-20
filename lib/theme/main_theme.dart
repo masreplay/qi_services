@@ -3,10 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 ///
 class MainTheme {
-  ThemeData _build({required ColorScheme colorScheme}) {
+  ThemeData _build({
+    required Color scaffoldBackgroundColor,
+    required ColorScheme colorScheme,
+  }) {
     ThemeData theme = ThemeData(
       useMaterial3: false,
       colorScheme: colorScheme,
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
       inputDecorationTheme: _buildInputDecorationTheme(colorScheme),
       filledButtonTheme: _buildFilledButtonTheme(colorScheme),
     );
@@ -17,7 +21,7 @@ class MainTheme {
       textTheme: GoogleFonts.cairoTextTheme(theme.textTheme),
       appBarTheme: AppBarTheme(
         elevation: 0.0,
-        backgroundColor: colorScheme.background,
+        backgroundColor: scaffoldBackgroundColor,
         foregroundColor: colorScheme.primary,
         iconTheme: IconThemeData(color: colorScheme.onBackground),
       ),
@@ -26,6 +30,7 @@ class MainTheme {
 
   ThemeData buildLight() {
     return _build(
+      scaffoldBackgroundColor: const Color(0xffF4F6FB),
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: Color(0xff17B6A4),
