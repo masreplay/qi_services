@@ -24,6 +24,15 @@ class AccountPage extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
+          const SliverPadding(
+            padding: EdgeInsets.all(8.0),
+            sliver: SliverToBoxAdapter(
+              child: AspectRatio(
+                aspectRatio: 5 / 3,
+                child: Placeholder(),
+              ),
+            ),
+          ),
           SliverPadding(
             padding: const EdgeInsets.all(8.0),
             sliver: SliverGrid.count(
@@ -104,6 +113,15 @@ class AccountPage extends StatelessWidget {
                   onTap: () {},
                 ),
               ],
+            ),
+          ),
+          const SliverPadding(
+            padding: EdgeInsets.all(8.0),
+            sliver: SliverToBoxAdapter(
+              child: AspectRatio(
+                aspectRatio: 11 / 3,
+                child: Placeholder(),
+              ),
             ),
           ),
           const SliverPadding(
