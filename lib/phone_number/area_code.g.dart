@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'area_code_bottom_sheet.dart';
+part of 'area_code.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getAreaCodesHash() => r'd73bf9f814648f8c848f706fc029180ef5d3cbef';
+String _$getAreaCodesHash() => r'de527b80a5ecbfa9f94cf40dd45f31209cdbd2bc';
 
 /// Copied from Dart SDK
 class _SystemHash {

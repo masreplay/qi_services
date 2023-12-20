@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import 'src/authentication/login/login_page.dart';
 
-import 'theme.dart';
+import 'theme/main_theme.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme.buildLight(),
-      home: const LoginScreen(),
+      home: const LoginPage(),
     );
   }
 }
