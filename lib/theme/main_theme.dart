@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 ///
 class MainTheme {
   ThemeData _build({required ColorScheme colorScheme}) {
-    final theme = ThemeData(
+    ThemeData theme = ThemeData(
       useMaterial3: false,
       colorScheme: colorScheme,
       inputDecorationTheme: _buildInputDecorationTheme(colorScheme),
@@ -12,8 +12,15 @@ class MainTheme {
     );
 
     // Copy with theme to get the updated theme with color scheme
-    return theme.copyWith(
+
+    return theme = theme.copyWith(
       textTheme: GoogleFonts.cairoTextTheme(theme.textTheme),
+      appBarTheme: AppBarTheme(
+        elevation: 0.0,
+        backgroundColor: colorScheme.background,
+        foregroundColor: colorScheme.primary,
+        iconTheme: IconThemeData(color: colorScheme.onBackground),
+      ),
     );
   }
 
@@ -27,6 +34,7 @@ class MainTheme {
         onSecondary: Colors.black,
         surface: Colors.white,
         onSurface: Colors.black,
+        surfaceVariant: Color(0xffEDF4FC),
         onSurfaceVariant: Color(0xffA0A0A0),
         background: Colors.white,
         onBackground: Colors.black,

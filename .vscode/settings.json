@@ -12,5 +12,8 @@
     "**/*.g.dart": true,
     "**/*.freezed.dart": true,
     "**/*.gen.dart": true
-  }
+  },
+  "cSpell.words": [
+    "autorenew"
+  ]
 }
