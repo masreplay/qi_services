@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:qi_services/api/models/login_model.dart';
 import 'package:qi_services/common_lib.dart';
+import 'package:qi_services/faker.dart';
 import 'package:qi_services/phone_number/phone_number.dart';
 import 'package:qi_services/src/authentication/login/password_form_field.dart';
+import 'package:qi_services/src/main/main.dart';
 import 'package:useful_hook/useful_hook.dart';
 
 import 'app_logo.dart';
@@ -28,8 +31,16 @@ class LoginPage extends HookWidget {
       body: FormBody(
         formKey: formKey,
         children: [
-          const Center(
-            child: AppLogo(),
+          Center(
+            child: InkWell(
+              onTap: !kDebugMode
+                  ? null
+                  : () {
+                      mobileNumber.text = AppFaker.mobileNumber;
+                      password.text = AppFaker.password;
+                    },
+              child: const AppLogo(),
+            ),
           ),
           const SizedBox.square(dimension: 24.0),
           PhoneNumberFormField(
@@ -45,35 +56,48 @@ class LoginPage extends HookWidget {
           ),
           const SizedBox.square(dimension: 24.0),
           FilledButton(
-            onPressed: () async {
-              if (!formKey.currentState!.validate()) {
-                return;
-              }
+            onPressed: state.value.isLoading
+                ? null
+                : () async {
+                    if (!formKey.currentState!.validate()) {
+                      return;
+                    }
 
-              final body = LoginRequest(
-                phone: PhoneNumberConvertor.merge(
-                  areaCode: areaCode.value,
-                  mobileNumber: mobileNumber.text,
-                ),
-                password: password.text,
-              );
+                    final body = LoginRequest(
+                      phone: PhoneNumberConvertor.merge(
+                        areaCode: areaCode.value,
+                        mobileNumber: mobileNumber.text,
+                      ),
+                      password: password.text,
+                    );
 
-              await state(LoginRepository.instance.login(body));
+                    // Fake login (instantly)
+                    await state(LoginRepository.instance.login(body));
 
-              state.value.whenOrNull(
-                data: (data) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.loginSuccessfully)),
-                  );
-                },
-                error: (error, stackTrace) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.defaultErrorMessage)),
-                  );
-                },
-              );
-            },
-            child: Text(l10n.login),
+                    state.value.whenOrNull(
+                      data: (data) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.loginSuccessfully)),
+                        );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const MainPage(),
+                          ),
+                        );
+                      },
+                      error: (error, stackTrace) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.defaultErrorMessage)),
+                        );
+                      },
+                    );
+                  },
+            child: state.value.isLoading
+                ? const SizedBox.square(
+                    dimension: 18.0,
+                    child: CircularProgressIndicator(),
+                  )
+                : Text(l10n.login),
           ),
           const SizedBox.square(dimension: 16.0),
           TextButton(
