@@ -1,1 +1,24 @@
 include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    prefer_double_quotes: false
+    require_trailing_commas: true
+    use_build_context_synchronously: false
+    avoid_print: false
+    unnecessary_await_in_return: false
+
+analyzer:
+  # ignore generated files
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.gen.dart"
+    - "**/*.freezed.dart"
+
+  # for freezed
+  errors:
+    invalid_annotation_target: ignore
+
+  # for riverpod
+  plugins:
+    - custom_lint

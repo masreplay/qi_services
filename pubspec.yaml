@@ -9,12 +9,36 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
   google_fonts: ^6.1.0
 
+  # riverpod
+  flutter_hooks: ^0.20.3
+  hooks_riverpod: ^2.4.9
+  riverpod_annotation: ^2.3.3
+  useful_hook:
+    path: ../useful_hook
+
+
+  # model
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
+
 dev_dependencies:
+  # test
   flutter_test:
     sdk: flutter
+  
+  # lint
   flutter_lints: ^3.0.1
+  custom_lint: ^0.5.7
+  riverpod_lint: ^2.3.7
+
+  # runner
+  build_runner: ^2.4.7
+  riverpod_generator: ^2.3.9
+  freezed: ^2.4.6
+  json_serializable: ^6.7.1
 
 flutter:
   uses-material-design: true
