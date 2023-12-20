@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qi_services/home_screen.dart';
+import 'login_screen.dart';
 
 import 'theme.dart';
 
@@ -11,8 +11,9 @@ class MainApp extends StatelessWidget {
     final theme = MainTheme();
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: theme.buildLight(),
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }
