@@ -13,6 +13,7 @@
     "createNewAccount",
     "login",
     "mobileNumber",
-    "areaCode"
+    "areaCode",
+    "notImplementedYet"
   ]
 }

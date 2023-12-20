@@ -2,6 +2,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:qi_services/api/models/login_model.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/phone_number/phone_number.dart';
+import 'package:qi_services/validator/extension.dart';
 import 'package:useful_hook/useful_hook.dart';
 
 import 'login_repository.dart';
@@ -59,15 +60,17 @@ class LoginPage extends HookWidget {
                   ),
                   const SizedBox.square(dimension: 24.0),
                   PhoneNumberFormField(
+                    controller: mobileNumber,
                     areaCode: areaCode.value,
                     onAreaCodeChanged: areaCode.update,
-                    controller: mobileNumber,
+                    optional: false,
                   ),
                   const SizedBox.square(dimension: 24.0),
                   TextFormField(
                     controller: password,
                     obscureText: obscure.value,
                     keyboardType: TextInputType.phone,
+                    validator: context.validator(optional: false).build(),
                     decoration: InputDecoration(
                       labelText: l10n.password,
                       prefixIcon: const Icon(AppIcons.password),
@@ -115,12 +118,20 @@ class LoginPage extends HookWidget {
                   ),
                   const SizedBox.square(dimension: 16.0),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.notImplementedYet)),
+                      );
+                    },
                     child: Text(l10n.forgotYourPassword),
                   ),
                   const SizedBox.square(dimension: 16.0),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.notImplementedYet)),
+                      );
+                    },
                     child: Text(l10n.createNewAccount),
                   ),
                 ],

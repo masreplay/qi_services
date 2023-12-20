@@ -22,5 +22,6 @@
     "createNewAccount": "Create new account",
     "login": "Login",
     "mobileNumber": "Mobile number",
-    "areaCode": "Area Code"
+    "areaCode": "Area Code",
+    "notImplementedYet": "Not implemented yet"
 }
