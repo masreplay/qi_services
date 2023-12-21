@@ -18,6 +18,11 @@
     "login",
     "mobileNumber",
     "areaCode",
-    "notImplementedYet"
+    "notImplementedYet",
+    "settings",
+    "share",
+    "rateUs",
+    "rateCallCenterService",
+    "aboutUs"
   ]
 }

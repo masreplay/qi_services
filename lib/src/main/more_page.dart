@@ -13,10 +13,10 @@ class MorePage extends StatelessWidget {
       endIndent: 16.0,
     );
 
+    final l10n = context.l10n;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.more),
-      ),
+      appBar: AppBar(title: Text(l10n.more)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -31,7 +31,7 @@ class MorePage extends StatelessWidget {
                 spacing: 4.0,
                 children: [
                   _MoreListTile(
-                    titleText: "Settings",
+                    titleText: l10n.settings,
                     leading: const _MoreIcon(
                       icon: Icons.settings,
                       foregroundColor: Colors.white,
@@ -41,7 +41,7 @@ class MorePage extends StatelessWidget {
                   ),
                   divider,
                   _MoreListTile(
-                    titleText: "Share",
+                    titleText: l10n.share,
                     leading: _MoreIcon(
                       icon: Icons.adaptive.share,
                       foregroundColor: Colors.white,
@@ -51,7 +51,7 @@ class MorePage extends StatelessWidget {
                   ),
                   divider,
                   _MoreListTile(
-                    titleText: "Rate Us",
+                    titleText: l10n.rateUs,
                     leading: const _MoreIcon(
                       icon: Icons.star,
                       foregroundColor: Colors.white,
@@ -61,7 +61,7 @@ class MorePage extends StatelessWidget {
                   ),
                   divider,
                   _MoreListTile(
-                    titleText: "Rate Call Center Service",
+                    titleText: l10n.rateCallCenterService,
                     leading: const _MoreIcon(
                       icon: Icons.star,
                       foregroundColor: Colors.white,
@@ -71,7 +71,7 @@ class MorePage extends StatelessWidget {
                   ),
                   divider,
                   _MoreListTile(
-                    titleText: "About Us",
+                    titleText: l10n.aboutUs,
                     leading: const _MoreIcon(
                       icon: Icons.info_outline,
                       foregroundColor: Colors.white,

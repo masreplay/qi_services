@@ -27,5 +27,10 @@
     "login": "Login",
     "mobileNumber": "Mobile number",
     "areaCode": "Area Code",
-    "notImplementedYet": "Not implemented yet"
+    "notImplementedYet": "Not implemented yet",
+    "settings": "Settings",
+    "share": "Share",
+    "rateUs": "Rate Us",
+    "rateCallCenterService": "Rate Call Center Service",
+    "aboutUs": "About Us"
 }
