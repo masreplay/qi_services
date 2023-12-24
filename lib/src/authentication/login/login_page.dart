@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/api/models/login_model.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/faker.dart';
@@ -9,14 +10,14 @@ import 'package:qi_services/src/main/main.dart';
 import 'package:useful_hook/useful_hook.dart';
 
 import 'app_logo.dart';
+import 'authentication_repository.dart';
 import 'form_body.dart';
-import 'login_repository.dart';
 
-class LoginPage extends HookWidget {
+class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = useAsyncState();
 
     final formKey = useFormKey();
@@ -71,8 +72,7 @@ class LoginPage extends HookWidget {
                       password: password.text,
                     );
 
-                    // Fake login (instantly)
-                    await state(LoginRepository.instance.login(body));
+                    await state(ref.read(loginRepositoryProvider).login(body));
 
                     state.value.whenOrNull(
                       data: (data) {

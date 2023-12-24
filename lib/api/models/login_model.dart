@@ -20,6 +20,7 @@ class LoginResponse with _$LoginResponse {
   @JsonSerializable()
   const factory LoginResponse({
     required String token,
+    required String phone,
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>

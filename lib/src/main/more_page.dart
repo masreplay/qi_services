@@ -1,4 +1,5 @@
 import 'package:qi_services/common_lib.dart';
+import 'package:qi_services/theme/colors.dart';
 import 'package:useful_hook/useful_hook.dart';
 
 class MorePage extends StatelessWidget {
@@ -14,6 +15,8 @@ class MorePage extends StatelessWidget {
     );
 
     final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.more)),
@@ -35,7 +38,7 @@ class MorePage extends StatelessWidget {
                     leading: const _MoreIcon(
                       icon: Icons.settings,
                       foregroundColor: Colors.white,
-                      backgroundColor: Color(0xffF6676C),
+                      backgroundColor: AppColors.vermilion,
                     ),
                     onTap: () {},
                   ),
@@ -45,7 +48,7 @@ class MorePage extends StatelessWidget {
                     leading: _MoreIcon(
                       icon: Icons.adaptive.share,
                       foregroundColor: Colors.white,
-                      backgroundColor: const Color(0xff3EB294),
+                      backgroundColor: AppColors.green,
                     ),
                     onTap: () {},
                   ),
@@ -55,7 +58,7 @@ class MorePage extends StatelessWidget {
                     leading: const _MoreIcon(
                       icon: Icons.star,
                       foregroundColor: Colors.white,
-                      backgroundColor: Color(0xffF3C202),
+                      backgroundColor: AppColors.yellow,
                     ),
                     onTap: () {},
                   ),
@@ -63,9 +66,9 @@ class MorePage extends StatelessWidget {
                   _MoreListTile(
                     titleText: l10n.rateCallCenterService,
                     leading: const _MoreIcon(
-                      icon: Icons.star,
+                      icon: Icons.call_outlined,
                       foregroundColor: Colors.white,
-                      backgroundColor: Color(0xff1F7DD7),
+                      backgroundColor: AppColors.indigo,
                     ),
                     onTap: () {},
                   ),
@@ -75,7 +78,7 @@ class MorePage extends StatelessWidget {
                     leading: const _MoreIcon(
                       icon: Icons.info_outline,
                       foregroundColor: Colors.white,
-                      backgroundColor: Color(0xff1F7DD7),
+                      backgroundColor: AppColors.indigo,
                     ),
                     onTap: () {},
                   ),
@@ -84,18 +87,18 @@ class MorePage extends StatelessWidget {
             ),
             const Spacer(),
             ListTile(
-              title: const Text("Logout"),
-              tileColor: Theme.of(context).colorScheme.surface,
+              title: Text(l10n.logout),
+              tileColor: colorScheme.surface,
               onTap: () {},
               trailing: Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 16.0,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: colorScheme.onSurface,
               ),
               leading: const _MoreIcon(
                 icon: Icons.logout,
                 foregroundColor: Colors.white,
-                backgroundColor: Color(0xffF6676C),
+                backgroundColor: AppColors.vermilion,
               ),
             ),
             const Spacer(),

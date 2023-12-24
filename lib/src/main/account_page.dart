@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/main/account_model.dart';
+import 'package:qi_services/src/main/icon_button.dart';
 import 'package:qi_services/theme/colors.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:useful_hook/useful_hook.dart';
@@ -15,36 +16,6 @@ part 'account_page.g.dart';
 @riverpod
 Future<List<AccountModel>> getAccounts(GetAccountsRef ref) async {
   return ref.read(accountsRepositoryProvider).getAll();
-}
-
-class IconButtonFilled extends StatelessWidget {
-  const IconButtonFilled({
-    super.key,
-    required this.icon,
-    required this.onTap,
-    this.foregroundColor,
-    this.backgroundColor,
-  });
-
-  final Color? foregroundColor, backgroundColor;
-  final Widget icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: backgroundColor,
-      ),
-      child: IconButton(
-        color: foregroundColor,
-        icon: icon,
-        onPressed: onTap,
-      ),
-    );
-  }
 }
 
 class AccountPage extends HookConsumerWidget {
@@ -69,7 +40,7 @@ class AccountPage extends HookConsumerWidget {
           ),
           IconButtonFilled(
             foregroundColor: Colors.white,
-            backgroundColor: AppColors.turquoise,
+            backgroundColor: AppColors.green,
             icon: const Icon(Icons.add),
             onTap: () {},
           ),
@@ -122,9 +93,10 @@ class AccountPage extends HookConsumerWidget {
                   ),
                   AccountServiceGridTile(
                     title: Text(context.l10n.updateAccount),
-                    icon: const Icon(
-                      Icons.autorenew_rounded,
-                      color: AppColors.grey,
+                    icon: const IconButtonFilled(
+                      icon: Icon(Icons.autorenew_rounded),
+                      backgroundColor: AppColors.grey,
+                      foregroundColor: Colors.white,
                     ),
                     onTap: () {},
                   ),
@@ -132,7 +104,7 @@ class AccountPage extends HookConsumerWidget {
                     title: Text(context.l10n.financialTransactions),
                     icon: const Icon(
                       Icons.list_outlined,
-                      color: AppColors.turquoise,
+                      color: AppColors.green,
                     ),
                     onTap: () {},
                   ),
