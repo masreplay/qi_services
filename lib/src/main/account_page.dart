@@ -1,21 +1,50 @@
 import 'dart:async';
 
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/main/account_model.dart';
+import 'package:qi_services/theme/colors.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:timeago/timeago.dart';
 import 'package:useful_hook/useful_hook.dart';
 
 import 'accounts_repository.dart';
-import 'time_ago.dart';
+import 'accounts_tile.dart';
 
 part 'account_page.g.dart';
 
 @riverpod
 Future<List<AccountModel>> getAccounts(GetAccountsRef ref) async {
   return ref.read(accountsRepositoryProvider).getAll();
+}
+
+class IconButtonFilled extends StatelessWidget {
+  const IconButtonFilled({
+    super.key,
+    required this.icon,
+    required this.onTap,
+    this.foregroundColor,
+    this.backgroundColor,
+  });
+
+  final Color? foregroundColor, backgroundColor;
+  final Widget icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: backgroundColor,
+      ),
+      child: IconButton(
+        color: foregroundColor,
+        icon: icon,
+        onPressed: onTap,
+      ),
+    );
+  }
 }
 
 class AccountPage extends HookConsumerWidget {
@@ -32,13 +61,17 @@ class AccountPage extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.account),
         actions: [
-          IconButton.filled(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
+          IconButtonFilled(
+            foregroundColor: Colors.white,
+            backgroundColor: AppColors.yellow,
+            icon: const Icon(Icons.notifications_rounded),
+            onTap: () {},
           ),
-          IconButton(
+          IconButtonFilled(
+            foregroundColor: Colors.white,
+            backgroundColor: AppColors.turquoise,
             icon: const Icon(Icons.add),
-            onPressed: () {},
+            onTap: () {},
           ),
         ],
       ),
@@ -67,7 +100,7 @@ class AccountPage extends HookConsumerWidget {
                     title: Text(context.l10n.moneyTransfer),
                     icon: const Icon(
                       Icons.swap_horiz_outlined,
-                      color: Color(0xff9D88EB),
+                      color: AppColors.purple,
                     ),
                     onTap: () {},
                   ),
@@ -75,7 +108,7 @@ class AccountPage extends HookConsumerWidget {
                     title: Text(context.l10n.accountInformation),
                     icon: const Icon(
                       Icons.settings_rounded,
-                      color: Color(0xffFA7068),
+                      color: AppColors.vermilion,
                     ),
                     onTap: () {},
                   ),
@@ -83,7 +116,7 @@ class AccountPage extends HookConsumerWidget {
                     title: Text(context.l10n.linkedCards),
                     icon: const Icon(
                       Icons.credit_card,
-                      color: Color(0xffEECD0A),
+                      color: AppColors.yellow,
                     ),
                     onTap: () {},
                   ),
@@ -91,7 +124,7 @@ class AccountPage extends HookConsumerWidget {
                     title: Text(context.l10n.updateAccount),
                     icon: const Icon(
                       Icons.autorenew_rounded,
-                      color: Color(0xff787774),
+                      color: AppColors.grey,
                     ),
                     onTap: () {},
                   ),
@@ -99,7 +132,7 @@ class AccountPage extends HookConsumerWidget {
                     title: Text(context.l10n.financialTransactions),
                     icon: const Icon(
                       Icons.list_outlined,
-                      color: Color(0xff0C9089),
+                      color: AppColors.turquoise,
                     ),
                     onTap: () {},
                   ),
@@ -107,7 +140,7 @@ class AccountPage extends HookConsumerWidget {
                     title: Text(context.l10n.updateInformation),
                     icon: const Icon(
                       Icons.sync_problem_outlined,
-                      color: Color(0xffEECD0A),
+                      color: AppColors.yellow,
                     ),
                     onTap: () {},
                   ),
@@ -122,9 +155,9 @@ class AccountPage extends HookConsumerWidget {
                     title: Text(context.l10n.trackRequests),
                     icon: const Icon(
                       Icons.flutter_dash,
-                      color: Color(0xffC06981),
+                      color: AppColors.darkPink,
                     ),
-                    backgroundColor: const Color(0xffF7CBD8),
+                    backgroundColor: AppColors.pink,
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
@@ -154,214 +187,6 @@ class AccountPage extends HookConsumerWidget {
                   child: Placeholder(),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AccountsPageView extends HookWidget {
-  const AccountsPageView(
-    this.data, {
-    super.key,
-  });
-
-  final List<AccountModel> data;
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 5 / 3,
-      child: PageView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          final account = data[index];
-
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AccountGridTile(
-              account: account,
-              onTap: () {},
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class AccountGridTile extends HookWidget {
-  const AccountGridTile({
-    super.key,
-    required this.account,
-    required this.onTap,
-  });
-
-  final AccountModel account;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
-    final titleMedium = textTheme.titleMedium?.copyWith(
-      color: Colors.white,
-    );
-    final titleLarge = textTheme.titleLarge?.copyWith(
-      color: Colors.white,
-    );
-
-    return InkWell(
-      borderRadius: BorderRadius.circular(12.0),
-      onTap: onTap,
-      child: Ink(
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-          color: account.mapOrNull(
-            blocked: (value) => Colors.grey,
-          ),
-          gradient: account.mapOrNull(
-            active: (value) => const LinearGradient(
-              begin: AlignmentDirectional.topCenter,
-              end: AlignmentDirectional.bottomCenter,
-              colors: [Color(0xff03BCFE), Color(0xff1D8EE3)],
-            ),
-          ),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        l10n.accountNumber,
-                        style: titleMedium,
-                      ),
-                      Text(
-                        account.number,
-                        style: titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        l10n.serviceName,
-                        style: titleMedium,
-                      ),
-                      Text(
-                        account.serviceName,
-                        style: titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        l10n.availableBalance,
-                        style: titleMedium,
-                      ),
-                      Text(
-                        "${account.balance} ${account.currency}",
-                        style: textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xffFEBF0C),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                account.map(
-                  active: (value) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      child: RowPadded(
-                        children: [
-                          Text(
-                            l10n.active,
-                            style: titleMedium?.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                          Container(
-                            width: 16.0,
-                            height: 16.0,
-                            decoration: const BoxDecoration(
-                              color: Color(0xff47EF1F),
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  blocked: (value) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 2.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      child: RowPadded(
-                        children: [
-                          Text(
-                            l10n.blocked,
-                            style: titleMedium?.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                          const Icon(
-                            Icons.lock_outline_rounded,
-                            size: 18.0,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                TimeAgo(
-                  duration: const Duration(minutes: 1),
-                  builder: (context, now) {
-                    return Text(
-                      format(account.lastUpdate),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: titleMedium?.copyWith(
-                        color: Colors.white,
-                      ),
-                    );
-                  },
-                ),
-              ],
             ),
           ],
         ),
