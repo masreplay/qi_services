@@ -1,5 +1,7 @@
 {
   "ar": [
+    "serviceName",
+    "availableBalance",
     "appName",
     "password",
     "account",
@@ -23,6 +25,8 @@
     "share",
     "rateUs",
     "rateCallCenterService",
-    "aboutUs"
+    "aboutUs",
+    "accountNumber",
+    "active"
   ]
 }

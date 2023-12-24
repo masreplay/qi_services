@@ -1,4 +1,7 @@
 {
+    "@@locale": "en",
+    "serviceName": "Service Name",
+    "availableBalance": "Available Balance",
     "appName": "Qi Services",
     "password": "Password",
     "account": "Account",
@@ -32,5 +35,7 @@
     "share": "Share",
     "rateUs": "Rate Us",
     "rateCallCenterService": "Rate Call Center Service",
-    "aboutUs": "About Us"
+    "aboutUs": "About Us",
+    "accountNumber": "Account Number",
+    "active": "Active"
 }

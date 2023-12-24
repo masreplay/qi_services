@@ -18,7 +18,7 @@ class MainTheme {
     // Copy with theme to get the updated theme with color scheme
 
     return theme = theme.copyWith(
-      textTheme: GoogleFonts.cairoTextTheme(theme.textTheme),
+      textTheme: _buildTextTheme(colorScheme),
       appBarTheme: AppBarTheme(
         elevation: 0.0,
         backgroundColor: scaffoldBackgroundColor,
@@ -28,9 +28,32 @@ class MainTheme {
     );
   }
 
+  TextTheme _buildTextTheme(ColorScheme colorScheme) {
+    /// Fix [GoogleFonts.cairoTextTheme] height issue
+    final textStyle = TextStyle(height: 1.5, color: colorScheme.onBackground);
+    final textTheme = TextTheme(
+      displayLarge: textStyle,
+      displayMedium: textStyle,
+      displaySmall: textStyle,
+      headlineLarge: textStyle,
+      headlineMedium: textStyle,
+      headlineSmall: textStyle,
+      titleLarge: textStyle,
+      titleMedium: textStyle,
+      titleSmall: textStyle,
+      bodyLarge: textStyle,
+      bodyMedium: textStyle,
+      bodySmall: textStyle,
+      labelLarge: textStyle,
+      labelMedium: textStyle,
+      labelSmall: textStyle,
+    );
+    return GoogleFonts.cairoTextTheme(textTheme);
+  }
+
   ThemeData buildLight() {
     return _build(
-      scaffoldBackgroundColor: const Color(0xffF4F6FB),
+      scaffoldBackgroundColor: const Color(0xffF7F8FC),
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: Color(0xff17B6A4),
