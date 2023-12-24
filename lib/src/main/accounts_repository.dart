@@ -15,23 +15,24 @@ AccountsRepository accountsRepository(AccountsRepositoryRef ref) {
 class AccountsRepository {
   const AccountsRepository._(this._ref);
 
+  // ignore: unused_field
   final Ref _ref;
 
   Future<List<AccountModel>> getAll() async {
     await Future.delayed(const Duration(seconds: 2));
     return [
       AccountModel.active(
-        number: '1234567890',
+        number: "123456789",
         serviceName: 'MasterCard ISC Branded',
         balance: '1,000,000',
         currency: 'IQD',
         lastUpdate: DateTime.now(),
       ),
       AccountModel.blocked(
-        number: '1234567890',
+        number: "123456789",
         serviceName: 'MasterCard ISC Branded',
         balance: '0',
-        currency: 'IQD',
+        currency: 'USD',
         lastUpdate: DateTime.now(),
         reason: 'Blocked by user',
       ),

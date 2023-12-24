@@ -32,7 +32,7 @@ class AccountPage extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.account),
         actions: [
-          IconButton(
+          IconButton.filled(
             icon: const Icon(Icons.notifications_outlined),
             onPressed: () {},
           ),
@@ -64,7 +64,7 @@ class AccountPage extends HookConsumerWidget {
                 crossAxisSpacing: 8.0,
                 children: [
                   AccountServiceGridTile(
-                    title: const Text('Money Transfer'),
+                    title: Text(context.l10n.moneyTransfer),
                     icon: const Icon(
                       Icons.swap_horiz_outlined,
                       color: Color(0xff9D88EB),
@@ -72,7 +72,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: const Text('Account Information'),
+                    title: Text(context.l10n.accountInformation),
                     icon: const Icon(
                       Icons.settings_rounded,
                       color: Color(0xffFA7068),
@@ -80,7 +80,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: const Text('Linked Cards'),
+                    title: Text(context.l10n.linkedCards),
                     icon: const Icon(
                       Icons.credit_card,
                       color: Color(0xffEECD0A),
@@ -88,7 +88,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: const Text('Update Account'),
+                    title: Text(context.l10n.updateAccount),
                     icon: const Icon(
                       Icons.autorenew_rounded,
                       color: Color(0xff787774),
@@ -96,7 +96,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: const Text('Financial Transactions'),
+                    title: Text(context.l10n.financialTransactions),
                     icon: const Icon(
                       Icons.list_outlined,
                       color: Color(0xff0C9089),
@@ -104,7 +104,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: const Text('Update Information'),
+                    title: Text(context.l10n.updateInformation),
                     icon: const Icon(
                       Icons.sync_problem_outlined,
                       color: Color(0xffEECD0A),
@@ -112,14 +112,14 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: const Text('AL-Rafidain Loans'),
+                    title: Text(context.l10n.alRafidainLoans),
                     icon: const Icon(Icons.flutter_dash),
                     backgroundColor: const Color(0xff34A853),
                     foregroundColor: Colors.white,
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: const Text('Track Requests'),
+                    title: Text(context.l10n.trackRequests),
                     icon: const Icon(
                       Icons.flutter_dash,
                       color: Color(0xffC06981),
@@ -128,7 +128,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: const Text('Track Requests'),
+                    title: Text(context.l10n.salafati),
                     icon: const Icon(Icons.flutter_dash),
                     backgroundColor: const Color(0xffA85BF5),
                     foregroundColor: Colors.white,
@@ -342,7 +342,7 @@ class AccountGridTile extends HookWidget {
                             Icons.lock_outline_rounded,
                             size: 18.0,
                             color: Colors.white,
-                          )
+                          ),
                         ],
                       ),
                     );
@@ -360,7 +360,7 @@ class AccountGridTile extends HookWidget {
                       ),
                     );
                   },
-                )
+                ),
               ],
             ),
           ],

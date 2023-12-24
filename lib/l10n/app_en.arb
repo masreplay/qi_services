@@ -9,13 +9,13 @@
     "transfer": "Transfer",
     "services": "Services",
     "more": "More",
-    "validationMaxLength": "max length is $n",
+    "validationMaxLength": "max length is {n}",
     "@validationMaxLength": {
         "placeholders": {
             "n": {}
         }
     },
-    "validationMinLength": "min length is $n",
+    "validationMinLength": "min length is {n}",
     "@validationMinLength": {
         "placeholders": {
             "n": {}
@@ -38,5 +38,14 @@
     "rateCallCenterService": "Rate Call Center Service",
     "aboutUs": "About Us",
     "accountNumber": "Account Number",
-    "active": "Active"
+    "active": "Active",
+    "moneyTransfer": "Money Transfer",
+    "accountInformation": "Account Information",
+    "linkedCards": "Linked Cards",
+    "updateAccount": "Update Account",
+    "financialTransactions": "Financial Transactions",
+    "updateInformation": "Update Information",
+    "alRafidainLoans": "Al Rafidain Loans",
+    "trackRequests": "Track Requests",
+    "salafati": "Salafati"
 }

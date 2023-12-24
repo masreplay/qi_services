@@ -30,6 +30,7 @@ dependencies:
   json_annotation: ^4.8.1
   form_validator: ^2.1.1
   timeago: ^3.6.0
+  faker: ^2.1.0
 
 dev_dependencies:
   # test

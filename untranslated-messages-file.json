@@ -28,6 +28,15 @@
     "rateCallCenterService",
     "aboutUs",
     "accountNumber",
-    "active"
+    "active",
+    "moneyTransfer",
+    "accountInformation",
+    "linkedCards",
+    "updateAccount",
+    "financialTransactions",
+    "updateInformation",
+    "alRafidainLoans",
+    "trackRequests",
+    "salafati"
   ]
 }
