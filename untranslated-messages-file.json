@@ -2,6 +2,7 @@
   "ar": [
     "serviceName",
     "availableBalance",
+    "blocked",
     "appName",
     "password",
     "account",

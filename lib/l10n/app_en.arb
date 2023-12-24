@@ -2,6 +2,7 @@
     "@@locale": "en",
     "serviceName": "Service Name",
     "availableBalance": "Available Balance",
+    "blocked": "Blocked",
     "appName": "Qi Services",
     "password": "Password",
     "account": "Account",

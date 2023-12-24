@@ -25,7 +25,8 @@ class AccountPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
 
-    final accounts = ref.watch(getAccountsProvider);
+    final provider = getAccountsProvider;
+    final state = ref.watch(provider);
 
     return Scaffold(
       appBar: AppBar(
@@ -41,120 +42,121 @@ class AccountPage extends HookConsumerWidget {
           ),
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: accounts.when(
-              data: AccountsPageView.new,
-              error: (error, stackTrace) => Center(
-                child: Text(context.l10n.defaultErrorMessage),
-              ),
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(8.0),
-            sliver: SliverGrid.count(
-              crossAxisCount: 3,
-              childAspectRatio: 6 / 5,
-              mainAxisSpacing: 8.0,
-              crossAxisSpacing: 8.0,
-              children: [
-                AccountServiceGridTile(
-                  title: const Text('Money Transfer'),
-                  icon: const Icon(
-                    Icons.swap_horiz_outlined,
-                    color: Color(0xff9D88EB),
-                  ),
-                  onTap: () {},
+      body: RefreshIndicator(
+        onRefresh: () => ref.refresh(provider.future),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: state.when(
+                data: AccountsPageView.new,
+                error: (error, stackTrace) => Center(
+                  child: Text(context.l10n.defaultErrorMessage),
                 ),
-                AccountServiceGridTile(
-                  title: const Text('Account Information'),
-                  icon: const Icon(
-                    Icons.settings_rounded,
-                    color: Color(0xffFA7068),
-                  ),
-                  onTap: () {},
-                ),
-                AccountServiceGridTile(
-                  title: const Text('Linked Cards'),
-                  icon: const Icon(
-                    Icons.credit_card,
-                    color: Color(0xffEECD0A),
-                  ),
-                  onTap: () {},
-                ),
-                AccountServiceGridTile(
-                  title: const Text('Update Account'),
-                  icon: const Icon(
-                    Icons.autorenew_rounded,
-                    color: Color(0xff787774),
-                  ),
-                  onTap: () {},
-                ),
-                AccountServiceGridTile(
-                  title: const Text('Financial Transactions'),
-                  icon: const Icon(
-                    Icons.list_outlined,
-                    color: Color(0xff0C9089),
-                  ),
-                  onTap: () {},
-                ),
-                AccountServiceGridTile(
-                  title: const Text('Update Information'),
-                  icon: const Icon(
-                    Icons.sync_problem_outlined,
-                    color: Color(0xffEECD0A),
-                  ),
-                  onTap: () {},
-                ),
-                AccountServiceGridTile(
-                  title: const Text('AL-Rafidain Loans'),
-                  icon: const Icon(Icons.flutter_dash),
-                  backgroundColor: const Color(0xff34A853),
-                  foregroundColor: Colors.white,
-                  onTap: () {},
-                ),
-                AccountServiceGridTile(
-                  title: const Text('Track Requests'),
-                  icon: const Icon(
-                    Icons.flutter_dash,
-                    color: Color(0xffC06981),
-                  ),
-                  backgroundColor: const Color(0xffF7CBD8),
-                  onTap: () {},
-                ),
-                AccountServiceGridTile(
-                  title: const Text('Track Requests'),
-                  icon: const Icon(Icons.flutter_dash),
-                  backgroundColor: const Color(0xffA85BF5),
-                  foregroundColor: Colors.white,
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-          const SliverPadding(
-            padding: EdgeInsets.all(8.0),
-            sliver: SliverToBoxAdapter(
-              child: AspectRatio(
-                aspectRatio: 11 / 3,
-                child: Placeholder(),
+                loading: LinearProgressIndicator.new,
               ),
             ),
-          ),
-          const SliverPadding(
-            padding: EdgeInsets.all(8.0),
-            sliver: SliverToBoxAdapter(
-              child: AspectRatio(
-                aspectRatio: 11 / 3,
-                child: Placeholder(),
+            SliverPadding(
+              padding: const EdgeInsets.all(8.0),
+              sliver: SliverGrid.count(
+                crossAxisCount: 3,
+                childAspectRatio: 6 / 5,
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                children: [
+                  AccountServiceGridTile(
+                    title: const Text('Money Transfer'),
+                    icon: const Icon(
+                      Icons.swap_horiz_outlined,
+                      color: Color(0xff9D88EB),
+                    ),
+                    onTap: () {},
+                  ),
+                  AccountServiceGridTile(
+                    title: const Text('Account Information'),
+                    icon: const Icon(
+                      Icons.settings_rounded,
+                      color: Color(0xffFA7068),
+                    ),
+                    onTap: () {},
+                  ),
+                  AccountServiceGridTile(
+                    title: const Text('Linked Cards'),
+                    icon: const Icon(
+                      Icons.credit_card,
+                      color: Color(0xffEECD0A),
+                    ),
+                    onTap: () {},
+                  ),
+                  AccountServiceGridTile(
+                    title: const Text('Update Account'),
+                    icon: const Icon(
+                      Icons.autorenew_rounded,
+                      color: Color(0xff787774),
+                    ),
+                    onTap: () {},
+                  ),
+                  AccountServiceGridTile(
+                    title: const Text('Financial Transactions'),
+                    icon: const Icon(
+                      Icons.list_outlined,
+                      color: Color(0xff0C9089),
+                    ),
+                    onTap: () {},
+                  ),
+                  AccountServiceGridTile(
+                    title: const Text('Update Information'),
+                    icon: const Icon(
+                      Icons.sync_problem_outlined,
+                      color: Color(0xffEECD0A),
+                    ),
+                    onTap: () {},
+                  ),
+                  AccountServiceGridTile(
+                    title: const Text('AL-Rafidain Loans'),
+                    icon: const Icon(Icons.flutter_dash),
+                    backgroundColor: const Color(0xff34A853),
+                    foregroundColor: Colors.white,
+                    onTap: () {},
+                  ),
+                  AccountServiceGridTile(
+                    title: const Text('Track Requests'),
+                    icon: const Icon(
+                      Icons.flutter_dash,
+                      color: Color(0xffC06981),
+                    ),
+                    backgroundColor: const Color(0xffF7CBD8),
+                    onTap: () {},
+                  ),
+                  AccountServiceGridTile(
+                    title: const Text('Track Requests'),
+                    icon: const Icon(Icons.flutter_dash),
+                    backgroundColor: const Color(0xffA85BF5),
+                    foregroundColor: Colors.white,
+                    onTap: () {},
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            const SliverPadding(
+              padding: EdgeInsets.all(8.0),
+              sliver: SliverToBoxAdapter(
+                child: AspectRatio(
+                  aspectRatio: 11 / 3,
+                  child: Placeholder(),
+                ),
+              ),
+            ),
+            const SliverPadding(
+              padding: EdgeInsets.all(8.0),
+              sliver: SliverToBoxAdapter(
+                child: AspectRatio(
+                  aspectRatio: 11 / 3,
+                  child: Placeholder(),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -331,7 +333,7 @@ class AccountGridTile extends HookWidget {
                       child: RowPadded(
                         children: [
                           Text(
-                            l10n.active,
+                            l10n.blocked,
                             style: titleMedium?.copyWith(
                               color: Colors.white,
                             ),
