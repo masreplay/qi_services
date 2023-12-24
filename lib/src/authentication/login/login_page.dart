@@ -93,10 +93,7 @@ class LoginPage extends HookConsumerWidget {
                     );
                   },
             child: state.value.isLoading
-                ? const SizedBox.square(
-                    dimension: 18.0,
-                    child: CircularProgressIndicator(),
-                  )
+                ? const ButtonLoading()
                 : Text(l10n.login),
           ),
           const SizedBox.square(dimension: 16.0),
@@ -118,6 +115,22 @@ class LoginPage extends HookConsumerWidget {
             child: Text(l10n.createNewAccount),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ButtonLoading extends StatelessWidget {
+  const ButtonLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.square(
+      dimension: 18.0,
+      child: Center(
+        child: CircularProgressIndicator(
+          strokeWidth: 1.0,
+        ),
       ),
     );
   }

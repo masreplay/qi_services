@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qi_services/l10n/lib.dart';
+import 'package:qi_services/src/authentication/authentication.dart';
 
-import 'src/main/main_page.dart';
 import 'theme/main_theme.dart';
 
 class MainApp extends StatelessWidget {
@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: theme.buildLight(),
       darkTheme: theme.buildDark(),
-      home: const MainPage(),
+      home: const LoginPage(),
     );
   }
 }

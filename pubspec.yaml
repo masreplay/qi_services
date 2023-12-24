@@ -31,6 +31,7 @@ dependencies:
   form_validator: ^2.1.1
   timeago: ^3.6.0
   faker: ^2.1.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   # test
