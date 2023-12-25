@@ -17,12 +17,13 @@ class LoginRepository {
 
   Future<LoginResponse> login(LoginRequest body) async {
     await Future.delayed(const Duration(seconds: 2));
+
     final result = LoginResponse(
       token: faker.guid.guid(),
       phone: body.phone,
     );
 
-    await _ref.read(authenticationProvider.notifier).update((_) => result);
+    await _ref.read(authenticationProvider.notifier).updateValue(result);
 
     return result;
   }

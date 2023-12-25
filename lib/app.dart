@@ -1,33 +1,31 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:qi_services/l10n/lib.dart';
-import 'package:qi_services/src/authentication/authentication.dart';
-import 'package:qi_services/src/main/main.dart';
 
-import 'theme/main_theme.dart';
+import 'common_lib.dart';
+import 'src/main/main.dart';
 
-class MainApp extends ConsumerWidget {
+class MainApp extends StatefulHookConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends ConsumerState<MainApp> {
+  @override
+  Widget build(BuildContext context) {
     final settings = ref.watch(settingsProvider);
-    final authentication = ref.watch(authenticationProvider);
-    print("authentication: $authentication");
 
     final theme = MainTheme();
 
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      routerConfig: ref.read(appRouterProvider).config(),
       locale: settings.locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       themeMode: settings.themeMode,
       theme: theme.buildLight(),
       darkTheme: theme.buildDark(),
-      // simple check for authentication it's better to use guards
-      // and auto_route or go_router packages
-      home: authentication == null ? const LoginPage() : const MainPage(),
     );
   }
 }

@@ -15,7 +15,7 @@ class LoginPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = useAsyncState();
+    final state = useAsyncState<LoginResponse>();
 
     final formKey = useFormKey();
 
@@ -29,6 +29,7 @@ class LoginPage extends HookConsumerWidget {
     return Scaffold(
       body: FormBody(
         formKey: formKey,
+        spacing: 16.0,
         children: [
           PhoneNumberFormField(
             controller: mobileNumber,
@@ -79,7 +80,7 @@ class LoginPage extends HookConsumerWidget {
                     );
                   },
             child: state.value.isLoading
-                ? const ButtonLoading()
+                ? const ButtonLoading.filled()
                 : Text(l10n.login),
           ),
           TextButton(
@@ -99,22 +100,6 @@ class LoginPage extends HookConsumerWidget {
             child: Text(l10n.createNewAccount),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class ButtonLoading extends StatelessWidget {
-  const ButtonLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox.square(
-      dimension: 18.0,
-      child: Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 1.0,
-        ),
       ),
     );
   }

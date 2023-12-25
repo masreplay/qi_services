@@ -1,10 +1,12 @@
 import 'package:qi_services/common_lib.dart';
+import 'package:useful_hook/useful_hook.dart';
 
 class FormBody extends StatelessWidget {
   const FormBody({
     super.key,
     required this.formKey,
     this.padding = const EdgeInsets.all(16.0),
+    this.spacing = 0.0,
     this.alignment = Alignment.center,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.stretch,
@@ -13,11 +15,19 @@ class FormBody extends StatelessWidget {
   });
 
   final Alignment alignment;
+
   final EdgeInsets padding;
+
+  final double spacing;
+
   final GlobalKey<FormState> formKey;
+
   final MainAxisAlignment mainAxisAlignment;
+
   final CrossAxisAlignment crossAxisAlignment;
+
   final MainAxisSize mainAxisSize;
+
   final List<Widget> children;
 
   @override
@@ -29,7 +39,8 @@ class FormBody extends StatelessWidget {
           padding: padding,
           child: Form(
             key: formKey,
-            child: Column(
+            child: ColumnPadded(
+              spacing: spacing,
               mainAxisAlignment: mainAxisAlignment,
               crossAxisAlignment: crossAxisAlignment,
               mainAxisSize: mainAxisSize,
