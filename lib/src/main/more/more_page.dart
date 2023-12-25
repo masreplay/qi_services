@@ -59,7 +59,7 @@ class MorePage extends HookConsumerWidget {
                       backgroundColor: AppColors.vermilion,
                     ),
                     onTap: () {
-                      Navigator.of(context).pushReplacement(
+                      Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => const SettingsPage(),
                         ),
