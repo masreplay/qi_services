@@ -38,6 +38,8 @@
     "alRafidainLoans",
     "trackRequests",
     "salafati",
-    "logout"
+    "logout",
+    "transferServiceTitle",
+    "transferServiceDescription"
   ]
 }

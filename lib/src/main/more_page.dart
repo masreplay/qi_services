@@ -1,12 +1,21 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
+import 'package:qi_services/src/authentication/authentication.dart';
+import 'package:qi_services/src/main/authentication_provider.dart';
 import 'package:qi_services/theme/colors.dart';
 import 'package:useful_hook/useful_hook.dart';
 
-class MorePage extends StatelessWidget {
+class MorePage extends HookConsumerWidget {
   const MorePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authentication = ref.watch(authenticationProvider);
+
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     const divider = Divider(
       color: Colors.grey,
       height: 1.0,
@@ -14,17 +23,18 @@ class MorePage extends StatelessWidget {
       endIndent: 16.0,
     );
 
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Scaffold(
       appBar: AppBar(title: Text(l10n.more)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Text("+9647700000000"),
+            Text(
+              authentication?.phone ?? "",
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
             Card(
               elevation: 0.0,
               shape: RoundedRectangleBorder(
@@ -89,7 +99,6 @@ class MorePage extends StatelessWidget {
             ListTile(
               title: Text(l10n.logout),
               tileColor: colorScheme.surface,
-              onTap: () {},
               trailing: Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 16.0,
@@ -100,10 +109,23 @@ class MorePage extends StatelessWidget {
                 foregroundColor: Colors.white,
                 backgroundColor: AppColors.vermilion,
               ),
+              onTap: () async {
+                logout(ref: ref);
+              },
             ),
             const Spacer(),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> logout({required WidgetRef ref}) async {
+    final context = ref.context;
+    await ref.read(authenticationProvider.notifier).clear();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => const LoginPage(),
       ),
     );
   }

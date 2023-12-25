@@ -48,5 +48,7 @@
     "alRafidainLoans": "Al Rafidain Loans",
     "trackRequests": "Track Requests",
     "salafati": "Salafati",
-    "logout": "Logout"
+    "logout": "Logout",
+    "transferServiceTitle": "ما هي خدمة كي للتحويل؟",
+    "transferServiceDescription": "خدمة كي للتحويل هي وسيلة لارسال الامول من حسابك الى حساب كي كارد او ماستر كي عن طريق التطبيق."
 }
