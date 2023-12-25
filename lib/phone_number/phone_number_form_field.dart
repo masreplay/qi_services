@@ -23,18 +23,21 @@ class PhoneNumberFormField extends StatelessWidget {
 
     final isIraqiAreaCode = areaCode.code == iraqAreaCode.code;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 1,
-          child: TextFormField(
-            controller: TextEditingController(
-              text: areaCode.code,
-            ),
-            readOnly: true,
-            textAlign: TextAlign.center,
+    return TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.phone,
+      validator: isIraqiAreaCode
+          ? context.validator(optional: optional).build()
+          : context.validator(optional: optional).build(),
+      textDirection: TextDirection.ltr,
+      decoration: InputDecoration(
+        labelText: l10n.mobileNumber,
+        prefixIcon: const Icon(AppIcons.phone),
+        suffix: Directionality(
+          textDirection: TextDirection.ltr,
+          child: InkWell(
             onTap: () async {
+              FocusScope.of(context).unfocus();
               final value = await showAreaCodeBottomSheet(
                 context: context,
                 value: areaCode,
@@ -42,27 +45,16 @@ class PhoneNumberFormField extends StatelessWidget {
 
               if (value != null) onAreaCodeChanged(value);
             },
-            decoration: InputDecoration(
-              label: FittedBox(child: Text(l10n.areaCode)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                areaCode.code,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
           ),
         ),
-        const SizedBox.square(dimension: 8.0),
-        Expanded(
-          flex: 4,
-          child: TextFormField(
-            controller: controller,
-            keyboardType: TextInputType.phone,
-            validator: isIraqiAreaCode
-                ? context.validator(optional: optional).build()
-                : context.validator(optional: optional).build(),
-            decoration: InputDecoration(
-              labelText: l10n.mobileNumber,
-              prefixIcon: const Icon(AppIcons.phone),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
