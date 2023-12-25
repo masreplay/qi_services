@@ -1,10 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:qi_services/src/main/authentication_provider.dart';
 import 'package:qi_services/theme/colors.dart';
 import 'package:useful_hook/useful_hook.dart';
 
+import 'logout.dart';
 import 'settings_page.dart';
 
 class MorePage extends HookConsumerWidget {
@@ -13,6 +13,7 @@ class MorePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authentication = ref.watch(authenticationProvider);
+    final logoutState = useAsyncState();
 
     final l10n = context.l10n;
     final theme = Theme.of(context);
@@ -104,6 +105,7 @@ class MorePage extends HookConsumerWidget {
               ),
             ),
             const Spacer(),
+            if (logoutState.value.isLoading) const LinearProgressIndicator(),
             ListTile(
               title: Text(l10n.logout),
               tileColor: colorScheme.surface,
@@ -117,23 +119,13 @@ class MorePage extends HookConsumerWidget {
                 foregroundColor: Colors.white,
                 backgroundColor: AppColors.vermilion,
               ),
-              onTap: () async {
-                logout(ref: ref);
+              onTap: () {
+                logoutState(logout(ref: ref));
               },
             ),
             const Spacer(),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<void> logout({required WidgetRef ref}) async {
-    final context = ref.context;
-    await ref.read(authenticationProvider.notifier).clear();
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => const LoginPage(),
       ),
     );
   }
