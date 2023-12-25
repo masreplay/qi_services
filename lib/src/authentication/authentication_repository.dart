@@ -1,7 +1,8 @@
 import 'package:faker/faker.dart';
 import 'package:qi_services/api/api.dart';
-import 'package:qi_services/src/main/authentication_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'authentication.dart';
 
 part 'authentication_repository.g.dart';
 

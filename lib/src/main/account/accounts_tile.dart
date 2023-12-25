@@ -1,11 +1,8 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:qi_services/api/models/account_model.dart';
+import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
-
 import 'package:timeago/timeago.dart';
 import 'package:useful_hook/useful_hook.dart';
-
-import 'time_ago.dart';
 
 class AccountsPageView extends HookWidget {
   const AccountsPageView(this.data, {super.key});

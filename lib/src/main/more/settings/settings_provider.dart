@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:qi_services/src/main/preferences.dart';
+import 'package:qi_services/preferences.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:useful_hook/useful_hook.dart';
 

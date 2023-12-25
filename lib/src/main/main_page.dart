@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/l10n/extension.dart';
 import 'package:useful_hook/useful_hook.dart';
 
-import 'account_page.dart';
-import 'more_page.dart';
-import 'services_page.dart';
-import 'transfer_page.dart';
+import 'account/account.dart';
+import 'more/more.dart';
+import 'services/services.dart';
+import 'transfer/transfer.dart';
 
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key});

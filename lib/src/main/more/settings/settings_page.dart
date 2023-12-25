@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/src/main/settings_provider.dart';
+
+import 'settings_provider.dart';
 
 extension on ThemeMode {
   String localize(AppLocalizations l10n) {

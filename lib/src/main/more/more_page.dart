@@ -1,11 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/src/main/authentication_provider.dart';
-import 'package:qi_services/theme/colors.dart';
+import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:useful_hook/useful_hook.dart';
 
-import 'logout.dart';
-import 'settings_page.dart';
+import 'settings/settings_page.dart';
 
 class MorePage extends HookConsumerWidget {
   const MorePage({super.key});
