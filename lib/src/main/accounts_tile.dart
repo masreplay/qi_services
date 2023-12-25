@@ -13,23 +13,51 @@ class AccountsPageView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 5 / 3,
-      child: PageView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          final account = data[index];
+    final index = useState<int>(0);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AccountGridTile(
-              account: account,
-              onTap: () {},
-            ),
-          );
-        },
-      ),
+    return ColumnPadded(
+      spacing: 2.0,
+      children: [
+        AspectRatio(
+          aspectRatio: 5 / 3,
+          child: PageView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: data.length,
+            onPageChanged: index.update,
+            itemBuilder: (context, index) {
+              final account = data[index];
+
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AccountGridTile(
+                  account: account,
+                  onTap: () {},
+                ),
+              );
+            },
+          ),
+        ),
+        // indicator
+        RowPadded(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (int i = 0; i < data.length; i++)
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: 8.0,
+                height: 8.0,
+                decoration: BoxDecoration(
+                  color: index.value == i
+                      ? colorScheme.primary
+                      : colorScheme.onSurfaceVariant.withOpacity(0.5),
+                  shape: BoxShape.circle,
+                ),
+              ),
+          ],
+        ),
+      ],
     );
   }
 }
