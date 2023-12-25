@@ -96,7 +96,10 @@ class AccountPage extends HookConsumerWidget {
                         shape: BoxShape.circle,
                         color: AppColors.grey,
                       ),
-                      child: const Icon(Icons.autorenew_rounded),
+                      child: const Icon(
+                        Icons.autorenew_rounded,
+                        color: Colors.white,
+                      ),
                     ),
                     onTap: () {},
                   ),
@@ -189,6 +192,7 @@ class AccountServiceGridTile extends StatelessWidget {
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
 
     final backgroundColor = this.backgroundColor ?? colorScheme.surfaceVariant;
     final foregroundColor = this.foregroundColor ?? colorScheme.onSurface;
@@ -204,19 +208,21 @@ class AccountServiceGridTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 8.0,
-            vertical: 16.0,
+            // vertical: 16.0,
           ),
           child: IconTheme(
             data: IconThemeData(color: foregroundColor),
             child: DefaultTextStyle(
-              style: TextStyle(
-                fontSize: 16.0,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: textTheme.bodyMedium!.copyWith(
                 color: foregroundColor,
               ),
               child: ColumnPadded(
                 spacing: 8.0,
                 crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
