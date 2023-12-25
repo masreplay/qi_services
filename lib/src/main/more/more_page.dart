@@ -30,10 +30,17 @@ class MorePage extends HookConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text(
-              authentication?.phone ?? "",
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
+            // the `+` sign should always be on the left side of the phone number
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: Text(
+                  authentication?.phone ?? "",
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
               ),
             ),
             Card(
