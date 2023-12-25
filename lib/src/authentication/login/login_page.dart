@@ -92,7 +92,7 @@ class LoginPage extends HookConsumerWidget {
                 ? const ButtonLoading()
                 : Text(l10n.login),
           ),
-          const SizedBox.square(dimension: 16.0),
+          const SizedBox.square(dimension: 12.0),
           TextButton(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -101,7 +101,6 @@ class LoginPage extends HookConsumerWidget {
             },
             child: Text(l10n.forgotYourPassword),
           ),
-          const SizedBox.square(dimension: 16.0),
           TextButton(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(

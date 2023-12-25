@@ -52,7 +52,7 @@ class AccountPage extends HookConsumerWidget {
               child: state.when(
                 data: AccountsPageView.new,
                 error: (error, stackTrace) => Center(
-                  child: Text(context.l10n.defaultErrorMessage),
+                  child: Text(l10n.defaultErrorMessage),
                 ),
                 loading: LinearProgressIndicator.new,
               ),
@@ -66,7 +66,7 @@ class AccountPage extends HookConsumerWidget {
                 crossAxisSpacing: 8.0,
                 children: [
                   AccountServiceGridTile(
-                    title: Text(context.l10n.moneyTransfer),
+                    title: Text(l10n.moneyTransfer),
                     icon: const Icon(
                       Icons.swap_horiz_outlined,
                       color: AppColors.purple,
@@ -74,7 +74,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: Text(context.l10n.accountInformation),
+                    title: Text(l10n.accountInformation),
                     icon: const Icon(
                       Icons.settings_rounded,
                       color: AppColors.vermilion,
@@ -82,7 +82,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: Text(context.l10n.linkedCards),
+                    title: Text(l10n.linkedCards),
                     icon: const Icon(
                       Icons.credit_card,
                       color: AppColors.yellow,
@@ -90,7 +90,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: Text(context.l10n.updateAccount),
+                    title: Text(l10n.updateAccount),
                     icon: Container(
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -101,7 +101,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: Text(context.l10n.financialTransactions),
+                    title: Text(l10n.financialTransactions),
                     icon: const Icon(
                       Icons.list_outlined,
                       color: AppColors.green,
@@ -109,7 +109,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: Text(context.l10n.updateInformation),
+                    title: Text(l10n.updateInformation),
                     icon: const Icon(
                       Icons.sync_problem_outlined,
                       color: AppColors.yellow,
@@ -117,14 +117,14 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: Text(context.l10n.alRafidainLoans),
+                    title: Text(l10n.alRafidainLoans),
                     icon: const Icon(Icons.flutter_dash),
                     backgroundColor: const Color(0xff34A853),
                     foregroundColor: Colors.white,
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: Text(context.l10n.trackRequests),
+                    title: Text(l10n.trackRequests),
                     icon: const Icon(
                       Icons.flutter_dash,
                       color: AppColors.darkPink,
@@ -133,7 +133,7 @@ class AccountPage extends HookConsumerWidget {
                     onTap: () {},
                   ),
                   AccountServiceGridTile(
-                    title: Text(context.l10n.salafati),
+                    title: Text(l10n.salafati),
                     icon: const Icon(Icons.flutter_dash),
                     backgroundColor: const Color(0xffA85BF5),
                     foregroundColor: Colors.white,

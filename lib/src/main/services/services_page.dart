@@ -6,9 +6,11 @@ class ServicesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.services),
+        title: Text(l10n.services),
       ),
       body: GridView(
         padding: const EdgeInsets.all(8.0),
@@ -21,7 +23,7 @@ class ServicesPage extends StatelessWidget {
         children: [
           ServiceGridTile(
             icon: const Icon(Icons.account_balance),
-            title: const Text("أصدار بطاقة"),
+            title: Text(l10n.serviceCardIssuance),
             gradient: const [
               Color(0xff4187BA),
               Color(0xff1A5582),
@@ -30,7 +32,7 @@ class ServicesPage extends StatelessWidget {
           ),
           ServiceGridTile(
             icon: const Icon(Icons.card_giftcard),
-            title: const Text("البطاقات الخاصة"),
+            title: Text(l10n.serviceSpecialCards),
             gradient: const [
               Color(0xffF37744),
               Color(0xffF84D59),
@@ -39,7 +41,7 @@ class ServicesPage extends StatelessWidget {
           ),
           ServiceGridTile(
             icon: const Icon(Icons.flutter_dash),
-            title: const Text("دجتل زون"),
+            title: Text(l10n.serviceDigitalZone),
             gradient: const [
               Color(0xff1BCA8E),
               Color(0xff14A0B2),
@@ -48,7 +50,7 @@ class ServicesPage extends StatelessWidget {
           ),
           ServiceGridTile(
             icon: const Icon(Icons.flutter_dash),
-            title: const Text("اقساطي"),
+            title: Text(l10n.serviceInstallments),
             gradient: const [
               Color(0xff20B5F1),
               Color(0xff1A7ADA),
@@ -57,7 +59,7 @@ class ServicesPage extends StatelessWidget {
           ),
           ServiceGridTile(
             icon: const Icon(Icons.flutter_dash),
-            title: const Text("اماكن كي"),
+            title: Text(l10n.serviceQiPlaces),
             gradient: const [
               Color(0xffFDCA0C),
               Color(0xffF9AD1C),
@@ -66,7 +68,7 @@ class ServicesPage extends StatelessWidget {
           ),
           ServiceGridTile(
             icon: const Icon(Icons.flutter_dash),
-            title: const Text("تسديد"),
+            title: Text(l10n.serviceTasdeed),
             gradient: const [
               Color(0xff108176),
               Color(0xff18B6A2),
@@ -75,7 +77,7 @@ class ServicesPage extends StatelessWidget {
           ),
           ServiceGridTile(
             icon: const Icon(Icons.flutter_dash),
-            title: const Text("سلفتي"),
+            title: Text(l10n.serviceSelifty),
             gradient: const [
               Color(0xff5F60FC),
               Color(0xff933BF6),
@@ -84,7 +86,7 @@ class ServicesPage extends StatelessWidget {
           ),
           ServiceGridTile(
             icon: const Icon(Icons.flutter_dash),
-            title: const Text("قروض الرافدين"),
+            title: Text(l10n.serviceAlRafidainLoans),
             gradient: const [
               Color(0xff2BA045),
               Color(0xff42BE64),
