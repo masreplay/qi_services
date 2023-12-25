@@ -93,10 +93,12 @@ class AccountPage extends HookConsumerWidget {
                   ),
                   AccountServiceGridTile(
                     title: Text(context.l10n.updateAccount),
-                    icon: const IconButtonFilled(
-                      icon: Icon(Icons.autorenew_rounded),
-                      backgroundColor: AppColors.grey,
-                      foregroundColor: Colors.white,
+                    icon: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.grey,
+                      ),
+                      child: const Icon(Icons.autorenew_rounded),
                     ),
                     onTap: () {},
                   ),

@@ -4,4 +4,5 @@ abstract final class Preferences {
   const Preferences._();
 
   static const String authentication = "authentication";
+  static const String settings = "settings";
 }

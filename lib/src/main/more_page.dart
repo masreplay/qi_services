@@ -5,6 +5,8 @@ import 'package:qi_services/src/main/authentication_provider.dart';
 import 'package:qi_services/theme/colors.dart';
 import 'package:useful_hook/useful_hook.dart';
 
+import 'settings_page.dart';
+
 class MorePage extends HookConsumerWidget {
   const MorePage({super.key});
 
@@ -50,7 +52,13 @@ class MorePage extends HookConsumerWidget {
                       foregroundColor: Colors.white,
                       backgroundColor: AppColors.vermilion,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (_) => const SettingsPage(),
+                        ),
+                      );
+                    },
                   ),
                   divider,
                   _MoreListTile(

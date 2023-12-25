@@ -39,6 +39,12 @@
     "trackRequests",
     "salafati",
     "logout",
+    "systemTheme",
+    "lightTheme",
+    "darkTheme",
+    "theme",
+    "systemLanguage",
+    "language",
     "transferServiceTitle",
     "transferServiceDescription"
   ]
