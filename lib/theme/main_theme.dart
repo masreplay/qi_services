@@ -1,56 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-///
 class MainTheme {
-  ThemeData _build({
-    required Color scaffoldBackgroundColor,
-    required ColorScheme colorScheme,
-  }) {
-    ThemeData theme = ThemeData(
-      useMaterial3: false,
-      colorScheme: colorScheme,
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      inputDecorationTheme: _buildInputDecorationTheme(colorScheme),
-      filledButtonTheme: _buildFilledButtonTheme(colorScheme),
-    );
-
-    // Copy with theme to get the updated theme with color scheme
-
-    return theme = theme.copyWith(
-      textTheme: _buildTextTheme(colorScheme),
-      appBarTheme: AppBarTheme(
-        elevation: 0.0,
-        backgroundColor: scaffoldBackgroundColor,
-        foregroundColor: colorScheme.primary,
-        iconTheme: IconThemeData(color: colorScheme.onBackground),
-      ),
-    );
-  }
-
-  TextTheme _buildTextTheme(ColorScheme colorScheme) {
-    /// Fix [GoogleFonts.cairoTextTheme] height issue
-    final textStyle = TextStyle(height: 1.5, color: colorScheme.onBackground);
-    final textTheme = TextTheme(
-      displayLarge: textStyle,
-      displayMedium: textStyle,
-      displaySmall: textStyle,
-      headlineLarge: textStyle,
-      headlineMedium: textStyle,
-      headlineSmall: textStyle,
-      titleLarge: textStyle,
-      titleMedium: textStyle,
-      titleSmall: textStyle,
-      bodyLarge: textStyle,
-      bodyMedium: textStyle,
-      bodySmall: textStyle,
-      labelLarge: textStyle,
-      labelMedium: textStyle,
-      labelSmall: textStyle,
-    );
-    return GoogleFonts.cairoTextTheme(textTheme);
-  }
-
   ThemeData buildLight() {
     return _build(
       scaffoldBackgroundColor: const Color(0xffF7F8FC),
@@ -68,28 +19,6 @@ class MainTheme {
         onBackground: Colors.black,
         error: Color(0xffF44336),
         onError: Colors.white,
-      ),
-    );
-  }
-
-  InputDecorationTheme _buildInputDecorationTheme(ColorScheme colorScheme) {
-    return InputDecorationTheme(
-      contentPadding: const EdgeInsets.all(12.0),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-    );
-  }
-
-  FilledButtonThemeData _buildFilledButtonTheme(ColorScheme colorScheme) {
-    return FilledButtonThemeData(
-      style: FilledButton.styleFrom(
-        // elevation: 2.0,
-        textStyle: const TextStyle(fontSize: 14.0),
-        padding: const EdgeInsets.all(20.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
       ),
     );
   }
@@ -112,6 +41,81 @@ class MainTheme {
         error: Color(0xffF44336),
         onError: Colors.white,
       ),
+    );
+  }
+
+  ThemeData _build({
+    required Color scaffoldBackgroundColor,
+    required ColorScheme colorScheme,
+  }) {
+    ThemeData theme = ThemeData(
+      useMaterial3: false,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
+    );
+
+    theme = theme.copyWith(textTheme: _buildTextTheme(theme));
+
+    return theme = theme.copyWith(
+      appBarTheme: _buildAppBarTheme(theme),
+      inputDecorationTheme: _buildInputDecorationTheme(theme),
+      filledButtonTheme: _buildFilledButtonTheme(theme),
+    );
+  }
+
+  TextTheme _buildTextTheme(ThemeData theme) {
+    /// Fix [GoogleFonts.cairoTextTheme] height issue
+    final textStyle = TextStyle(
+      height: 1.5,
+      color: theme.colorScheme.onBackground,
+    );
+    final textTheme = TextTheme(
+      displayLarge: textStyle,
+      displayMedium: textStyle,
+      displaySmall: textStyle,
+      headlineLarge: textStyle,
+      headlineMedium: textStyle,
+      headlineSmall: textStyle,
+      titleLarge: textStyle,
+      titleMedium: textStyle,
+      titleSmall: textStyle,
+      bodyLarge: textStyle,
+      bodyMedium: textStyle,
+      bodySmall: textStyle,
+      labelLarge: textStyle,
+      labelMedium: textStyle,
+      labelSmall: textStyle,
+    );
+    return GoogleFonts.cairoTextTheme(textTheme);
+  }
+
+  InputDecorationTheme _buildInputDecorationTheme(ThemeData theme) {
+    return InputDecorationTheme(
+      contentPadding: const EdgeInsets.all(12.0),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    );
+  }
+
+  FilledButtonThemeData _buildFilledButtonTheme(ThemeData theme) {
+    return FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        textStyle: theme.textTheme.titleMedium,
+        padding: const EdgeInsets.all(20.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+      ),
+    );
+  }
+
+  AppBarTheme _buildAppBarTheme(ThemeData theme) {
+    return AppBarTheme(
+      elevation: 0.0,
+      backgroundColor: theme.scaffoldBackgroundColor,
+      foregroundColor: theme.colorScheme.primary,
+      iconTheme: IconThemeData(color: theme.colorScheme.onBackground),
     );
   }
 }

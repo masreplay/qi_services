@@ -23,6 +23,7 @@ class LoginPage extends HookConsumerWidget {
     final password = useTextEditingController();
 
     final l10n = context.l10n;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     return Scaffold(
       body: FormBody(
@@ -72,7 +73,7 @@ class LoginPage extends HookConsumerWidget {
 
                     state.value.whenOrNull(
                       data: (data) {
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        scaffoldMessenger.showSnackBar(
                           SnackBar(content: Text(l10n.loginSuccessfully)),
                         );
                         Navigator.of(context).pushReplacement(
@@ -82,7 +83,7 @@ class LoginPage extends HookConsumerWidget {
                         );
                       },
                       error: (error, stackTrace) {
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        scaffoldMessenger.showSnackBar(
                           SnackBar(content: Text(l10n.defaultErrorMessage)),
                         );
                       },
@@ -95,7 +96,7 @@ class LoginPage extends HookConsumerWidget {
           const SizedBox.square(dimension: 12.0),
           TextButton(
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
+              scaffoldMessenger.showSnackBar(
                 SnackBar(content: Text(l10n.notImplementedYet)),
               );
             },
@@ -103,7 +104,7 @@ class LoginPage extends HookConsumerWidget {
           ),
           TextButton(
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
+              scaffoldMessenger.showSnackBar(
                 SnackBar(content: Text(l10n.notImplementedYet)),
               );
             },
