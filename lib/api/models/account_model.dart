@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'account_model.freezed.dart';
 part 'account_model.g.dart';
 
+/// [AccountModel]
 mixin _AccountModelMixin {
   String get number;
   String get serviceName;
@@ -11,10 +12,7 @@ mixin _AccountModelMixin {
   DateTime get lastUpdate;
 }
 
-@Freezed(
-  unionKey: "type",
-  // unionValueCase: FreezedUnionCase.snake,
-)
+@Freezed(unionKey: "type")
 class AccountModel with _$AccountModel, _AccountModelMixin {
   /// Never extend a freezed class with a mixin using [With] annotation.
   // @With<_AccountModelMixin>()

@@ -9,9 +9,9 @@ import 'package:qi_services/src/authentication/login/password_form_field.dart';
 import 'package:qi_services/src/main/main.dart';
 import 'package:useful_hook/useful_hook.dart';
 
-import 'app_logo.dart';
+import '../../../widget/app_logo.dart';
 import 'authentication_repository.dart';
-import 'form_body.dart';
+import '../../../widget/form_body.dart';
 
 class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});

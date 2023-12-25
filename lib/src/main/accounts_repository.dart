@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:qi_services/src/main/account_model.dart';
+import 'package:qi_services/api/models/account_model.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'accounts_repository.g.dart';

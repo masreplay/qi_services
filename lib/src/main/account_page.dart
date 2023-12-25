@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:qi_services/api/models/account_model.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/src/main/account_model.dart';
+
 import 'package:qi_services/src/main/icon_button.dart';
 import 'package:qi_services/theme/colors.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
