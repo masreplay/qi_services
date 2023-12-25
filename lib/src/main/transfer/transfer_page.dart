@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:useful_hook/useful_hook.dart';
 
+@RoutePage()
 class TransferPage extends StatelessWidget {
   const TransferPage({super.key});
 

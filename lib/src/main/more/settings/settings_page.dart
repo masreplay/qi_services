@@ -1,28 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 
 import 'settings_provider.dart';
 
-extension on ThemeMode {
-  String localize(AppLocalizations l10n) {
-    return switch (this) {
-      ThemeMode.system => l10n.systemTheme,
-      ThemeMode.light => l10n.lightTheme,
-      ThemeMode.dark => l10n.darkTheme,
-    };
-  }
-}
-
-extension on Locale {
-  String localize(AppLocalizations l10n) {
-    return switch (this) {
-      const Locale("ar") => "العربية",
-      const Locale("en") => "English",
-      _ => "",
-    };
-  }
-}
-
+@RoutePage()
 class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
 
@@ -38,7 +20,7 @@ class SettingsPage extends HookConsumerWidget {
         children: [
           ListTile(
             title: Text(l10n.theme),
-            leading: const Icon(Icons.color_lens),
+            leading: const Icon(AppIcons.theme),
             subtitle: Text(settings.themeMode.localize(l10n)),
             onTap: () {
               showThemeDialog(context: context);
@@ -75,6 +57,7 @@ Future<void> showThemeDialog({
 
           return AlertDialog(
             title: Text(l10n.theme),
+            icon: const Icon(AppIcons.theme),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -115,6 +98,7 @@ Future<void> showLanguageDialog({
           ];
 
           return AlertDialog(
+            icon: const Icon(Icons.language),
             title: Text(l10n.language),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -145,4 +129,24 @@ Future<void> showLanguageDialog({
       );
     },
   );
+}
+
+extension on ThemeMode {
+  String localize(AppLocalizations l10n) {
+    return switch (this) {
+      ThemeMode.system => l10n.systemTheme,
+      ThemeMode.light => l10n.lightTheme,
+      ThemeMode.dark => l10n.darkTheme,
+    };
+  }
+}
+
+extension on Locale {
+  String localize(AppLocalizations l10n) {
+    return switch (this) {
+      const Locale("ar") => "العربية",
+      const Locale("en") => "English",
+      _ => "",
+    };
+  }
 }

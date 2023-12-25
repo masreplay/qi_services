@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
@@ -16,6 +17,7 @@ Future<List<AccountModel>> getAccounts(GetAccountsRef ref) async {
   return ref.read(accountsRepositoryProvider).getAll();
 }
 
+@RoutePage()
 class AccountPage extends HookConsumerWidget {
   const AccountPage({super.key});
 

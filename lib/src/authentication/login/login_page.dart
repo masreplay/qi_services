@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,6 +10,7 @@ import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:qi_services/src/main/main.dart';
 import 'package:useful_hook/useful_hook.dart';
 
+@RoutePage()
 class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
 

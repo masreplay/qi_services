@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,6 +10,7 @@ import 'more/more.dart';
 import 'services/services.dart';
 import 'transfer/transfer.dart';
 
+@RoutePage()
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key});
 
@@ -23,48 +25,42 @@ class MainPage extends HookConsumerWidget {
       (
         labelText: l10n.account,
         icon: Icons.wallet,
-        activeIcon: Icons.wallet,
+        selectedIcon: Icons.wallet,
         page: const AccountPage(),
       ),
       (
         labelText: l10n.transfer,
         icon: Icons.swap_horiz_outlined,
-        activeIcon: Icons.swap_horiz,
+        selectedIcon: Icons.swap_horiz,
         page: const TransferPage(),
       ),
       (
         labelText: l10n.services,
         icon: Icons.layers_outlined,
-        activeIcon: Icons.layers,
+        selectedIcon: Icons.layers,
         page: const ServicesPage(),
       ),
       (
         labelText: l10n.more,
         icon: Icons.more_horiz_outlined,
-        activeIcon: Icons.more_horiz,
+        selectedIcon: Icons.more_horiz,
         page: const MorePage(),
       ),
     ];
 
     return Scaffold(
       body: routes[index.value].page,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: index.value,
-        onTap: index.update,
-        elevation: 10.0,
-        showUnselectedLabels: true,
-        iconSize: 28.0,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Theme.of(context).colorScheme.onSurfaceVariant,
-        items: List.generate(
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: index.value,
+        onDestinationSelected: index.update,
+        destinations: List.generate(
           routes.length,
           (index) {
             final route = routes[index];
-            return BottomNavigationBarItem(
+            return NavigationDestination(
               icon: Icon(route.icon),
-              activeIcon: Icon(route.activeIcon),
+              selectedIcon: Icon(route.selectedIcon),
               label: route.labelText,
-              backgroundColor: Theme.of(context).colorScheme.surface,
             );
           },
         ),
