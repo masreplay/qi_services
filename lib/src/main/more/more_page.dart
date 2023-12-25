@@ -4,8 +4,6 @@ import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:useful_hook/useful_hook.dart';
 
-import 'settings/settings_page.dart';
-
 @RoutePage()
 class MorePage extends HookConsumerWidget {
   const MorePage({super.key});
@@ -45,11 +43,7 @@ class MorePage extends HookConsumerWidget {
                 ListTile(
                   leading: const Icon(Icons.settings),
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const SettingsPage(),
-                      ),
-                    );
+                    context.router.push(const SettingsRoute());
                   },
                 ),
                 ListTile(

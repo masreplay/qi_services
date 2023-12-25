@@ -6,6 +6,7 @@ export 'package:flutter/material.dart';
 
 export 'gen/assets.gen.dart';
 export 'l10n/l10n.dart';
-export 'widgets/widgets.dart';
 export 'theme/theme.dart';
+export 'router/router.dart';
 export 'validator/validator.dart';
+export 'widgets/widgets.dart';

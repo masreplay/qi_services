@@ -68,7 +68,7 @@ Future<void> showThemeDialog({
                     groupValue: currentThemeMode,
                     onChanged: (value) {
                       ref.read(provider.notifier).setThemeMode(value!);
-                      Navigator.of(context).pop();
+                      context.router.pop();
                     },
                   ),
               ],
@@ -109,7 +109,7 @@ Future<void> showLanguageDialog({
                   groupValue: locale,
                   onChanged: (value) {
                     ref.read(provider.notifier).setLocale(null);
-                    Navigator.of(context).pop();
+                    context.router.pop();
                   },
                 ),
                 for (final language in languages)
@@ -119,7 +119,7 @@ Future<void> showLanguageDialog({
                     groupValue: locale,
                     onChanged: (value) {
                       ref.read(provider.notifier).setLocale(value);
-                      Navigator.of(context).pop();
+                      context.router.pop();
                     },
                   ),
               ],

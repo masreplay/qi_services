@@ -1,4 +1,11 @@
 # qi_services
 
-Simple implementation of the app using the old design
-just to feel the difference between the old and the new design
+
+
+
+
+### Design
+
+# Typography
+https://m3.material.io/styles/typography/overview
+I choice cairo just because it's the default font on app, and it's a good font.

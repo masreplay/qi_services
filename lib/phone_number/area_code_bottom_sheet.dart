@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
@@ -40,7 +41,7 @@ Future<AreaCode?> showAreaCodeBottomSheet({
                     return ListTile(
                       title: Text("${areaCode.country} (${areaCode.code})"),
                       onTap: () {
-                        Navigator.of(context).pop(areaCode);
+                        context.router.pop(areaCode);
                       },
                     );
                   },

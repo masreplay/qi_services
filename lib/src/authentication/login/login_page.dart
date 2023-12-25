@@ -7,7 +7,6 @@ import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/faker.dart';
 import 'package:qi_services/phone_number/phone_number.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
-import 'package:qi_services/src/main/main.dart';
 import 'package:useful_hook/useful_hook.dart';
 
 @RoutePage()
@@ -70,11 +69,7 @@ class LoginPage extends HookConsumerWidget {
                         scaffoldMessenger.showSnackBar(
                           SnackBar(content: Text(l10n.loginSuccessfully)),
                         );
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (_) => const MainPage(),
-                          ),
-                        );
+                        context.router.replace(const MainRoute());
                       },
                       error: (error, stackTrace) {
                         scaffoldMessenger.showSnackBar(

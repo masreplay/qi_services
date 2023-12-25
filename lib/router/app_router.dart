@@ -8,6 +8,37 @@ part 'app_router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes {
-    return [];
+    return [
+      AutoRoute(
+        initial: true,
+        page: MainRoute.page,
+        children: [
+          AutoRoute(
+            initial: true,
+            page: AccountRoute.page,
+          ),
+          AutoRoute(
+            path: 'transfer',
+            page: TransferRoute.page,
+          ),
+          AutoRoute(
+            path: 'services',
+            page: ServicesRoute.page,
+          ),
+          AutoRoute(
+            path: 'more',
+            page: MoreRoute.page,
+          ),
+        ],
+      ),
+      AutoRoute(
+        path: 'login',
+        page: LoginRoute.page,
+      ),
+      AutoRoute(
+        path: 'settings',
+        page: SettingsRoute.page,
+      ),
+    ];
   }
 }
