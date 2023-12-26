@@ -21,33 +21,17 @@ class MainTheme {
 
     return theme = theme.copyWith(
       inputDecorationTheme: _buildInputDecorationTheme(theme),
+      listTileTheme: ListTileThemeData(
+        titleTextStyle: theme.textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.w900,
+        ),
+        iconColor: theme.colorScheme.tertiary,
+      ),
     );
   }
 
   TextTheme _buildTextTheme(ThemeData theme) {
-    /// Fix [GoogleFonts.cairoTextTheme] height issue
-    final textStyle = TextStyle(
-      height: 1.5,
-      color: theme.colorScheme.onBackground,
-    );
-    final textTheme = TextTheme(
-      displayLarge: textStyle,
-      displayMedium: textStyle,
-      displaySmall: textStyle,
-      headlineLarge: textStyle,
-      headlineMedium: textStyle,
-      headlineSmall: textStyle,
-      titleLarge: textStyle,
-      titleMedium: textStyle,
-      titleSmall: textStyle,
-      bodyLarge: textStyle,
-      bodyMedium: textStyle,
-      bodySmall: textStyle,
-      labelLarge: textStyle,
-      labelMedium: textStyle,
-      labelSmall: textStyle,
-    );
-    return GoogleFonts.cairoTextTheme(textTheme);
+    return GoogleFonts.cairoTextTheme(theme.textTheme);
   }
 
   InputDecorationTheme _buildInputDecorationTheme(ThemeData theme) {

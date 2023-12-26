@@ -36,7 +36,7 @@
     "share": "مشاركة",
     "rateUs": "قيمنا",
     "rateCallCenterService": "قيم خدمة مركز الاتصال",
-    "aboutUs": "معلومات عنا",
+    "aboutApp": "معلومات عن التطبيق",
     "accountNumber": "رقم الحساب",
     "active": "نشط",
     "moneyTransfer": "تحويل الأموال",
@@ -64,5 +64,7 @@
     "serviceQiPlaces": "اماكن كي",
     "serviceTasdeed": "تسديد",
     "serviceSelifty": "سلفتي",
-    "serviceAlRafidainLoans": "قروض الرافدين"
+    "serviceAlRafidainLoans": "قروض الرافدين",
+    "shareAppWithFriendsTitle": "ادعو اصدقائك لتجربة التطبيق",
+    "shareAppWithFriendsSubtitle": "شارك التطبيق مع الاخرين"
 }

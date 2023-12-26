@@ -11,6 +11,8 @@ class SettingsPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     final settings = ref.watch(settingsProvider);
 
@@ -20,7 +22,10 @@ class SettingsPage extends HookConsumerWidget {
         children: [
           ListTile(
             title: Text(l10n.theme),
-            leading: const Icon(AppIcons.theme),
+            leading: Icon(
+              AppIcons.theme,
+              color: colorScheme.primary,
+            ),
             subtitle: Text(settings.themeMode.localize(l10n)),
             onTap: () {
               showThemeDialog(context: context);
@@ -28,7 +33,10 @@ class SettingsPage extends HookConsumerWidget {
           ),
           ListTile(
             title: Text(l10n.language),
-            leading: const Icon(Icons.language),
+            leading: Icon(
+              Icons.language,
+              color: colorScheme.primary,
+            ),
             subtitle: Text(
               settings.locale?.localize(l10n) ?? l10n.systemLanguage,
             ),

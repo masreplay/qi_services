@@ -41,24 +41,34 @@ class MorePage extends HookConsumerWidget {
               spacing: 4.0,
               children: [
                 ListTile(
-                  leading: const Icon(Icons.settings),
+                  title: Text(l10n.shareAppWithFriendsTitle),
+                  subtitle: Text(l10n.shareAppWithFriendsSubtitle),
+                  leading: Icon(Icons.adaptive.share_outlined),
+                  trailing: TextButton(
+                    onPressed: () {},
+                    child: Text(l10n.share),
+                  ),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: Text(l10n.settings),
+                  leading: const Icon(Icons.settings_outlined),
                   onTap: () {
                     context.router.push(const SettingsRoute());
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.adaptive.share),
+                  title: Text(l10n.rateUs),
+                  leading: const Icon(Icons.star_outline_rounded),
                   onTap: () {},
                 ),
                 ListTile(
-                  leading: const Icon(Icons.star),
-                  onTap: () {},
-                ),
-                ListTile(
+                  title: Text(l10n.rateCallCenterService),
                   leading: const Icon(Icons.call_outlined),
                   onTap: () {},
                 ),
                 ListTile(
+                  title: Text(l10n.aboutApp),
                   leading: const Icon(Icons.info_outline),
                   onTap: () {},
                 ),
