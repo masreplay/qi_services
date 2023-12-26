@@ -66,5 +66,7 @@
     "serviceSelifty": "سلفتي",
     "serviceAlRafidainLoans": "قروض الرافدين",
     "shareAppWithFriendsTitle": "ادعو اصدقائك لتجربة التطبيق",
-    "shareAppWithFriendsSubtitle": "شارك التطبيق مع الاخرين"
+    "shareAppWithFriendsSubtitle": "شارك التطبيق مع الاخرين",
+    "logoutConfirmationTitle": "هل انت متاكد؟",
+    "cancel": "الغاء"
 }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
+import 'package:qi_services/src/authentication/authentication.dart';
 
 import 'settings_provider.dart';
 
@@ -15,6 +16,7 @@ class SettingsPage extends HookConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     final settings = ref.watch(settingsProvider);
+    final logoutState = useAsyncState();
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
@@ -42,6 +44,40 @@ class SettingsPage extends HookConsumerWidget {
             ),
             onTap: () {
               showLanguageDialog(context: context);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            title: Text(l10n.logout),
+            tileColor: colorScheme.surface,
+            leading: const Icon(Icons.logout),
+            onTap: () {
+              showAdaptiveDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text(l10n.logoutConfirmationTitle),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          context.router.pop();
+                        },
+                        child: Text(l10n.cancel),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          showLoadingBottomSheet(
+                            context: context,
+                            titleText: l10n.loggingOut,
+                          );
+                          await logoutState(logout(ref: ref));
+                        },
+                        child: Text(l10n.logout),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
         ],

@@ -66,5 +66,9 @@
     "serviceSelifty": "Selifty",
     "serviceAlRafidainLoans": "Al rafidain loans",
     "shareAppWithFriendsTitle": "Invite your friends and family!",
-    "shareAppWithFriendsSubtitle": "Share the app with others"
+    "shareAppWithFriendsSubtitle": "Share the app with others",
+    "logoutConfirmationTitle": "Are you sure?",
+    "cancel": "Cancel",
+    "loading": "Loading",
+    "loggingOut": "Logging out"
 }

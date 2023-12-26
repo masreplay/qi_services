@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:qi_services/router/router_extension.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:qi_services/src/main/main.dart';
 
@@ -63,11 +64,10 @@ class _AuthenticatedGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     final authentication = _ref.read(authenticationProvider);
-    print('AuthenticatedGuard: $authentication');
 
     final isNotAuthenticated = authentication == null;
     if (isNotAuthenticated) {
-      router.replace(const LoginRoute());
+      router.replace(defaultNotAuthenticatedRoute);
     } else {
       resolver.next(true);
     }
@@ -81,12 +81,12 @@ class _NotAuthenticatedGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     final authentication = _ref.read(authenticationProvider);
-    print('NotAuthenticationGuard: $authentication');
+
     final isNotAuthenticated = authentication == null;
     if (isNotAuthenticated) {
       resolver.next(true);
     } else {
-      router.replace(const MainRoute());
+      router.replace(defaultAuthenticatedRoute);
     }
   }
 }

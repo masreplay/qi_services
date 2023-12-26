@@ -22,10 +22,7 @@ class MainTheme {
     return theme = theme.copyWith(
       inputDecorationTheme: _buildInputDecorationTheme(theme),
       listTileTheme: ListTileThemeData(
-        titleTextStyle: theme.textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.w900,
-        ),
-        iconColor: theme.colorScheme.tertiary,
+        iconColor: theme.colorScheme.primary,
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/preferences.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:useful_hook/useful_hook.dart';
 
 part 'authentication_provider.g.dart';
 

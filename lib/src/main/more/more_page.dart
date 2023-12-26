@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
-import 'package:useful_hook/useful_hook.dart';
 
 @RoutePage()
 class MorePage extends HookConsumerWidget {
@@ -11,7 +10,6 @@ class MorePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authentication = ref.watch(authenticationProvider);
-    final logoutState = useAsyncState();
 
     final l10n = context.l10n;
     final theme = Theme.of(context);
@@ -20,9 +18,9 @@ class MorePage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.more)),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: ListView(
           children: [
             // the `+` sign should always be on the left side of the phone number
             Padding(
@@ -37,54 +35,38 @@ class MorePage extends HookConsumerWidget {
                 ),
               ),
             ),
-            ColumnPadded(
-              spacing: 4.0,
-              children: [
-                ListTile(
-                  title: Text(l10n.shareAppWithFriendsTitle),
-                  subtitle: Text(l10n.shareAppWithFriendsSubtitle),
-                  leading: Icon(Icons.adaptive.share_outlined),
-                  trailing: TextButton(
-                    onPressed: () {},
-                    child: Text(l10n.share),
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text(l10n.settings),
-                  leading: const Icon(Icons.settings_outlined),
-                  onTap: () {
-                    context.router.push(const SettingsRoute());
-                  },
-                ),
-                ListTile(
-                  title: Text(l10n.rateUs),
-                  leading: const Icon(Icons.star_outline_rounded),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text(l10n.rateCallCenterService),
-                  leading: const Icon(Icons.call_outlined),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Text(l10n.aboutApp),
-                  leading: const Icon(Icons.info_outline),
-                  onTap: () {},
-                ),
-              ],
-            ),
-            const Spacer(),
-            if (logoutState.value.isLoading) const LinearProgressIndicator(),
             ListTile(
-              title: Text(l10n.logout),
-              tileColor: colorScheme.surface,
-              leading: const Icon(Icons.logout),
+              title: Text(l10n.shareAppWithFriendsTitle),
+              subtitle: Text(l10n.shareAppWithFriendsSubtitle),
+              leading: Icon(Icons.adaptive.share_outlined),
+              trailing: TextButton(
+                onPressed: () {},
+                child: Text(l10n.share),
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text(l10n.settings),
+              leading: const Icon(Icons.settings_outlined),
               onTap: () {
-                logoutState(logout(ref: ref));
+                context.router.push(const SettingsRoute());
               },
             ),
-            const Spacer(),
+            ListTile(
+              title: Text(l10n.rateUs),
+              leading: const Icon(Icons.star_outline_rounded),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text(l10n.rateCallCenterService),
+              leading: const Icon(Icons.call_outlined),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text(l10n.aboutApp),
+              leading: const Icon(Icons.info_outline),
+              onTap: () {},
+            ),
           ],
         ),
       ),
