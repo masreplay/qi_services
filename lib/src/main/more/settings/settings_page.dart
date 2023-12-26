@@ -20,7 +20,7 @@ class SettingsPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
-      body: ListView(
+      body: Column(
         children: [
           ListTile(
             title: Text(l10n.theme),

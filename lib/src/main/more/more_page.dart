@@ -20,7 +20,7 @@ class MorePage extends HookConsumerWidget {
       appBar: AppBar(title: Text(l10n.more)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
-        child: ListView(
+        child: Column(
           children: [
             // the `+` sign should always be on the left side of the phone number
             Padding(
