@@ -21,6 +21,7 @@ class LoginResponse with _$LoginResponse {
   const factory LoginResponse({
     required String token,
     required String phone,
+    required String name,
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>

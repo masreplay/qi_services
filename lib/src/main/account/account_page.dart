@@ -228,7 +228,7 @@ class AccountServiceGridTile extends StatelessWidget {
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: SizedBox.square(
-                      dimension: 24.0,
+                      dimension: IconSizes.medium,
                       child: icon,
                     ),
                   ),

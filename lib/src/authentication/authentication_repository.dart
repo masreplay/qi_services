@@ -22,6 +22,7 @@ class AuthenticationRepository {
 
     final result = LoginResponse(
       token: faker.guid.guid(),
+      name: "John Doe",
       phone: body.phone,
     );
 

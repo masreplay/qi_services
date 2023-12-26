@@ -158,7 +158,7 @@ class ServiceGridTile extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: SizedBox.square(
-                      dimension: 48.0,
+                      dimension: IconSizes.extraLarge,
                       child: icon,
                     ),
                   ),

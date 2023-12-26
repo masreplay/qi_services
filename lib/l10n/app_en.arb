@@ -70,5 +70,7 @@
     "logoutConfirmationTitle": "Are you sure?",
     "cancel": "Cancel",
     "loading": "Loading",
-    "loggingOut": "Logging out"
+    "loggingOut": "Logging out",
+    "finishRegistrationTitle": "Finish registration",
+    "finishRegistrationSubtitle": "Complete your registration to get the most out of the app"
 }

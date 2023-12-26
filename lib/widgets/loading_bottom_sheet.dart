@@ -22,7 +22,12 @@ Future<void> showLoadingBottomSheet({
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CircularProgressIndicator(),
+            const SizedBox.square(
+              dimension: IconSizes.medium,
+              child: CircularProgressIndicator(
+                strokeWidth: StrokeWidths.small,
+              ),
+            ),
             Text(
               titleText ?? l10n.loading,
               style: textTheme.headlineSmall?.copyWith(

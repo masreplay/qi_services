@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:qi_services/common_lib.dart';
 
 enum _ButtonVariant { filled, text }
 
@@ -19,10 +19,10 @@ class ButtonLoading extends StatelessWidget {
     };
 
     return SizedBox.square(
-      dimension: 18.0,
+      dimension: IconSizes.small,
       child: Center(
         child: CircularProgressIndicator(
-          strokeWidth: 2.0,
+          strokeWidth: StrokeWidths.small,
           color: foregroundColor,
           valueColor: AlwaysStoppedAnimation<Color>(foregroundColor),
         ),

@@ -178,6 +178,7 @@ LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
 mixin _$LoginResponse {
   String get token => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -191,7 +192,7 @@ abstract class $LoginResponseCopyWith<$Res> {
           LoginResponse value, $Res Function(LoginResponse) then) =
       _$LoginResponseCopyWithImpl<$Res, LoginResponse>;
   @useResult
-  $Res call({String token, String phone});
+  $Res call({String token, String phone, String name});
 }
 
 /// @nodoc
@@ -209,6 +210,7 @@ class _$LoginResponseCopyWithImpl<$Res, $Val extends LoginResponse>
   $Res call({
     Object? token = null,
     Object? phone = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       token: null == token
@@ -218,6 +220,10 @@ class _$LoginResponseCopyWithImpl<$Res, $Val extends LoginResponse>
       phone: null == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -231,7 +237,7 @@ abstract class _$$LoginResponseImplCopyWith<$Res>
       __$$LoginResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String token, String phone});
+  $Res call({String token, String phone, String name});
 }
 
 /// @nodoc
@@ -247,6 +253,7 @@ class __$$LoginResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? token = null,
     Object? phone = null,
+    Object? name = null,
   }) {
     return _then(_$LoginResponseImpl(
       token: null == token
@@ -257,6 +264,10 @@ class __$$LoginResponseImplCopyWithImpl<$Res>
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -265,7 +276,8 @@ class __$$LoginResponseImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$LoginResponseImpl implements _LoginResponse {
-  const _$LoginResponseImpl({required this.token, required this.phone});
+  const _$LoginResponseImpl(
+      {required this.token, required this.phone, required this.name});
 
   factory _$LoginResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginResponseImplFromJson(json);
@@ -274,10 +286,12 @@ class _$LoginResponseImpl implements _LoginResponse {
   final String token;
   @override
   final String phone;
+  @override
+  final String name;
 
   @override
   String toString() {
-    return 'LoginResponse(token: $token, phone: $phone)';
+    return 'LoginResponse(token: $token, phone: $phone, name: $name)';
   }
 
   @override
@@ -286,12 +300,13 @@ class _$LoginResponseImpl implements _LoginResponse {
         (other.runtimeType == runtimeType &&
             other is _$LoginResponseImpl &&
             (identical(other.token, token) || other.token == token) &&
-            (identical(other.phone, phone) || other.phone == phone));
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, token, phone);
+  int get hashCode => Object.hash(runtimeType, token, phone, name);
 
   @JsonKey(ignore: true)
   @override
@@ -310,7 +325,8 @@ class _$LoginResponseImpl implements _LoginResponse {
 abstract class _LoginResponse implements LoginResponse {
   const factory _LoginResponse(
       {required final String token,
-      required final String phone}) = _$LoginResponseImpl;
+      required final String phone,
+      required final String name}) = _$LoginResponseImpl;
 
   factory _LoginResponse.fromJson(Map<String, dynamic> json) =
       _$LoginResponseImpl.fromJson;
@@ -319,6 +335,8 @@ abstract class _LoginResponse implements LoginResponse {
   String get token;
   @override
   String get phone;
+  @override
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$LoginResponseImplCopyWith<_$LoginResponseImpl> get copyWith =>

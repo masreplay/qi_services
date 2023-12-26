@@ -24,16 +24,42 @@ class MorePage extends HookConsumerWidget {
             // the `+` sign should always be on the left side of the phone number
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Directionality(
-                textDirection: TextDirection.ltr,
-                child: Text(
-                  authentication?.phone ?? "",
-                  style: textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+              child: Column(
+                children: [
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Text(
+                      authentication?.phone ?? "",
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
+
+            Padding(
+              padding: const EdgeInsets.all(Insets.medium),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Radiuses.medium),
+                ),
+                contentPadding: const EdgeInsets.all(Insets.medium),
+                tileColor: colorScheme.tertiary,
+                textColor: colorScheme.onTertiary,
+                iconColor: colorScheme.onTertiary,
+                title: Text(l10n.finishRegistrationTitle),
+                subtitle: Text(l10n.finishRegistrationSubtitle),
+                leading: Icon(
+                  Icons.lightbulb_outline,
+                  color: colorScheme.onTertiary,
+                ),
+                trailing: Icon(Icons.adaptive.arrow_forward_rounded),
+                onTap: () {},
+              ),
+            ),
+
             ListTile(
               title: Text(l10n.shareAppWithFriendsTitle),
               subtitle: Text(l10n.shareAppWithFriendsSubtitle),

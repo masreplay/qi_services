@@ -1,6 +1,8 @@
 {
   "ar": [
     "loading",
-    "loggingOut"
+    "loggingOut",
+    "finishRegistrationTitle",
+    "finishRegistrationSubtitle"
   ]
 }
