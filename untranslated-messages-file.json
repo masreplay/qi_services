@@ -2,8 +2,9 @@
   "ar": [
     "loading",
     "loggingOut",
-    "finishRegistrationTitle",
     "continueOption",
-    "finishRegistrationSubtitle"
+    "finishRegistrationTitle",
+    "finishRegistrationSubtitle",
+    "finishRegistrationDescription"
   ]
 }

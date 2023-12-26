@@ -60,7 +60,7 @@ class MorePage extends HookConsumerWidget {
                   showTileBottomSheet(
                     context: context,
                     title: Text(l10n.finishRegistrationTitle),
-                    subtitle: Text(l10n.finishRegistrationSubtitle),
+                    subtitle: Text(l10n.finishRegistrationDescription),
                     leading: Assets.illustrations.finishRegistration.svg(),
                     onTap: () {},
                   );
@@ -147,7 +147,7 @@ Future<T?> showTileBottomSheet<T>({
                         child: title,
                       ),
                       DefaultTextStyle(
-                        style: textTheme.titleMedium!,
+                        style: textTheme.bodyMedium!,
                         child: subtitle,
                       ),
                     ],
