@@ -7,13 +7,15 @@ import 'authentication.dart';
 part 'authentication_repository.g.dart';
 
 @riverpod
-LoginRepository loginRepository(LoginRepositoryRef ref) {
-  return LoginRepository._(ref);
+AuthenticationRepository authenticationRepository(
+  AuthenticationRepositoryRef ref,
+) {
+  return AuthenticationRepository._(ref);
 }
 
-class LoginRepository {
-  LoginRepository._(this._ref);
-  final LoginRepositoryRef _ref;
+class AuthenticationRepository {
+  AuthenticationRepository._(this._ref);
+  final AuthenticationRepositoryRef _ref;
 
   Future<LoginResponse> login(LoginRequest body) async {
     await Future.delayed(const Duration(seconds: 2));
@@ -26,5 +28,10 @@ class LoginRepository {
     await _ref.read(authenticationProvider.notifier).updateValue(result);
 
     return result;
+  }
+
+  Future<LogoutResponse> logout() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return LogoutResponse();
   }
 }

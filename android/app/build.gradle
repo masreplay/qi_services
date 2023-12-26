@@ -62,4 +62,11 @@ flutter {
 
 dependencies {
     implementation 'com.android.support:multidex:2.0.1'
+    // https://github.com/fluttercommunity/plus_plugins/issues/2284#issuecomment-1777560877
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+        because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+    }
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+        because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+    }
 }

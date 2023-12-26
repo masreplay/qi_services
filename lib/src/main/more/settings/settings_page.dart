@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:qi_services/api/models/logout_model.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
 
@@ -16,7 +17,6 @@ class SettingsPage extends HookConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     final settings = ref.watch(settingsProvider);
-    final logoutState = useAsyncState();
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
@@ -52,38 +52,53 @@ class SettingsPage extends HookConsumerWidget {
             tileColor: colorScheme.surface,
             leading: const Icon(Icons.logout),
             onTap: () {
-              showAdaptiveDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text(l10n.logoutConfirmationTitle),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          context.router.pop();
-                        },
-                        child: Text(l10n.cancel),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          showLoadingBottomSheet(
-                            context: context,
-                            titleText: l10n.loggingOut,
-                          );
-                          await logoutState(logout(ref: ref));
-                        },
-                        child: Text(l10n.logout),
-                      ),
-                    ],
-                  );
-                },
-              );
+              showLogoutDialog(context: context);
             },
           ),
         ],
       ),
     );
   }
+}
+
+Future<void> showLogoutDialog({
+  required BuildContext context,
+}) {
+  return showAdaptiveDialog(
+    context: context,
+    builder: (context) {
+      final l10n = context.l10n;
+
+      return HookConsumer(
+        builder: (context, ref, child) {
+          final state = useAsyncState<LogoutResponse>();
+          return AlertDialog(
+            title: Text(l10n.logoutConfirmationTitle),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  context.router.pop();
+                },
+                child: Text(l10n.cancel),
+              ),
+              TextButton(
+                onPressed: state.value.isLoading
+                    ? null
+                    : () async {
+                        showLoadingBottomSheet(
+                          context: context,
+                          titleText: l10n.loggingOut,
+                        );
+                        state(logout(ref: ref));
+                      },
+                child: Text(l10n.logout),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
 }
 
 Future<void> showThemeDialog({

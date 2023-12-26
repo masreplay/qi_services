@@ -62,7 +62,9 @@ class LoginPage extends HookConsumerWidget {
                       password: password.text,
                     );
 
-                    await state(ref.read(loginRepositoryProvider).login(body));
+                    await state(
+                      ref.read(authenticationRepositoryProvider).login(body),
+                    );
 
                     state.value.whenOrNull(
                       data: (data) {
