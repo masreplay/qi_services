@@ -1,4 +1,4 @@
-package com.example.qi_services
+package com.mas.qi
 
 import io.flutter.embedding.android.FlutterActivity
 
