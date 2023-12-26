@@ -56,7 +56,15 @@ class MorePage extends HookConsumerWidget {
                   color: colorScheme.onTertiary,
                 ),
                 trailing: Icon(Icons.adaptive.arrow_forward_rounded),
-                onTap: () {},
+                onTap: () {
+                  showTileBottomSheet(
+                    context: context,
+                    title: Text(l10n.finishRegistrationTitle),
+                    subtitle: Text(l10n.finishRegistrationSubtitle),
+                    leading: Assets.illustrations.finishRegistration.svg(),
+                    onTap: () {},
+                  );
+                },
               ),
             ),
 
@@ -97,4 +105,70 @@ class MorePage extends HookConsumerWidget {
       ),
     );
   }
+}
+
+Future<T?> showTileBottomSheet<T>({
+  required BuildContext context,
+  required Widget title,
+  required Widget subtitle,
+  required Widget leading,
+  required VoidCallback onTap,
+}) {
+  return showModalBottomSheet<T>(
+    context: context,
+    builder: (context) {
+      final l10n = context.l10n;
+      final theme = Theme.of(context);
+      final textTheme = theme.textTheme;
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Insets.medium,
+          vertical: Insets.large,
+        ),
+        child: ColumnPadded(
+          spacing: Insets.medium,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            RowPadded(
+              spacing: Insets.medium,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: ColumnPadded(
+                    spacing: Insets.medium,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      DefaultTextStyle(
+                        style: textTheme.titleLarge!,
+                        child: title,
+                      ),
+                      DefaultTextStyle(
+                        style: textTheme.titleMedium!,
+                        child: subtitle,
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: leading,
+                  ),
+                ),
+              ],
+            ),
+            FilledButton(
+              onPressed: onTap,
+              child: Text(l10n.continueOption),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
