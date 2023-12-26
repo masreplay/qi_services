@@ -14,12 +14,12 @@ class ServicesPage extends StatelessWidget {
         title: Text(l10n.services),
       ),
       body: GridView(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 11 / 9,
-          mainAxisSpacing: 8.0,
-          crossAxisSpacing: 8.0,
+          childAspectRatio: 1 / 1,
+          mainAxisSpacing: 12.0,
+          crossAxisSpacing: 12.0,
         ),
         children: [
           ServiceGridTile(
@@ -116,57 +116,60 @@ class ServiceGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var foregroundColor = const Color(0xFFFFFFFF);
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    const foregroundColor = Color(0xFFFFFFFF);
+    final borderRadius = BorderRadius.circular(24.0);
 
-    final borderRadius = BorderRadius.circular(16.0);
-
-    return IconTheme(
-      data: IconThemeData(
-        color: foregroundColor,
-        size: 36.0,
-      ),
-      child: DefaultTextStyle(
-        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: foregroundColor,
-              fontWeight: FontWeight.bold,
-            ),
-        child: InkWell(
+    return InkWell(
+      borderRadius: borderRadius,
+      onTap: onTap,
+      child: Ink(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
           borderRadius: borderRadius,
-          onTap: onTap,
-          child: Ink(
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: borderRadius,
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: gradient,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: gradient,
+          ),
+        ),
+        child: ColumnPadded(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: foregroundColor.withOpacity(0.1),
+                shape: BoxShape.circle,
               ),
-            ),
-            child: ColumnPadded(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: foregroundColor.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      color: foregroundColor.withOpacity(0.1),
-                      shape: BoxShape.circle,
+              child: Container(
+                padding: const EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  color: foregroundColor.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: SizedBox.square(
+                  dimension: IconSizes.extraLarge,
+                  child: IconTheme(
+                    data: const IconThemeData(
+                      color: foregroundColor,
+                      size: 36.0,
                     ),
-                    child: SizedBox.square(
-                      dimension: IconSizes.extraLarge,
-                      child: icon,
-                    ),
+                    child: icon,
                   ),
                 ),
-                title,
-              ],
+              ),
             ),
-          ),
+            DefaultTextStyle(
+              style: textTheme.titleLarge!.copyWith(
+                color: foregroundColor,
+                fontWeight: FontWeight.bold,
+              ),
+              child: title,
+            ),
+          ],
         ),
       ),
     );

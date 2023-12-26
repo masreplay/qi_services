@@ -22,6 +22,10 @@ class $AssetsIllustrationsGen {
   /// File path: assets/illustrations/finish-registration.svg
   SvgGenImage get finishRegistration =>
       const SvgGenImage('assets/illustrations/finish-registration.svg');
+
+  /// File path: assets/illustrations/no-data.png
+  AssetGenImage get noData =>
+      const AssetGenImage('assets/illustrations/no-data.png');
 }
 
 class Assets {
