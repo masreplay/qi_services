@@ -31,7 +31,7 @@
     "login": "تسجيل الدخول",
     "mobileNumber": "رقم الجوال",
     "areaCode": "رمز المنطقة",
-    "notImplementedYet": "لم يتم تنفيذه بعد",
+    "unimplementedFeature": "هذه الميزة غير متوفرة حاليا",
     "settings": "الإعدادات",
     "share": "مشاركة",
     "rateUs": "قيمنا",

@@ -14,7 +14,7 @@ Future<void> showLoadingBottomSheet({
       final textTheme = theme.textTheme;
       return Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: Insets.medium,
+          horizontal: Insets.large,
           vertical: Insets.extraLarge,
         ),
         child: RowPadded(

@@ -24,8 +24,14 @@ class MorePage extends HookConsumerWidget {
             // the `+` sign should always be on the left side of the phone number
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
+              child: ColumnPadded(
                 children: [
+                  Text(
+                    authentication?.name ?? "",
+                    style: textTheme.headlineSmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
                   Directionality(
                     textDirection: TextDirection.ltr,
                     child: Text(
@@ -62,7 +68,14 @@ class MorePage extends HookConsumerWidget {
                     title: Text(l10n.finishRegistrationTitle),
                     subtitle: Text(l10n.finishRegistrationDescription),
                     leading: Assets.illustrations.finishRegistration.svg(),
-                    onTap: () {},
+                    onTap: () {
+                      context.router.pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.unimplementedFeature),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -123,7 +136,7 @@ Future<T?> showTileBottomSheet<T>({
 
       return Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: Insets.medium,
+          horizontal: Insets.large,
           vertical: Insets.large,
         ),
         child: ColumnPadded(
@@ -138,7 +151,7 @@ Future<T?> showTileBottomSheet<T>({
                 Expanded(
                   flex: 3,
                   child: ColumnPadded(
-                    spacing: Insets.medium,
+                    spacing: Insets.small,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

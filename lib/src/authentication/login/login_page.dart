@@ -87,7 +87,7 @@ class LoginPage extends HookConsumerWidget {
           TextButton(
             onPressed: () {
               scaffoldMessenger.showSnackBar(
-                SnackBar(content: Text(l10n.notImplementedYet)),
+                SnackBar(content: Text(l10n.unimplementedFeature)),
               );
             },
             child: Text(l10n.forgotYourPassword),
@@ -95,7 +95,7 @@ class LoginPage extends HookConsumerWidget {
           TextButton(
             onPressed: () {
               scaffoldMessenger.showSnackBar(
-                SnackBar(content: Text(l10n.notImplementedYet)),
+                SnackBar(content: Text(l10n.unimplementedFeature)),
               );
             },
             child: Text(l10n.createNewAccount),
