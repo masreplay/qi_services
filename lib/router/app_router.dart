@@ -3,10 +3,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/router/router_extension.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:qi_services/src/main/main.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+part 'app_router.g.dart';
 part 'app_router.gr.dart';
 
-final Provider<AppRouter> appRouterProvider = Provider(AppRouter._);
+@Riverpod(keepAlive: true)
+Raw<AppRouter> appRouter(AppRouterRef ref) => AppRouter._(ref);
 
 @AutoRouterConfig()
 class AppRouter extends _$AppRouter {
