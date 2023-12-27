@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/router/router_extension.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
@@ -8,13 +9,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'app_router.g.dart';
 part 'app_router.gr.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 @Riverpod(keepAlive: true)
-Raw<AppRouter> appRouter(AppRouterRef ref) => AppRouter._(ref);
+Raw<AppRouter> appRouter(AppRouterRef ref) =>
+    AppRouter._(ref, navigatorKey: navigatorKey);
 
 @AutoRouterConfig()
 class AppRouter extends _$AppRouter {
   final Ref _ref;
-  AppRouter._(this._ref);
+  AppRouter._(this._ref, {super.navigatorKey});
 
   _AuthenticatedGuard get _authenticatedGuard => _AuthenticatedGuard(_ref);
   _NotAuthenticatedGuard get _notAuthenticatedGuard =>
