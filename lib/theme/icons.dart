@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 /// This file contains all the icons used in the app.
 /// Prevent extension and instantiation
+/// 
+/// implementation:
+/// https://m3.material.io/styles/icons/overview
 abstract final class AppIcons {
   static const IconData search = Icons.search_outlined;
   static const IconData password = Icons.lock_outline;

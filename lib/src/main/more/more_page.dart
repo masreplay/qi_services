@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
+import 'package:qi_services/src/main/more/m3_alert.dart';
 
 @RoutePage()
 class MorePage extends HookConsumerWidget {
@@ -44,43 +45,19 @@ class MorePage extends HookConsumerWidget {
                 ],
               ),
             ),
-
-            Padding(
-              padding: const EdgeInsets.all(Insets.medium),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(Radiuses.medium),
-                ),
-                contentPadding: const EdgeInsets.all(Insets.medium),
-                tileColor: colorScheme.tertiary,
-                textColor: colorScheme.onTertiary,
-                iconColor: colorScheme.onTertiary,
-                title: Text(l10n.finishRegistrationTitle),
-                subtitle: Text(l10n.finishRegistrationSubtitle),
-                leading: Icon(
-                  Icons.lightbulb_outline,
-                  color: colorScheme.onTertiary,
-                ),
-                trailing: Icon(Icons.adaptive.arrow_forward_rounded),
-                onTap: () {
-                  showTileBottomSheet(
-                    context: context,
-                    title: Text(l10n.finishRegistrationTitle),
-                    subtitle: Text(l10n.finishRegistrationDescription),
-                    leading: Assets.illustrations.finishRegistration.svg(),
-                    onTap: () {
-                      context.router.pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(l10n.unimplementedFeature),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+            M3Alert.warning(
+              title: Text(l10n.finishRegistrationTitle),
+              subtitle: Text(l10n.finishRegistrationSubtitle),
+              description: Text(l10n.finishRegistrationDescription),
+              image: Assets.illustrations.finishRegistration.svg(),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.unimplementedFeature),
+                  ),
+                );
+              },
             ),
-
             ListTile(
               title: Text(l10n.shareAppWithFriendsTitle),
               subtitle: Text(l10n.shareAppWithFriendsSubtitle),
