@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'common_lib.dart';
@@ -15,7 +17,10 @@ class _MainAppState extends ConsumerState<MainApp> {
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsProvider);
 
-    final theme = MainTheme();
+    final String localeName =
+        settings.locale?.languageCode ?? Platform.localeName.split('_').first;
+
+    final theme = MainTheme(localeName: localeName);
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,

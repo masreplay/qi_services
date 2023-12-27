@@ -3,6 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:qi_services/theme/color_schemes.dart';
 
 class MainTheme {
+  const MainTheme({
+    required this.localeName,
+  });
+
+  final String localeName;
+
   ThemeData buildLight() {
     return _build(colorScheme: lightColorScheme);
   }
@@ -28,7 +34,12 @@ class MainTheme {
   }
 
   TextTheme _buildTextTheme(ThemeData theme) {
-    return GoogleFonts.cairoTextTheme(theme.textTheme);
+    switch (localeName) {
+      case 'ar':
+        return GoogleFonts.cairoTextTheme(theme.textTheme);
+      default:
+        return GoogleFonts.montserratTextTheme(theme.textTheme);
+    }
   }
 
   InputDecorationTheme _buildInputDecorationTheme(ThemeData theme) {

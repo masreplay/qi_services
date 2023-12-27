@@ -28,23 +28,6 @@ class AccountPage extends HookConsumerWidget {
     final state = ref.watch(provider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.account),
-        actions: [
-          IconButtonFilled(
-            foregroundColor: Colors.white,
-            backgroundColor: AppColors.yellow,
-            icon: const Icon(Icons.notifications_rounded),
-            onTap: () {},
-          ),
-          IconButtonFilled(
-            foregroundColor: Colors.white,
-            backgroundColor: AppColors.green,
-            icon: const Icon(Icons.add),
-            onTap: () {},
-          ),
-        ],
-      ),
       body: RefreshIndicator(
         onRefresh: () => ref.refresh(provider.future),
         child: CustomScrollView(

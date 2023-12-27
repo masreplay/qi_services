@@ -1,9 +1,11 @@
 {
     "@@locale": "ar",
+    "appName": "خدمات كي",
+    "appName1": "خدمات",
+    "appName2": "كي",
     "serviceName": "اسم الخدمة",
     "availableBalance": "الرصيد المتاح",
     "blocked": "محظور",
-    "appName": "خدمات كي",
     "password": "كلمة المرور",
     "account": "الحساب",
     "transfer": "تحويل",
@@ -67,6 +69,12 @@
     "serviceAlRafidainLoans": "قروض الرافدين",
     "shareAppWithFriendsTitle": "ادعو اصدقائك لتجربة التطبيق",
     "shareAppWithFriendsSubtitle": "شارك التطبيق مع الاخرين",
+    "loading": "جاري التحميل",
+    "loggingOut": "جاري تسجيل الخروج",
+    "continueOption": "متابعة",
+    "finishRegistrationTitle": "رجاءا اكمل التسجيل",
+    "finishRegistrationSubtitle": "اكمل التسجيل للحصول على افضل تجربة",
+    "finishRegistrationDescription": "هذا يسمح لك بالوصول إلى جميع ميزات التطبيق ويسمح لنا بتقديم أفضل خدمة لك، من خلال التحقق من هويتك.",
     "logoutConfirmationTitle": "هل انت متاكد؟",
     "cancel": "الغاء"
 }

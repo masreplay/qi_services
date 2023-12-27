@@ -16,9 +16,9 @@ class MorePage extends HookConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.more)),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -51,7 +51,7 @@ class MorePage extends HookConsumerWidget {
               description: Text(l10n.finishRegistrationDescription),
               image: Assets.illustrations.finishRegistration.svg(),
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
+                scaffoldMessenger.showSnackBar(
                   SnackBar(
                     content: Text(l10n.unimplementedFeature),
                   ),
@@ -63,10 +63,15 @@ class MorePage extends HookConsumerWidget {
               subtitle: Text(l10n.shareAppWithFriendsSubtitle),
               leading: Icon(Icons.adaptive.share_outlined),
               trailing: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  scaffoldMessenger.showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.unimplementedFeature),
+                    ),
+                  );
+                },
                 child: Text(l10n.share),
               ),
-              onTap: () {},
             ),
             ListTile(
               title: Text(l10n.settings),
@@ -78,17 +83,35 @@ class MorePage extends HookConsumerWidget {
             ListTile(
               title: Text(l10n.rateUs),
               leading: const Icon(Icons.star_outline_rounded),
-              onTap: () {},
+              onTap: () {
+                scaffoldMessenger.showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.unimplementedFeature),
+                  ),
+                );
+              },
             ),
             ListTile(
               title: Text(l10n.rateCallCenterService),
               leading: const Icon(Icons.call_outlined),
-              onTap: () {},
+              onTap: () {
+                scaffoldMessenger.showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.unimplementedFeature),
+                  ),
+                );
+              },
             ),
             ListTile(
               title: Text(l10n.aboutApp),
               leading: const Icon(Icons.info_outline),
-              onTap: () {},
+              onTap: () {
+                scaffoldMessenger.showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.unimplementedFeature),
+                  ),
+                );
+              },
             ),
           ],
         ),
