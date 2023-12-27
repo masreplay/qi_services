@@ -28,7 +28,7 @@ Future<AreaCode?> showAreaCodeBottomSheet({
                   controller: controller,
                   decoration: const InputDecoration(
                     labelText: "Search",
-                    suffixIcon: Icon(AppIcons.search),
+                    suffixIcon: Icon(DefaultAppIcons.search),
                   ),
                   onChanged: (value) {},
                 ),

@@ -23,10 +23,10 @@ class PasswordFormField extends HookWidget {
       validator: context.validator(optional: optional).build(),
       decoration: InputDecoration(
         labelText: l10n.password,
-        prefixIcon: const Icon(AppIcons.password),
+        prefixIcon: const Icon(DefaultAppIcons.password),
         suffixIcon: IconButton(
           icon: Icon(
-            obscure.value ? AppIcons.visible : AppIcons.invisible,
+            obscure.value ? DefaultAppIcons.visible : DefaultAppIcons.invisible,
           ),
           onPressed: () {
             obscure.value = !obscure.value;

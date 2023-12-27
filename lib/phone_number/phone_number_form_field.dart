@@ -32,7 +32,7 @@ class PhoneNumberFormField extends StatelessWidget {
       textDirection: TextDirection.ltr,
       decoration: InputDecoration(
         labelText: l10n.mobileNumber,
-        prefixIcon: const Icon(AppIcons.phone),
+        prefixIcon: const Icon(DefaultAppIcons.phone),
         suffix: Directionality(
           textDirection: TextDirection.ltr,
           child: InkWell(

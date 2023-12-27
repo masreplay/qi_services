@@ -35,6 +35,10 @@ class TransferPage extends StatelessWidget {
                 color: colorScheme.onSurface,
               ),
             ),
+            FilledButton(
+              onPressed: () {},
+              child: Text(l10n.moneyTransfer),
+            ),
           ],
         ),
       ),

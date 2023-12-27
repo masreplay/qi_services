@@ -61,6 +61,11 @@ flutter:
   assets:
     - assets/app/
     - assets/illustrations/
+  
+  fonts:
+    - family: AppIcons
+      fonts:
+        - asset: icons/icons.ttf
 
 flutter_gen:
   integrations:

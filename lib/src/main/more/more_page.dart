@@ -22,7 +22,6 @@ class MorePage extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // the `+` sign should always be on the left side of the phone number
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ColumnPadded(
@@ -33,11 +32,12 @@ class MorePage extends HookConsumerWidget {
                       color: colorScheme.onSurfaceVariant,
                     ),
                   ),
+                  // the `+` sign should always be on the left side of the phone number
                   Directionality(
                     textDirection: TextDirection.ltr,
                     child: Text(
                       authentication?.phone ?? "",
-                      style: textTheme.titleMedium?.copyWith(
+                      style: textTheme.labelLarge?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
                     ),

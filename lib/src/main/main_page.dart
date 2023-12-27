@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
+import 'package:qi_services/icons/icons.dart';
 
 typedef AppRoute = ({
   String labelText,
@@ -28,7 +29,7 @@ class MainPage extends HookConsumerWidget {
       (
         labelText: l10n.transfer,
         icon: Icons.swap_horiz_outlined,
-        selectedIcon: Icons.swap_horiz,
+        selectedIcon: AppIcons.service,
         page: const TransferRoute(),
       ),
       (
