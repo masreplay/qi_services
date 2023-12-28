@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 
@@ -44,16 +45,54 @@ class MainPage extends HookConsumerWidget {
 
     return AutoTabsRouter(
       routes: [for (final route in routes) route.page],
-      transitionBuilder: (context, child, animation) => FadeTransition(
-        opacity: animation,
-        child: child,
-      ),
+      transitionBuilder: (context, child, animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
 
         return Scaffold(
           appBar: AppBar(
-            title: const AppNameText(),
+            title: RowPadded(
+              children: [
+                // Never use [AppBar.leading]
+                // it add extra padding to the left of the app name.
+                AppLogo(
+                  dimension: 36.0,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const AppNameText(),
+                    Animate(
+                      effects: const [
+                        SlideEffect(
+                          begin: Offset(
+                            SlideEffect.neutralSlide,
+                            SlideEffect.defaultSlide,
+                          ),
+                          end: Offset(
+                            SlideEffect.neutralSlide,
+                            SlideEffect.neutralSlide,
+                          ),
+                          duration: Time.medium,
+                        ),
+                      ],
+                      child: Text(
+                        l10n.appNameSlogan,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ).animate().slideY(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             actions: [
               IconButton(
                 onPressed: () {},

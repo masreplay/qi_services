@@ -4,6 +4,8 @@ import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:qi_services/src/main/more/m3_alert.dart';
 
+/// https://m3.material.io/foundations/layout/applying-layout/window-size-classes#35037e9b-550e-4fc0-9edd-4ef8e7a55b02
+/// A settings or more view offering quick navigation and actions is a good use of two panes in a medium layout
 @RoutePage()
 class MorePage extends HookConsumerWidget {
   const MorePage({super.key});

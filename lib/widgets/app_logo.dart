@@ -1,7 +1,39 @@
 import 'package:qi_services/common_lib.dart';
 
 class AppLogo extends StatelessWidget {
-  const AppLogo({super.key});
+  const AppLogo({
+    super.key,
+    required this.dimension,
+    required this.borderRadius,
+  });
+
+  final double dimension;
+
+  final BorderRadius borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    // Container(
+    //   width: dimension,
+    //   height: dimension,
+    //   decoration: BoxDecoration(
+    //     color: Theme.of(context).colorScheme.secondaryContainer,
+    //     shape: BoxShape.circle,
+    //   ),
+    // );
+
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: Assets.app.logo.image(
+        width: dimension,
+        height: dimension,
+      ),
+    );
+  }
+}
+
+class AppSloganLogo extends StatelessWidget {
+  const AppSloganLogo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +43,9 @@ class AppLogo extends StatelessWidget {
 
     return Column(
       children: [
-        ClipRRect(
+        AppLogo(
+          dimension: 100,
           borderRadius: BorderRadius.circular(12.0),
-          child: Assets.app.logo.image(
-            width: 100.0,
-            height: 100.0,
-          ),
         ),
         Text(
           l10n.appName,

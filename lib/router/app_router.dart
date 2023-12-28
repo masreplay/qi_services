@@ -33,7 +33,7 @@ class AppRouter extends _$AppRouter {
         guards: [_authenticatedGuard],
         children: [
           AutoRoute(
-            initial: true,
+            path: "",
             page: AccountRoute.page,
           ),
           AutoRoute(

@@ -3,6 +3,7 @@ export:
   - lib/
 
 ignore:
+  - "lib/icons/"
   - "**/*.g.dart"
   - "**/*.freezed.dart"
   - "**/*.gr.dart"
