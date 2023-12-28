@@ -1,7 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/main/services/service_model.dart';
@@ -17,6 +14,7 @@ Future<List<ServiceModel>> getServices(GetServicesRef ref) {
   return ref.read(servicesRepositoryProvider).getAll();
 }
 
+/// A provider that exposes a [Future] of a [List] of [ServiceModel].
 class ServiceData {
   const ServiceData({
     required this.title,
@@ -56,7 +54,7 @@ class ServicesPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
 
-    final selectedLayout = useState(LayoutType.list);
+    const selectedLayout = LayoutType.list;
     final state = ref.watch(getServicesProvider);
 
     final services = <ServiceData>[
@@ -208,13 +206,16 @@ class ServicesPage extends HookConsumerWidget {
 
     Widget layoutWidget;
 
-    switch (selectedLayout.value) {
+    switch (selectedLayout) {
       case LayoutType.list:
         layoutWidget = ListView.separated(
           padding: const EdgeInsets.symmetric(vertical: Insets.medium),
           itemCount: services.length,
           itemBuilder: (context, index) {
-            return ServiceListTile(services[index]);
+            return ServiceListTile(
+              services[index],
+              index: index,
+            );
           },
           separatorBuilder: (context, _) {
             return const SizedBox.square(dimension: Insets.small);
@@ -240,37 +241,9 @@ class ServicesPage extends HookConsumerWidget {
         );
         break;
     }
-    return Column(
-      children: [
-        if (kDebugMode)
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: Insets.medium),
-              child: RowPadded(
-                children: [
-                  for (final layout in LayoutType.values)
-                    ChoiceChip(
-                      label: Text(layout.name),
-                      selected: selectedLayout.value == layout,
-                      onSelected: (selected) {
-                        if (selected) selectedLayout.value = layout;
-                      },
-                    )
-                ],
-              ),
-            ),
-          ),
-        Expanded(
-          child: RefreshIndicator(
-            onRefresh: () {
-              return ref.refresh(getServicesProvider.future);
-            },
-            child: layoutWidget.animate().fadeIn(),
-          ),
-        ),
-      ],
+    return RefreshIndicator(
+      onRefresh: () => ref.refresh(getServicesProvider.future),
+      child: layoutWidget,
     );
   }
 }
@@ -279,9 +252,12 @@ class ServiceListTile extends StatelessWidget {
   const ServiceListTile(
     this.data, {
     super.key,
+    this.index,
   });
 
   final ServiceData data;
+
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
@@ -289,6 +265,8 @@ class ServiceListTile extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
     final description = data.description;
+
+    final index = this.index;
 
     return InkWell(
       onTap: data.onTap,
@@ -300,6 +278,13 @@ class ServiceListTile extends StatelessWidget {
         child: RowPadded(
           spacing: Insets.medium,
           children: [
+            if (index != null)
+              Text(
+                '${index + 1}',
+                style: textTheme.bodyLarge!.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
             Container(
               width: 56.0,
               height: 56.0,
@@ -311,7 +296,7 @@ class ServiceListTile extends StatelessWidget {
                 data: IconThemeData(color: data.foregroundColor),
                 child: Center(
                   child: SizedBox.square(
-                    dimension: IconSizes.medium,
+                    dimension: IconSizes.large,
                     child: data.icon,
                   ),
                 ),
@@ -323,6 +308,8 @@ class ServiceListTile extends StatelessWidget {
                 children: [
                   Text(
                     data.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: textTheme.bodyLarge!.copyWith(
                       color: colorScheme.onSurface,
                     ),
@@ -330,6 +317,8 @@ class ServiceListTile extends StatelessWidget {
                   if (description != null)
                     Text(
                       description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: textTheme.bodyMedium!.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
