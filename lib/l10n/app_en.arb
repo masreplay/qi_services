@@ -4,6 +4,10 @@
     "appNameSlogan": "Your money, your way",
     "serviceCardIssuanceDescription": "Get your Qi Card and enjoy the benefits of a digital wallet",
     "open": "Open",
+    "layoutViewVariantList": "List",
+    "layoutViewVariantGrid": "Grid",
+    "layoutViewVariantMixed": "Mixed",
+    "layoutViewVariantTitle": "View",
     "appName1": "Qi",
     "appName2": "Services",
     "serviceName": "Service Name",
@@ -80,5 +84,4 @@
     "finishRegistrationTitle": "Finish registration",
     "finishRegistrationSubtitle": "Complete your registration to get the most out of the app",
     "finishRegistrationDescription": "This lets you access all the features of the app and allows us to provide you with the best service, by verifying your identity."
-
 }

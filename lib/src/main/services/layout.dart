@@ -1,6 +1,13 @@
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:qi_services/common_lib.dart';
 
+part 'layout.g.dart';
+
 /// A layout view variant [LayoutViewVariant]
+@JsonEnum(
+  alwaysCreate: true,
+)
 enum LayoutViewVariant {
   /// [ListView] with tile builder
   list,
@@ -9,11 +16,28 @@ enum LayoutViewVariant {
   grid,
 
   /// Rows and columns with to represent a grid and list
-  mixed,
+  mixed;
+
+  String toJson() => _$LayoutViewVariantEnumMap[this]!;
+  factory LayoutViewVariant.fromJson(String json) => _$LayoutViewVariantEnumMap
+      .map((key, value) => MapEntry(value, key))[json]!;
 }
 
 class LayoutViewDelegate {
-  const LayoutViewDelegate();
+  const LayoutViewDelegate({
+    required this.crossAxisCount,
+    this.maxCrossAxisExtent,
+    this.mainAxisSpacing = 0.0,
+    this.crossAxisSpacing = 0.0,
+  });
+
+  final double? maxCrossAxisExtent;
+
+  final int crossAxisCount;
+
+  final double mainAxisSpacing;
+
+  final double crossAxisSpacing;
 }
 
 /// A category of items in a layout view
@@ -38,7 +62,7 @@ class LayoutCategory<T extends Object> {
 /// [LayoutViewVariant.list] tile builder
 typedef LayoutViewListTileBuilder<T extends Object> = Widget Function(
   BuildContext context,
-  int index,
+  int? index,
   T item,
 );
 
@@ -56,10 +80,12 @@ class LayoutView<T extends Object> extends StatelessWidget {
     super.key,
     this.type = LayoutViewVariant.list,
     this.delegate,
+    this.padding,
     required this.listTileBuilder,
     required this.gridTileBuilder,
   });
 
+  final EdgeInsets? padding;
   final List<LayoutCategory<T>> data;
   final LayoutViewVariant type;
   final LayoutViewDelegate? delegate;
@@ -70,42 +96,40 @@ class LayoutView<T extends Object> extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = data.expand((category) => category.data).toList();
 
-    final delegate = this.delegate ?? const LayoutViewDelegate();
+    final delegate = this.delegate ??
+        const LayoutViewDelegate(
+          crossAxisCount: 3,
+        );
+
+    Widget widget;
 
     switch (type) {
       case LayoutViewVariant.list:
-        return ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: Insets.medium),
+        widget = ListView.separated(
+          padding: padding,
           itemCount: items.length,
           itemBuilder: (context, index) {
             return listTileBuilder(context, index, items[index]);
           },
           separatorBuilder: (context, index) {
-            return const SizedBox.square(dimension: Insets.small);
+            return SizedBox.square(dimension: delegate.mainAxisSpacing);
           },
         );
       case LayoutViewVariant.grid:
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(Insets.medium),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  for (final item in data.sublist(0, 3))
-                    Expanded(child: Text(item.title!)),
-                ],
-              ),
-            ),
-          ],
+        widget = AlignedGridView.count(
+          padding: padding,
+          crossAxisCount: delegate.crossAxisCount,
+          mainAxisSpacing: delegate.mainAxisSpacing,
+          crossAxisSpacing: delegate.crossAxisSpacing,
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int index) {
+            return gridTileBuilder(context, index, items[index]);
+          },
         );
+
       case LayoutViewVariant.mixed:
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            vertical: Insets.medium,
-            horizontal: Insets.medium,
-          ),
+        widget = SingleChildScrollView(
+          padding: padding,
           child: ColumnPadded(
             spacing: Insets.medium,
             children: [
@@ -119,29 +143,40 @@ class LayoutView<T extends Object> extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     if (category.layout == LayoutViewVariant.list)
-                      Column(
-                        children: [
-                          for (final (index, item) in category.data.indexed)
-                            listTileBuilder(context, index, item),
-                        ],
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: category.data.length,
+                        itemBuilder: (context, index) {
+                          return listTileBuilder(
+                            context,
+                            null,
+                            category.data[index],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox.square(
+                            dimension: delegate.mainAxisSpacing,
+                          );
+                        },
                       ),
                     if (category.layout == LayoutViewVariant.grid)
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          for (var i = 0; i < 3; i++)
-                            if (i < category.data.length)
-                              Expanded(
-                                child: listTileBuilder(
-                                  context,
-                                  i,
-                                  category.data[i],
-                                ),
-                              )
-                            else
-                              const Spacer(),
-                        ],
+                      AlignedGridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        crossAxisCount: delegate.crossAxisCount,
+                        mainAxisSpacing: delegate.mainAxisSpacing,
+                        crossAxisSpacing: delegate.crossAxisSpacing,
+                        itemCount: category.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return gridTileBuilder(
+                            context,
+                            index,
+                            category.data[index],
+                          );
+                        },
                       ),
                   ],
                 ),
@@ -149,5 +184,11 @@ class LayoutView<T extends Object> extends StatelessWidget {
           ),
         );
     }
+
+    return Column(
+      children: [
+        Expanded(child: widget),
+      ],
+    );
   }
 }

@@ -40,7 +40,7 @@ class MorePage extends HookConsumerWidget {
                     child: Text(
                       authentication?.phone ?? "",
                       style: textTheme.labelLarge?.copyWith(
-                        // prominent
+                        // Prominent
                         fontWeight: FontWeight.bold,
                         color: colorScheme.onSurfaceVariant,
                       ),

@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
+import 'package:qi_services/preferences.dart';
 import 'package:qi_services/src/main/services/service_model.dart';
 import 'package:qi_services/unimplemented.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -46,9 +48,20 @@ class ServiceData {
 class ServicesPage extends HookConsumerWidget {
   const ServicesPage({super.key});
 
+  LayoutViewVariant _getLayoutType(WidgetRef ref) {
+    final raw = ref
+        .read(sharedPreferencesProvider)
+        .getString(Preferences.servicesLayoutType);
+
+    return raw == null
+        ? LayoutViewVariant.list
+        : LayoutViewVariant.fromJson(raw);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(getServicesProvider);
+    final layout = useState<LayoutViewVariant>(_getLayoutType(ref));
 
     final l10n = context.l10n;
 
@@ -151,6 +164,7 @@ class ServicesPage extends HookConsumerWidget {
 
     final data = [
       LayoutCategory(
+        title: "جديد",
         layout: LayoutViewVariant.list,
         data: state.maybeWhen(
           orElse: () => <ServiceData>[],
@@ -168,6 +182,7 @@ class ServicesPage extends HookConsumerWidget {
         ],
       ),
       LayoutCategory(
+        title: "خدمات التقسيط",
         layout: LayoutViewVariant.grid,
         data: [
           installmentsService,
@@ -176,6 +191,7 @@ class ServicesPage extends HookConsumerWidget {
         ],
       ),
       LayoutCategory(
+        title: "خدمات أخرى",
         layout: LayoutViewVariant.list,
         data: [
           qiPlacesService,
@@ -189,7 +205,16 @@ class ServicesPage extends HookConsumerWidget {
       onRefresh: () => ref.refresh(getServicesProvider.future),
       child: LayoutView(
         data,
-        type: LayoutViewVariant.list,
+        type: layout.value,
+        padding: const EdgeInsets.symmetric(
+          horizontal: Insets.medium,
+          vertical: Insets.small,
+        ),
+        delegate: const LayoutViewDelegate(
+          crossAxisCount: 3,
+          crossAxisSpacing: Insets.xsmall,
+          mainAxisSpacing: Insets.xsmall,
+        ),
         listTileBuilder: (context, index, item) {
           return ServiceListTile(item, index: index);
         },
