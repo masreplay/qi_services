@@ -25,7 +25,7 @@ class MorePage extends HookConsumerWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(24.0),
               child: ColumnPadded(
                 children: [
                   Text(
@@ -122,70 +122,4 @@ class MorePage extends HookConsumerWidget {
       ),
     );
   }
-}
-
-Future<T?> showTileBottomSheet<T>({
-  required BuildContext context,
-  required Widget title,
-  required Widget subtitle,
-  required Widget leading,
-  required VoidCallback onTap,
-}) {
-  return showModalBottomSheet<T>(
-    context: context,
-    builder: (context) {
-      final l10n = context.l10n;
-      final theme = Theme.of(context);
-      final textTheme = theme.textTheme;
-
-      return Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Insets.large,
-          vertical: Insets.large,
-        ),
-        child: ColumnPadded(
-          spacing: Insets.medium,
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            RowPadded(
-              spacing: Insets.medium,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: ColumnPadded(
-                    spacing: Insets.small,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      DefaultTextStyle(
-                        style: textTheme.titleLarge!,
-                        child: title,
-                      ),
-                      DefaultTextStyle(
-                        style: textTheme.bodyMedium!,
-                        child: subtitle,
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: AspectRatio(
-                    aspectRatio: 1 / 1,
-                    child: leading,
-                  ),
-                ),
-              ],
-            ),
-            FilledButton(
-              onPressed: onTap,
-              child: Text(l10n.continueOption),
-            ),
-          ],
-        ),
-      );
-    },
-  );
 }
