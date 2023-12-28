@@ -63,7 +63,7 @@ flutter:
     - assets/illustrations/
   
   fonts:
-    - family: AppIcons
+    - family: GeneratedIcons
       fonts:
         - asset: icons/icons.ttf
 

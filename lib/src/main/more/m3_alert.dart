@@ -2,11 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:qi_services/common_lib.dart';
 
 /// Associated with [M3Alert]
-enum _M3AlertVariant {
-  warning,
-  // TODO: implement
-  error,
-}
+enum _M3AlertVariant { warning }
 
 /// implementation:
 /// https://m3.material.io/styles/color/system/overview#9e93d40d-7733-4c10-ba68-e3ffb529bb5c
@@ -54,29 +50,39 @@ class M3Alert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
-    final Color backgroundColor = this.backgroundColor ?? colorScheme.tertiary;
-    final Color foregroundColor =
-        this.foregroundColor ?? colorScheme.onTertiary;
+    final theme = M3AlertTheme.of(context);
 
-    final EdgeInsets margin =
-        this.margin ?? const EdgeInsets.all(Insets.medium);
-    final EdgeInsets padding =
-        this.padding ?? const EdgeInsets.all(Insets.medium);
-    final BorderRadius borderRadius = this.borderRadius ??
+    final backgroundColor =
+        this.backgroundColor ?? theme.backgroundColor ?? colorScheme.tertiary;
+
+    final foregroundColor =
+        this.foregroundColor ?? theme.foregroundColor ?? colorScheme.onTertiary;
+
+    final margin = this.margin ??
+        theme.margin ??
+        const EdgeInsets.symmetric(
+          horizontal: Insets.medium,
+          vertical: Insets.small,
+        );
+
+    final padding =
+        this.padding ?? theme.padding ?? const EdgeInsets.all(Insets.medium);
+
+    final spacing = this.spacing ?? this.spacing ?? Insets.medium;
+
+    final borderRadius = this.borderRadius ??
+        theme.borderRadius ??
         const BorderRadius.all(Radius.circular(Insets.medium));
 
     final Widget title = this.title;
     final Widget subtitle = this.subtitle;
     final Widget description = this.description ?? subtitle;
-    final double spacing = this.spacing ?? Insets.medium;
 
     final Icon leading = switch (_type) {
       _M3AlertVariant.warning => const Icon(Icons.lightbulb_outline_rounded),
-      _M3AlertVariant.error => const Icon(Icons.error_outline_rounded),
     };
 
     return Card(
@@ -86,7 +92,7 @@ class M3Alert extends StatelessWidget {
       child: InkWell(
         borderRadius: borderRadius,
         onTap: () {
-          showAlertBottomSheet(
+          _showAlertBottomSheet(
             context: context,
             title: title,
             subtitle: description,
@@ -138,7 +144,8 @@ class M3Alert extends StatelessWidget {
   }
 }
 
-Future<T?> showAlertBottomSheet<T>({
+/// [M3Alert] is used to configure the default values for [M3Alert]
+Future<T?> _showAlertBottomSheet<T>({
   required BuildContext context,
   required Widget title,
   required Widget subtitle,
@@ -202,4 +209,47 @@ Future<T?> showAlertBottomSheet<T>({
       );
     },
   );
+}
+
+/// [M3AlertTheme] is used to configure the default values for [M3Alert]
+class M3AlertThemeData {
+  const M3AlertThemeData({
+    this.backgroundColor,
+    this.foregroundColor,
+    this.margin,
+    this.padding,
+    this.borderRadius,
+    this.spacing,
+  });
+
+  final double? spacing;
+
+  final Color? backgroundColor;
+
+  final Color? foregroundColor;
+
+  final EdgeInsets? margin;
+
+  final EdgeInsets? padding;
+
+  final BorderRadius? borderRadius;
+}
+
+/// [M3AlertTheme] is used to configure the default values for [M3Alert]
+class M3AlertTheme extends InheritedWidget {
+  const M3AlertTheme({
+    super.key,
+    required this.data,
+    required super.child,
+  });
+
+  final M3AlertThemeData data;
+
+  static M3AlertThemeData of(BuildContext context) {
+    final theme = context.dependOnInheritedWidgetOfExactType<M3AlertTheme>();
+    return theme?.data ?? const M3AlertThemeData();
+  }
+
+  @override
+  bool updateShouldNotify(M3AlertTheme oldWidget) => data != oldWidget.data;
 }

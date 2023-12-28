@@ -25,4 +25,7 @@ chmod +x ./generate_icon.sh
 ```
 
 
+# implementations
+- M3Alert: a simple widget for compact devices (mobiles or small devices) that represents the alert that always appears on the top of the screen.
+
 # Packages

@@ -57,39 +57,48 @@ class MainPage extends HookConsumerWidget {
         return Scaffold(
           appBar: AppBar(
             title: RowPadded(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              spacing: Insets.small,
               children: [
                 // Never use [AppBar.leading]
                 // it add extra padding to the left of the app name.
                 AppLogo(
-                  dimension: 36.0,
+                  dimension: IconSizes.large,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const AppNameText(),
-                    Animate(
-                      effects: const [
-                        SlideEffect(
-                          begin: Offset(
-                            SlideEffect.neutralSlide,
-                            SlideEffect.defaultSlide,
+                Expanded(
+                  child: ColumnPadded(
+                    spacing: Insets.xsmall,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const AppNameText(),
+                      Animate(
+                        effects: const [
+                          SlideEffect(
+                            begin: Offset(
+                              SlideEffect.neutralSlide,
+                              SlideEffect.defaultSlide,
+                            ),
+                            end: Offset(
+                              SlideEffect.neutralSlide,
+                              SlideEffect.neutralSlide,
+                            ),
+                            duration: Time.medium,
                           ),
-                          end: Offset(
-                            SlideEffect.neutralSlide,
-                            SlideEffect.neutralSlide,
+                        ],
+                        child: Text(
+                          l10n.appNameSlogan,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
-                          duration: Time.medium,
-                        ),
-                      ],
-                      child: Text(
-                        l10n.appNameSlogan,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ).animate().slideY(),
-                    ),
-                  ],
+                        ).animate().slideY(),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
