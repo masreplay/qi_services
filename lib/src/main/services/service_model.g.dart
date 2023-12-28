@@ -8,9 +8,9 @@ part of 'service_model.dart';
 
 _$ServiceModelImpl _$$ServiceModelImplFromJson(Map<String, dynamic> json) =>
     _$ServiceModelImpl(
-      leadingWidget: json['leadingWidget'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
+      image: json['image'] as String,
       url: json['url'] as String,
       urlLaunchMode: const _LaunchModeJsonConverter()
           .fromJson(json['urlLaunchMode'] as String),
@@ -29,9 +29,9 @@ _$ServiceModelImpl _$$ServiceModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ServiceModelImplToJson(_$ServiceModelImpl instance) =>
     <String, dynamic>{
-      'leadingWidget': instance.leadingWidget,
       'title': instance.title,
       'description': instance.description,
+      'image': instance.image,
       'url': instance.url,
       'urlLaunchMode':
           const _LaunchModeJsonConverter().toJson(instance.urlLaunchMode),

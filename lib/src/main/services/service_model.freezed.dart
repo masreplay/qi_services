@@ -20,15 +20,13 @@ ServiceModel _$ServiceModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ServiceModel {
-// SVG or PNG
-  String get leadingWidget => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get description =>
-      throw _privateConstructorUsedError; // Deeplink or link
+  String get description => throw _privateConstructorUsedError; // SVG or PNG
+  String get image => throw _privateConstructorUsedError; // Deeplink or link
   String get url => throw _privateConstructorUsedError;
-  LaunchMode get urlLaunchMode => throw _privateConstructorUsedError;
+  LaunchMode get urlLaunchMode => throw _privateConstructorUsedError; // colors
   Color? get backgroundColor => throw _privateConstructorUsedError;
-  Color get foregroundColor => throw _privateConstructorUsedError;
+  Color get foregroundColor => throw _privateConstructorUsedError; // gradient
   List<Color>? get gradientColors => throw _privateConstructorUsedError;
   Alignment? get gradientBegin => throw _privateConstructorUsedError;
   Alignment? get gradientEnd => throw _privateConstructorUsedError;
@@ -46,9 +44,9 @@ abstract class $ServiceModelCopyWith<$Res> {
       _$ServiceModelCopyWithImpl<$Res, ServiceModel>;
   @useResult
   $Res call(
-      {String leadingWidget,
-      String title,
+      {String title,
       String description,
+      String image,
       String url,
       LaunchMode urlLaunchMode,
       Color? backgroundColor,
@@ -71,9 +69,9 @@ class _$ServiceModelCopyWithImpl<$Res, $Val extends ServiceModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? leadingWidget = null,
     Object? title = null,
     Object? description = null,
+    Object? image = null,
     Object? url = null,
     Object? urlLaunchMode = null,
     Object? backgroundColor = freezed,
@@ -83,10 +81,6 @@ class _$ServiceModelCopyWithImpl<$Res, $Val extends ServiceModel>
     Object? gradientEnd = freezed,
   }) {
     return _then(_value.copyWith(
-      leadingWidget: null == leadingWidget
-          ? _value.leadingWidget
-          : leadingWidget // ignore: cast_nullable_to_non_nullable
-              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -94,6 +88,10 @@ class _$ServiceModelCopyWithImpl<$Res, $Val extends ServiceModel>
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
       url: null == url
           ? _value.url
@@ -136,9 +134,9 @@ abstract class _$$ServiceModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String leadingWidget,
-      String title,
+      {String title,
       String description,
+      String image,
       String url,
       LaunchMode urlLaunchMode,
       Color? backgroundColor,
@@ -159,9 +157,9 @@ class __$$ServiceModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? leadingWidget = null,
     Object? title = null,
     Object? description = null,
+    Object? image = null,
     Object? url = null,
     Object? urlLaunchMode = null,
     Object? backgroundColor = freezed,
@@ -171,10 +169,6 @@ class __$$ServiceModelImplCopyWithImpl<$Res>
     Object? gradientEnd = freezed,
   }) {
     return _then(_$ServiceModelImpl(
-      leadingWidget: null == leadingWidget
-          ? _value.leadingWidget
-          : leadingWidget // ignore: cast_nullable_to_non_nullable
-              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -182,6 +176,10 @@ class __$$ServiceModelImplCopyWithImpl<$Res>
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
       url: null == url
           ? _value.url
@@ -224,9 +222,9 @@ class __$$ServiceModelImplCopyWithImpl<$Res>
 ])
 class _$ServiceModelImpl extends _ServiceModel {
   const _$ServiceModelImpl(
-      {required this.leadingWidget,
-      required this.title,
+      {required this.title,
       required this.description,
+      required this.image,
       required this.url,
       required this.urlLaunchMode,
       required this.backgroundColor,
@@ -240,23 +238,26 @@ class _$ServiceModelImpl extends _ServiceModel {
   factory _$ServiceModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServiceModelImplFromJson(json);
 
-// SVG or PNG
-  @override
-  final String leadingWidget;
   @override
   final String title;
   @override
   final String description;
+// SVG or PNG
+  @override
+  final String image;
 // Deeplink or link
   @override
   final String url;
   @override
   final LaunchMode urlLaunchMode;
+// colors
   @override
   final Color? backgroundColor;
   @override
   final Color foregroundColor;
+// gradient
   final List<Color>? _gradientColors;
+// gradient
   @override
   List<Color>? get gradientColors {
     final value = _gradientColors;
@@ -273,7 +274,7 @@ class _$ServiceModelImpl extends _ServiceModel {
 
   @override
   String toString() {
-    return 'ServiceModel(leadingWidget: $leadingWidget, title: $title, description: $description, url: $url, urlLaunchMode: $urlLaunchMode, backgroundColor: $backgroundColor, foregroundColor: $foregroundColor, gradientColors: $gradientColors, gradientBegin: $gradientBegin, gradientEnd: $gradientEnd)';
+    return 'ServiceModel(title: $title, description: $description, image: $image, url: $url, urlLaunchMode: $urlLaunchMode, backgroundColor: $backgroundColor, foregroundColor: $foregroundColor, gradientColors: $gradientColors, gradientBegin: $gradientBegin, gradientEnd: $gradientEnd)';
   }
 
   @override
@@ -281,11 +282,10 @@ class _$ServiceModelImpl extends _ServiceModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ServiceModelImpl &&
-            (identical(other.leadingWidget, leadingWidget) ||
-                other.leadingWidget == leadingWidget) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.urlLaunchMode, urlLaunchMode) ||
                 other.urlLaunchMode == urlLaunchMode) &&
@@ -305,9 +305,9 @@ class _$ServiceModelImpl extends _ServiceModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      leadingWidget,
       title,
       description,
+      image,
       url,
       urlLaunchMode,
       backgroundColor,
@@ -332,9 +332,9 @@ class _$ServiceModelImpl extends _ServiceModel {
 
 abstract class _ServiceModel extends ServiceModel {
   const factory _ServiceModel(
-      {required final String leadingWidget,
-      required final String title,
+      {required final String title,
       required final String description,
+      required final String image,
       required final String url,
       required final LaunchMode urlLaunchMode,
       required final Color? backgroundColor,
@@ -347,21 +347,21 @@ abstract class _ServiceModel extends ServiceModel {
   factory _ServiceModel.fromJson(Map<String, dynamic> json) =
       _$ServiceModelImpl.fromJson;
 
-  @override // SVG or PNG
-  String get leadingWidget;
   @override
   String get title;
   @override
   String get description;
+  @override // SVG or PNG
+  String get image;
   @override // Deeplink or link
   String get url;
   @override
   LaunchMode get urlLaunchMode;
-  @override
+  @override // colors
   Color? get backgroundColor;
   @override
   Color get foregroundColor;
-  @override
+  @override // gradient
   List<Color>? get gradientColors;
   @override
   Alignment? get gradientBegin;

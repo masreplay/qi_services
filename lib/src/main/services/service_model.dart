@@ -21,15 +21,21 @@ class ServiceModel with _$ServiceModel {
     ],
   )
   const factory ServiceModel({
-    // SVG or PNG
-    required String leadingWidget,
     required String title,
     required String description,
+
+    // SVG or PNG
+    required String image,
+
     // Deeplink or link
     required String url,
     required LaunchMode urlLaunchMode,
+
+    // colors
     required Color? backgroundColor,
     required Color foregroundColor,
+
+    // gradient
     required List<Color>? gradientColors,
     required Alignment? gradientBegin,
     required Alignment? gradientEnd,
@@ -43,7 +49,7 @@ class ServiceModel with _$ServiceModel {
       description: description,
       foregroundColor: foregroundColor,
       icon: _ImageNetwork(
-        leadingWidget,
+        image,
         fit: BoxFit.contain,
         color: foregroundColor,
       ),

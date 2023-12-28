@@ -2,8 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
+import 'package:qi_services/src/main/services/service_model.dart';
 import 'package:qi_services/unimplemented.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'services_repository.dart';
+
+part 'services_page.g.dart';
+
+@riverpod
+Future<List<ServiceModel>> getServices(GetServicesRef ref) {
+  return ref.read(servicesRepositoryProvider).getAll();
+}
 
 class ServiceData {
   const ServiceData({
@@ -37,17 +49,25 @@ enum LayoutType {
 }
 
 @RoutePage()
-class ServicesPage extends HookWidget {
+class ServicesPage extends HookConsumerWidget {
   const ServicesPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
 
-
     final selectedLayout = useState(LayoutType.list);
+    final state = ref.watch(getServicesProvider);
 
     final services = <ServiceData>[
+      ...state.maybeWhen(
+        data: (data) {
+          return [
+            for (final service in data) service.toServiceData(context: context),
+          ];
+        },
+        orElse: () => [],
+      ),
       ServiceData(
         icon: const Icon(Icons.account_balance),
         title: l10n.serviceCardIssuance,
@@ -194,11 +214,10 @@ class ServicesPage extends HookWidget {
           padding: const EdgeInsets.symmetric(vertical: Insets.medium),
           itemCount: services.length,
           itemBuilder: (context, index) {
-            final service = services[index];
-            return ServiceListTile(service: service);
+            return ServiceListTile(services[index]);
           },
           separatorBuilder: (context, _) {
-            return const SizedBox.square(dimension: Insets.large);
+            return const SizedBox.square(dimension: Insets.small);
           },
         );
         break;
@@ -216,8 +235,7 @@ class ServicesPage extends HookWidget {
             mainAxisSpacing: Insets.medium,
           ),
           itemBuilder: (context, index) {
-            final service = services[index];
-            return ServiceGridTile(service: service);
+            return ServiceGridTile(services[index]);
           },
         );
         break;
@@ -245,7 +263,12 @@ class ServicesPage extends HookWidget {
             ),
           ),
         Expanded(
-          child: layoutWidget.animate().fadeIn(),
+          child: RefreshIndicator(
+            onRefresh: () {
+              return ref.refresh(getServicesProvider.future);
+            },
+            child: layoutWidget.animate().fadeIn(),
+          ),
         ),
       ],
     );
@@ -253,50 +276,81 @@ class ServicesPage extends HookWidget {
 }
 
 class ServiceListTile extends StatelessWidget {
-  const ServiceListTile({
+  const ServiceListTile(
+    this.data, {
     super.key,
-    required this.service,
   });
 
-  final ServiceData service;
+  final ServiceData data;
 
   @override
   Widget build(BuildContext context) {
-    final description = service.description;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+    final description = data.description;
 
-    return ListTile(
-      leading: AspectRatio(
-        aspectRatio: 1 / 1,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Radiuses.medium),
-            gradient: service.gradient,
-          ),
-          child: IconTheme(
-            data: IconThemeData(color: service.foregroundColor),
-            child: Center(
-              child: SizedBox.square(
-                dimension: IconSizes.medium,
-                child: service.icon,
+    return InkWell(
+      onTap: data.onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Insets.medium,
+          vertical: Insets.small,
+        ),
+        child: RowPadded(
+          spacing: Insets.medium,
+          children: [
+            Container(
+              width: 56.0,
+              height: 56.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Radiuses.medium),
+                gradient: data.gradient,
+              ),
+              child: IconTheme(
+                data: IconThemeData(color: data.foregroundColor),
+                child: Center(
+                  child: SizedBox.square(
+                    dimension: IconSizes.medium,
+                    child: data.icon,
+                  ),
+                ),
               ),
             ),
-          ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.title,
+                    style: textTheme.bodyLarge!.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                  if (description != null)
+                    Text(
+                      description,
+                      style: textTheme.bodyMedium!.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
-      title: Text(service.title),
-      subtitle: description == null ? null : Text(description),
-      onTap: service.onTap,
     );
   }
 }
 
 class ServiceGridTile extends StatelessWidget {
-  const ServiceGridTile({
+  const ServiceGridTile(
+    this.data, {
     super.key,
-    required this.service,
   });
 
-  final ServiceData service;
+  final ServiceData data;
 
   @override
   Widget build(BuildContext context) {
@@ -305,105 +359,50 @@ class ServiceGridTile extends StatelessWidget {
     const foregroundColor = Color(0xFFFFFFFF);
     final borderRadius = BorderRadius.circular(24.0);
 
-    //   return InkWell(
-    //     borderRadius: borderRadius,
-    //     onTap: onTap,
-    //     child: Ink(
-    //       padding: const EdgeInsets.all(8.0),
-    //       decoration: BoxDecoration(
-    //         borderRadius: borderRadius,
-    //         gradient: LinearGradient(
-    //           begin: Alignment.topCenter,
-    //           end: Alignment.bottomCenter,
-    //           colors: gradient,
-    //         ),
-    //       ),
-    //       child: ColumnPadded(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           Container(
-    //             padding: const EdgeInsets.all(8.0),
-    //             decoration: BoxDecoration(
-    //               color: foregroundColor.withOpacity(0.1),
-    //               shape: BoxShape.circle,
-    //             ),
-    //             child: Container(
-    //               padding: const EdgeInsets.all(12.0),
-    //               decoration: BoxDecoration(
-    //                 color: foregroundColor.withOpacity(0.1),
-    //                 shape: BoxShape.circle,
-    //               ),
-    //               child: SizedBox.square(
-    //                 dimension: IconSizes.extraLarge,
-    //                 child: IconTheme(
-    //                   data: const IconThemeData(
-    //                     color: foregroundColor,
-    //                     size: 36.0,
-    //                   ),
-    //                   child: icon,
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //           DefaultTextStyle(
-    //             style: textTheme.titleLarge!.copyWith(
-    //               color: foregroundColor,
-    //               fontWeight: FontWeight.bold,
-    //             ),
-    //             child: title,
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    return Container(
+    return Ink(
       decoration: BoxDecoration(
         borderRadius: borderRadius,
-        gradient: service.gradient,
+        gradient: data.gradient,
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: borderRadius,
-          onTap: service.onTap,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: data.onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: foregroundColor.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
                   color: foregroundColor.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Container(
-                  padding: const EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                    color: foregroundColor.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: SizedBox.square(
-                    dimension: IconSizes.extraLarge,
-                    child: IconTheme(
-                      data: const IconThemeData(
-                        color: foregroundColor,
-                        size: 36.0,
-                      ),
-                      child: service.icon,
+                child: SizedBox.square(
+                  dimension: IconSizes.extraLarge,
+                  child: IconTheme(
+                    data: const IconThemeData(
+                      color: foregroundColor,
+                      size: 36.0,
                     ),
+                    child: data.icon,
                   ),
                 ),
               ),
-              DefaultTextStyle(
-                style: textTheme.titleLarge!.copyWith(
-                  color: foregroundColor,
-                  fontWeight: FontWeight.bold,
-                ),
-                child: Text(service.title),
+            ),
+            DefaultTextStyle(
+              style: textTheme.titleLarge!.copyWith(
+                color: foregroundColor,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+              child: Text(data.title),
+            ),
+          ],
         ),
       ),
     );
