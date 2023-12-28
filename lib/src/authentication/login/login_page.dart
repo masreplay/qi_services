@@ -7,6 +7,7 @@ import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/faker.dart';
 import 'package:qi_services/phone_number/phone_number.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
+import 'package:qi_services/unimplemented.dart';
 
 @RoutePage()
 class LoginPage extends HookConsumerWidget {
@@ -86,17 +87,13 @@ class LoginPage extends HookConsumerWidget {
           ),
           TextButton(
             onPressed: () {
-              scaffoldMessenger.showSnackBar(
-                SnackBar(content: Text(l10n.unimplementedFeature)),
-              );
+              showUnimplementedFeature(context: context);
             },
             child: Text(l10n.forgotYourPassword),
           ),
           TextButton(
             onPressed: () {
-              scaffoldMessenger.showSnackBar(
-                SnackBar(content: Text(l10n.unimplementedFeature)),
-              );
+              showUnimplementedFeature(context: context);
             },
             child: Text(l10n.createNewAccount),
           ),

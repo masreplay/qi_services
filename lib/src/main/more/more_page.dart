@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:qi_services/src/main/more/m3_alert.dart';
+import 'package:qi_services/unimplemented.dart';
 
 /// https://m3.material.io/foundations/layout/applying-layout/window-size-classes#35037e9b-550e-4fc0-9edd-4ef8e7a55b02
 /// A settings or more view offering quick navigation and actions is a good use of two panes in a medium layout
@@ -18,7 +19,6 @@ class MorePage extends HookConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -55,11 +55,7 @@ class MorePage extends HookConsumerWidget {
               description: Text(l10n.finishRegistrationDescription),
               image: Assets.illustrations.finishRegistration.svg(),
               onPressed: () {
-                scaffoldMessenger.showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.unimplementedFeature),
-                  ),
-                );
+                showUnimplementedFeature(context: context);
               },
             ),
             ListTile(
@@ -68,11 +64,7 @@ class MorePage extends HookConsumerWidget {
               leading: Icon(Icons.adaptive.share_outlined),
               trailing: TextButton(
                 onPressed: () {
-                  scaffoldMessenger.showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.unimplementedFeature),
-                    ),
-                  );
+                  showUnimplementedFeature(context: context);
                 },
                 child: Text(l10n.share),
               ),
@@ -88,33 +80,21 @@ class MorePage extends HookConsumerWidget {
               title: Text(l10n.rateUs),
               leading: const Icon(Icons.star_outline_rounded),
               onTap: () {
-                scaffoldMessenger.showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.unimplementedFeature),
-                  ),
-                );
+                showUnimplementedFeature(context: context);
               },
             ),
             ListTile(
               title: Text(l10n.rateCallCenterService),
               leading: const Icon(Icons.call_outlined),
               onTap: () {
-                scaffoldMessenger.showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.unimplementedFeature),
-                  ),
-                );
+                showUnimplementedFeature(context: context);
               },
             ),
             ListTile(
               title: Text(l10n.aboutApp),
               leading: const Icon(Icons.info_outline),
               onTap: () {
-                scaffoldMessenger.showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.unimplementedFeature),
-                  ),
-                );
+                showUnimplementedFeature(context: context);
               },
             ),
           ],
