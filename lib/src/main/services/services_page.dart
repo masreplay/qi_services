@@ -5,6 +5,7 @@ import 'package:qi_services/src/main/services/service_model.dart';
 import 'package:qi_services/unimplemented.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'layout.dart';
 import 'services_repository.dart';
 
 part 'services_page.g.dart';
@@ -41,12 +42,6 @@ class ServiceData {
   final VoidCallback onTap;
 }
 
-enum LayoutType {
-  list,
-  grid,
-  mixed,
-}
-
 @RoutePage()
 class ServicesPage extends HookConsumerWidget {
   const ServicesPage({super.key});
@@ -54,8 +49,6 @@ class ServicesPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(getServicesProvider);
-
-    const selectedLayout = LayoutType.mixed;
 
     final l10n = context.l10n;
 
@@ -156,133 +149,54 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final categories = [
-      (
-        title: null,
-        layout: LayoutType.grid,
-        services: state.maybeWhen(
-          orElse: () => [],
+    final data = [
+      LayoutCategory(
+        layout: LayoutViewVariant.list,
+        data: state.maybeWhen(
+          orElse: () => <ServiceData>[],
           data: (data) {
             return data.map((e) => e.toServiceData(context: context)).toList();
           },
         ),
       ),
-      (
+      LayoutCategory(
         title: "خدمات بطاقتي",
-        layout: LayoutType.list,
-        services: [
+        layout: LayoutViewVariant.list,
+        data: [
           cardIssuanceService,
           specialCardsService,
         ],
       ),
-      (
-        title: null,
-        layout: LayoutType.grid,
-        services: [
+      LayoutCategory(
+        layout: LayoutViewVariant.grid,
+        data: [
           installmentsService,
           tasdeedService,
           seliftyService,
-        ]
+        ],
       ),
-      (
-        title: null,
-        layout: LayoutType.list,
-        services: [
+      LayoutCategory(
+        layout: LayoutViewVariant.list,
+        data: [
           qiPlacesService,
           digitalZoneService,
           alRafidainLoansService,
-        ]
+        ],
       ),
     ];
 
-    final data = <ServiceData>[
-      for (final category in categories) ...category.services,
-    ];
-
-    Widget layoutWidget;
-
-    switch (selectedLayout) {
-      case LayoutType.list:
-        layoutWidget = ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: Insets.medium),
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return ServiceListTile(
-              data[index],
-              index: index,
-            );
-          },
-          separatorBuilder: (context, _) {
-            return const SizedBox.square(dimension: Insets.small);
-          },
-        );
-        break;
-      case LayoutType.grid:
-        layoutWidget = Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(Insets.medium),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  for (final service in data.sublist(0, 3))
-                    Expanded(child: ServiceGridTile(service)),
-                ],
-              ),
-            ),
-          ],
-        );
-        break;
-      case LayoutType.mixed:
-        layoutWidget = SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            vertical: Insets.medium,
-            horizontal: Insets.medium,
-          ),
-          child: ColumnPadded(
-            spacing: Insets.medium,
-            children: [
-              for (final category in categories)
-                ColumnPadded(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (category.title != null)
-                      Text(
-                        category.title!,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    if (category.layout == LayoutType.list)
-                      Column(
-                        children: [
-                          for (final service in category.services)
-                            ServiceListTile(service),
-                        ],
-                      ),
-                    if (category.layout == LayoutType.grid)
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          for (var i = 0; i < 3; i++)
-                            if (i < category.services.length)
-                              Expanded(
-                                child: ServiceGridTile(category.services[i]),
-                              )
-                            else
-                              const Spacer(),
-                        ],
-                      ),
-                  ],
-                ),
-            ],
-          ),
-        );
-        break;
-    }
     return RefreshIndicator(
       onRefresh: () => ref.refresh(getServicesProvider.future),
-      child: layoutWidget,
+      child: LayoutView(
+        data,
+        type: LayoutViewVariant.list,
+        listTileBuilder: (context, index, item) {
+          return ServiceListTile(item, index: index);
+        },
+        gridTileBuilder: (context, index, item) {
+          return ServiceGridTile(item);
+        },
+      ),
     );
   }
 }
