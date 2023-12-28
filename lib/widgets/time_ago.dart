@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:qi_services/common_lib.dart';
 
+const Duration _timeAgoDuration = Duration(seconds: 1);
+
 class TimeAgo extends HookWidget {
   const TimeAgo({
     super.key,
     required this.builder,
-    this.duration = const Duration(seconds: 1),
+    this.duration = _timeAgoDuration,
   });
 
   final Widget Function(BuildContext context, DateTime now) builder;

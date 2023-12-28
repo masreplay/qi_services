@@ -13,7 +13,7 @@ abstract final class DefaultIcons {
   static const IconData account = Icons.credit_card;
 
   // service
-  static const IconData service = AppIcons.service;
+  static const IconData service = GeneratedIcons.service;
 
   // more
   static const IconData more = Icons.more_horiz_outlined;
@@ -23,7 +23,7 @@ abstract final class DefaultIcons {
 
   // theme
   static const IconData theme = Icons.color_lens_outlined;
-  
+
   // common
   static const IconData search = Icons.search_outlined;
   static const IconData password = Icons.lock_outline;

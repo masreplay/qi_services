@@ -11,6 +11,7 @@ linter:
 analyzer:
   # ignore generated files
   exclude:
+    - "lib/icons/generated_icons.dart"
     - "**/*.g.dart"
     - "**/*.gen.dart"
     - "**/*.freezed.dart"
