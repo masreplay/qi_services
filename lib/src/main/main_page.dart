@@ -1,12 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/icons/icons.dart';
 
 typedef AppRoute = ({
   String labelText,
   IconData icon,
-  IconData selectedIcon,
   PageRouteInfo page,
 });
 
@@ -17,31 +15,29 @@ class MainPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
 
     // Using routes as [List] of [Record] to change routing behavior for each size.
     final routes = <AppRoute>[
       (
         labelText: l10n.account,
-        icon: Icons.wallet,
-        selectedIcon: Icons.wallet,
+        icon: DefaultIcons.account,
         page: const AccountRoute(),
       ),
       (
         labelText: l10n.transfer,
-        icon: Icons.swap_horiz_outlined,
-        selectedIcon: AppIcons.service,
+        icon: DefaultIcons.transfer,
         page: const TransferRoute(),
       ),
       (
         labelText: l10n.services,
-        icon: Icons.layers_outlined,
-        selectedIcon: Icons.layers,
+        icon: DefaultIcons.service,
         page: const ServicesRoute(),
       ),
       (
         labelText: l10n.more,
-        icon: Icons.more_horiz_outlined,
-        selectedIcon: Icons.more_horiz,
+        icon: DefaultIcons.more,
         page: const MoreRoute(),
       ),
     ];
@@ -73,14 +69,27 @@ class MainPage extends HookConsumerWidget {
           bottomNavigationBar: NavigationBar(
             selectedIndex: tabsRouter.activeIndex,
             onDestinationSelected: tabsRouter.setActiveIndex,
-            destinations: [
-              for (final route in routes)
-                NavigationDestination(
-                  icon: Icon(route.icon),
-                  selectedIcon: Icon(route.selectedIcon),
-                  label: route.labelText,
+            destinations: List.generate(routes.length, (index) {
+              final route = routes[index];
+              final selected = index == tabsRouter.activeIndex;
+
+              // [NavigationBarTheme] is used to change the style of the label.
+              return NavigationBarTheme(
+                data: NavigationBarThemeData(
+                  labelTextStyle: MaterialStateProperty.all(
+                    textTheme.bodySmall?.copyWith(
+                      fontWeight:
+                          selected ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
                 ),
-            ],
+                child: NavigationDestination(
+                  icon: Icon(route.icon),
+                  label: route.labelText,
+                  enabled: true,
+                ),
+              );
+            }),
           ),
         );
       },
@@ -94,8 +103,6 @@ class AppNameText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-
-    print(l10n.localeName);
 
     return switch (l10n.localeName) {
       "ar" => RowPadded(

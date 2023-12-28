@@ -25,7 +25,7 @@ class SettingsPage extends HookConsumerWidget {
           ListTile(
             title: Text(l10n.theme),
             leading: Icon(
-              DefaultAppIcons.theme,
+              DefaultIcons.theme,
               color: colorScheme.primary,
             ),
             subtitle: Text(settings.themeMode.localize(l10n)),
@@ -116,7 +116,7 @@ Future<void> showThemeDialog({
 
           return AlertDialog(
             title: Text(l10n.theme),
-            icon: const Icon(DefaultAppIcons.theme),
+            icon: const Icon(DefaultIcons.theme),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
