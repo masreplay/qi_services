@@ -60,7 +60,7 @@ flutter:
   generate: true
   
   assets:
-    - assets/app/
+    - assets/logo/
     - assets/illustrations/
   
   fonts:

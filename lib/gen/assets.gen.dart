@@ -9,13 +9,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
-class $AssetsAppGen {
-  const $AssetsAppGen();
-
-  /// File path: assets/app/logo.webp
-  AssetGenImage get logo => const AssetGenImage('assets/app/logo.webp');
-}
-
 class $AssetsIllustrationsGen {
   const $AssetsIllustrationsGen();
 
@@ -28,12 +21,31 @@ class $AssetsIllustrationsGen {
       const AssetGenImage('assets/illustrations/no-data.png');
 }
 
+class $AssetsLogoGen {
+  const $AssetsLogoGen();
+
+  /// File path: assets/logo/aksati-logo.webp
+  AssetGenImage get aksatiLogo =>
+      const AssetGenImage('assets/logo/aksati-logo.webp');
+
+  /// File path: assets/logo/alrafidain-logo.png
+  AssetGenImage get alrafidainLogo =>
+      const AssetGenImage('assets/logo/alrafidain-logo.png');
+
+  /// File path: assets/logo/app-logo.webp
+  AssetGenImage get appLogo => const AssetGenImage('assets/logo/app-logo.webp');
+
+  /// File path: assets/logo/digital_zone_ad.png
+  AssetGenImage get digitalZoneAd =>
+      const AssetGenImage('assets/logo/digital_zone_ad.png');
+}
+
 class Assets {
   Assets._();
 
-  static const $AssetsAppGen app = $AssetsAppGen();
   static const $AssetsIllustrationsGen illustrations =
       $AssetsIllustrationsGen();
+  static const $AssetsLogoGen logo = $AssetsLogoGen();
 }
 
 class AssetGenImage extends AssetImage {
