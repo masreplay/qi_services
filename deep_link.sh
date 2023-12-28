@@ -1,0 +1,1 @@
+adb shell am start -a android.intent.action.VIEW  -c android.intent.category.BROWSABLE  -d "http://qi.iq/add_card" com.mas.qi
