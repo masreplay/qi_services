@@ -21,6 +21,11 @@ abstract final class DefaultIcons {
   // transfer
   static const IconData transfer = Icons.currency_exchange;
 
+  // notifications
+  static const IconData notifications = Icons.notifications_outlined;
+  
+  static const IconData add_card = Icons.add_card_outlined;
+
   // theme
   static const IconData theme = Icons.color_lens_outlined;
 

@@ -1,5 +1,7 @@
 {
   "ar": [
-    "open"
+    "open",
+    "addCard",
+    "notifications"
   ]
 }
