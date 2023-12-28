@@ -37,8 +37,35 @@ enum ResponsiveSize {
   }
 }
 
+class ResponsiveLayoutWhenBuilder extends StatelessWidget {
+  const ResponsiveLayoutWhenBuilder({
+    super.key,
+    required this.compact,
+    required this.medium,
+    required this.expanded,
+  });
 
-/// 
+  final WidgetBuilder compact;
+  final WidgetBuilder medium;
+  final WidgetBuilder expanded;
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveLayoutBuilder(
+      builder: (context, constraints, size) {
+        switch (size) {
+          case ResponsiveSize.compact:
+            return compact(context);
+          case ResponsiveSize.medium:
+            return medium(context);
+          case ResponsiveSize.expanded:
+            return expanded(context);
+        }
+      },
+    );
+  }
+}
+
 /// No need to prevent unnecessary rebuilds because it's already implemented in [LayoutBuilder]
 class ResponsiveLayoutBuilder extends StatelessWidget {
   const ResponsiveLayoutBuilder({

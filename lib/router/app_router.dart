@@ -48,6 +48,11 @@ class AppRouter extends _$AppRouter {
             path: 'more',
             page: MoreRoute.page,
           ),
+          AutoRoute(
+            path: 'notifications',
+            page: NotificationsRoute.page,
+            guards: [_authenticatedGuard],
+          ),
         ],
       ),
       AutoRoute(
@@ -64,11 +69,6 @@ class AppRouter extends _$AppRouter {
       AutoRoute(
         path: '/add_card',
         page: AddCardRoute.page,
-        guards: [_authenticatedGuard],
-      ),
-      AutoRoute(
-        path: '/notifications',
-        page: NotificationsRoute.page,
         guards: [_authenticatedGuard],
       ),
     ];

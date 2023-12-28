@@ -2,6 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/main/adaptive_destination.dart';
+import 'package:qi_services/src/main/notifications_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'main_page.g.dart';
+
+@riverpod
+Future<int> getNotificationsCount(GetNotificationsCountRef ref) {
+  return ref.read(notificationsRepositoryProvider).getCount();
+}
 
 /// https://m3.material.io/foundations/layout/understanding-layout/parts-of-layout
 /// https://m3.material.io/foundations/layout/applying-layout/window-size-classes#9e672e77-6d02-4f2b-841e-34c9136a702b
@@ -17,6 +26,8 @@ class MainPage extends HookConsumerWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    final notificationsCount = ref.watch(getNotificationsCountProvider);
 
     final account = (
       labelText: l10n.account,
@@ -54,46 +65,96 @@ class MainPage extends HookConsumerWidget {
       route: const NotificationsRoute()
     );
 
-    final destinations = [account, transfer, services, more];
+    final mainDestinations = [account, transfer, services, more];
 
-    return ResponsiveLayoutBuilder(
-      builder: (context, constraints, size) {
-        switch (size) {
-          case ResponsiveSize.compact:
-            return AutoTabsRouter(
-              routes: [
-                for (final destination in destinations) destination.route,
-              ],
-              transitionBuilder: (context, child, animation) {
-                return FadeTransition(opacity: animation, child: child);
-              },
-              builder: (context, child) {
-                final router = context.tabsRouter;
+    return ResponsiveLayoutWhenBuilder(
+      compact: (context) {
+        return AutoTabsRouter(
+          routes: [
+            for (final destination in mainDestinations) destination.route,
+          ],
+          transitionBuilder: (context, child, animation) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          builder: (context, child) {
+            final router = context.tabsRouter;
 
-                return Scaffold(
-                  floatingActionButton: FloatingActionButton(
-                    foregroundColor: colorScheme.onTertiaryContainer,
-                    backgroundColor: colorScheme.tertiaryContainer,
-                    elevation: 0,
-                    onPressed: () => context.router.push(addCard.route),
-                    child: Icon(addCard.icon),
-                  ),
-                  appBar: AdaptiveScaffoldCompactAppBar(
-                    destinations: [notifications],
-                  ),
-                  body: child,
-                  bottomNavigationBar: AdaptiveScaffoldCompactNavigationBar(
-                    router: router,
-                    destinations: destinations,
-                  ),
-                );
-              },
+            return Scaffold(
+              floatingActionButton: FloatingActionButton(
+                foregroundColor: colorScheme.onTertiaryContainer,
+                backgroundColor: colorScheme.tertiaryContainer,
+                elevation: 0,
+                onPressed: () => context.router.push(addCard.route),
+                child: Icon(addCard.icon),
+              ),
+              appBar: AdaptiveScaffoldCompactAppBar(
+                destinations: [notifications],
+              ),
+              body: child,
+              bottomNavigationBar: AdaptiveScaffoldCompactNavigationBar(
+                router: router,
+                destinations: mainDestinations,
+              ),
             );
-          case ResponsiveSize.medium:
-            return const Text("medium");
-          case ResponsiveSize.expanded:
-            return const Text("expanded");
-        }
+          },
+        );
+      },
+      medium: (context) {
+        return AutoTabsRouter(
+          routes: [
+            for (final destination in mainDestinations) destination.route,
+            notifications.route,
+          ],
+          transitionBuilder: (context, child, animation) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          builder: (context, child) {
+            final router = context.tabsRouter;
+
+            return Scaffold(
+              body: Row(
+                children: [
+                  NavigationRail(
+                    selectedIndex: router.activeIndex,
+                    onDestinationSelected: router.setActiveIndex,
+                    leading: FloatingActionButton(
+                      foregroundColor: colorScheme.onTertiaryContainer,
+                      backgroundColor: colorScheme.tertiaryContainer,
+                      elevation: 0,
+                      onPressed: () => context.router.push(addCard.route),
+                      child: Icon(addCard.icon),
+                    ),
+                    destinations: [
+                      for (final destination in mainDestinations)
+                        NavigationRailDestination(
+                          icon: Icon(destination.icon),
+                          label: Text(destination.labelText),
+                        ),
+                      NavigationRailDestination(
+                        icon: Badge(
+                          isLabelVisible: notificationsCount.maybeWhen(
+                            orElse: () => false,
+                            data: (value) => value > 0,
+                          ),
+                          label: notificationsCount.whenOrNull(
+                            data: (value) => Text(value.toString()),
+                          ),
+                          child: Icon(notifications.icon),
+                        ),
+                        label: Text(notifications.labelText),
+                      ),
+                    ],
+                  ),
+                  const VerticalDivider(thickness: 1, width: 1),
+                  Expanded(child: SafeArea(child: child)),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      expanded: (context) {
+        return Container();
       },
     );
   }
