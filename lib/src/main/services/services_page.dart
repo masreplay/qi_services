@@ -54,7 +54,7 @@ class ServicesPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
 
-    const selectedLayout = LayoutType.list;
+    const selectedLayout = LayoutType.grid;
     final state = ref.watch(getServicesProvider);
 
     final services = <ServiceData>[
@@ -223,21 +223,20 @@ class ServicesPage extends HookConsumerWidget {
         );
         break;
       case LayoutType.grid:
-        layoutWidget = GridView.builder(
-          padding: const EdgeInsets.symmetric(
-            vertical: Insets.medium,
-            horizontal: Insets.medium,
-          ),
-          itemCount: services.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1 / 1,
-            crossAxisSpacing: Insets.medium,
-            mainAxisSpacing: Insets.medium,
-          ),
-          itemBuilder: (context, index) {
-            return ServiceGridTile(services[index]);
-          },
+        layoutWidget = Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(Insets.medium),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  for (final service in services.sublist(0, 3))
+                    Expanded(child: ServiceGridTile(service)),
+                ],
+              ),
+            ),
+          ],
         );
         break;
     }
@@ -345,50 +344,81 @@ class ServiceGridTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    const foregroundColor = Color(0xFFFFFFFF);
-    final borderRadius = BorderRadius.circular(24.0);
 
-    return Ink(
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        gradient: data.gradient,
-      ),
-      child: InkWell(
-        borderRadius: borderRadius,
-        onTap: data.onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: foregroundColor.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                  color: foregroundColor.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: SizedBox.square(
-                  dimension: IconSizes.extraLarge,
-                  child: IconTheme(
-                    data: const IconThemeData(
-                      color: foregroundColor,
-                      size: 36.0,
+    final foregroundColor = data.foregroundColor;
+    final borderRadius = BorderRadius.circular(Radiuses.large);
+
+    return InkWell(
+      onLongPress: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            final description = data.description;
+
+            return Padding(
+              padding: const EdgeInsets.all(Insets.medium),
+              child: ColumnPadded(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: Text(data.title),
+                    subtitle: description == null ? null : Text(description),
+                    leading: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: borderRadius,
+                          gradient: data.gradient,
+                        ),
+                        child: IconTheme(
+                          data: IconThemeData(color: foregroundColor),
+                          child: FractionallySizedBox(
+                            widthFactor: 0.5,
+                            child: FittedBox(child: data.icon),
+                          ),
+                        ),
+                      ),
                     ),
-                    child: data.icon,
+                  ),
+                  FilledButton.icon(
+                    onPressed: data.onTap,
+                    icon: const Icon(Icons.open_in_new),
+                    label: Text(context.l10n.open),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      onTap: data.onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(Insets.xsmall),
+        child: ColumnPadded(
+          spacing: Insets.small,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: borderRadius,
+                  gradient: data.gradient,
+                ),
+                child: IconTheme(
+                  data: IconThemeData(color: foregroundColor),
+                  child: FractionallySizedBox(
+                    widthFactor: 0.5,
+                    child: FittedBox(child: data.icon),
                   ),
                 ),
               ),
             ),
             DefaultTextStyle(
-              style: textTheme.titleLarge!.copyWith(
-                color: foregroundColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: textTheme.bodyMedium!,
               child: Text(data.title),
             ),
           ],
