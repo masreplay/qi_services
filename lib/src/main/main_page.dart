@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/main/adaptive_destination.dart';
@@ -16,6 +15,8 @@ class MainPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     final account = (
       labelText: l10n.account,
@@ -71,10 +72,9 @@ class MainPage extends HookConsumerWidget {
 
                 return Scaffold(
                   floatingActionButton: FloatingActionButton(
-                    foregroundColor:
-                        Theme.of(context).colorScheme.onPrimaryContainer,
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
+                    foregroundColor: colorScheme.onTertiaryContainer,
+                    backgroundColor: colorScheme.tertiaryContainer,
+                    elevation: 0,
                     onPressed: () => context.router.push(addCard.route),
                     child: Icon(addCard.icon),
                   ),
@@ -113,35 +113,29 @@ class AdaptiveScaffoldCompactAppBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-
     return AppBar(
       title: RowPadded(
         spacing: Insets.small,
         children: [
-          AppLogo(
-            dimension: IconSizes.large,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
+          // AppLogo(
+          //   dimension: IconSizes.large,
+          //   borderRadius: BorderRadius.circular(8.0),
+          // ),
           Expanded(
             child: ColumnPadded(
               spacing: Insets.xsmall,
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const AppNameText(),
-                Animate(
-                  effects: const [SlideEffect(duration: Time.short)],
-                  child: Text(
-                    context.l10n.appNameSlogan,
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
+              children: const [
+                AppNameText(),
+                // Animate(
+                //   effects: const [SlideEffect(duration: Time.short)],
+                //   child: Text(
+                //     context.l10n.appNameSlogan,
+                //     style: textTheme.bodySmall?.copyWith(
+                //       color: colorScheme.onSurfaceVariant,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
