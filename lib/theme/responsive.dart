@@ -37,54 +37,55 @@ enum ResponsiveSize {
   }
 }
 
-class ResponsiveLayoutWhenBuilder extends StatelessWidget {
-  const ResponsiveLayoutWhenBuilder({
-    super.key,
-    required this.compact,
-    required this.medium,
-    required this.expanded,
-  });
-
-  final WidgetBuilder compact;
-  final WidgetBuilder medium;
-  final WidgetBuilder expanded;
-
-  @override
-  Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(
-      builder: (context, constraints, size) {
-        switch (size) {
-          case ResponsiveSize.compact:
-            return compact(context);
-          case ResponsiveSize.medium:
-            return medium(context);
-          case ResponsiveSize.expanded:
-            return expanded(context);
-        }
-      },
-    );
-  }
-}
+typedef ResponsiveWidgetBuilder = Widget Function(
+  BuildContext context,
+  BoxConstraints constraints,
+);
 
 /// No need to prevent unnecessary rebuilds because it's already implemented in [LayoutBuilder]
 class ResponsiveLayoutBuilder extends StatelessWidget {
-  const ResponsiveLayoutBuilder({
+  const ResponsiveLayoutBuilder.when({
     super.key,
-    required this.builder,
+    required ResponsiveWidgetBuilder this.compact,
+    required ResponsiveWidgetBuilder this.medium,
+    required ResponsiveWidgetBuilder this.expanded,
+  }) : orElse = null;
+
+  const ResponsiveLayoutBuilder.orElse({
+    super.key,
+    required ResponsiveWidgetBuilder this.orElse,
+    this.compact,
+    this.medium,
+    this.expanded,
   });
 
-  final Widget Function(
-    BuildContext context,
-    BoxConstraints constraints,
-    ResponsiveSize size,
-  ) builder;
+  final ResponsiveWidgetBuilder? compact;
+  final ResponsiveWidgetBuilder? medium;
+  final ResponsiveWidgetBuilder? expanded;
+  final ResponsiveWidgetBuilder? orElse;
 
   @override
   Widget build(BuildContext context) {
+    const Widget defaultWidget = SizedBox.shrink();
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        final size = ResponsiveSize.fromConstraints(constraints);
-        return builder(context, constraints, size);
+        final orElse = this.orElse?.call(context, constraints);
+
+        switch (ResponsiveSize.fromConstraints(constraints)) {
+          case ResponsiveSize.compact:
+            return compact?.call(context, constraints) ??
+                orElse ??
+                defaultWidget;
+          case ResponsiveSize.medium:
+            return medium?.call(context, constraints) ??
+                orElse ??
+                defaultWidget;
+          case ResponsiveSize.expanded:
+            return expanded?.call(context, constraints) ??
+                orElse ??
+                defaultWidget;
+        }
       },
     );
   }

@@ -42,7 +42,9 @@ class AppLogo extends StatelessWidget {
   const AppLogo({
     super.key,
     required this.dimension,
-    required this.borderRadius,
+    this.borderRadius = const BorderRadius.all(
+      Radius.circular(Radiuses.small),
+    ),
   });
 
   final double dimension;
@@ -51,15 +53,6 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Container(
-    //   width: dimension,
-    //   height: dimension,
-    //   decoration: BoxDecoration(
-    //     color: Theme.of(context).colorScheme.secondaryContainer,
-    //     shape: BoxShape.circle,
-    //   ),
-    // );
-
     return ClipRRect(
       borderRadius: borderRadius,
       child: Assets.logo.appLogo.image(

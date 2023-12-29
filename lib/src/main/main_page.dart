@@ -65,10 +65,21 @@ class MainPage extends HookConsumerWidget {
       route: const NotificationsRoute()
     );
 
+    final Widget notificationIcon = Badge(
+      isLabelVisible: notificationsCount.maybeWhen(
+        orElse: () => false,
+        data: (value) => value > 0,
+      ),
+      label: notificationsCount.whenOrNull(
+        data: (value) => Text(value.toString()),
+      ),
+      child: Icon(notifications.icon),
+    );
+
     final mainDestinations = [account, transfer, services, more];
 
-    return ResponsiveLayoutWhenBuilder(
-      compact: (context) {
+    return ResponsiveLayoutBuilder.when(
+      compact: (context, constraints) {
         return AutoTabsRouter(
           routes: [
             for (final destination in mainDestinations) destination.route,
@@ -99,7 +110,7 @@ class MainPage extends HookConsumerWidget {
           },
         );
       },
-      medium: (context) {
+      medium: (context, constraints) {
         return AutoTabsRouter(
           routes: [
             for (final destination in mainDestinations) destination.route,
@@ -114,36 +125,55 @@ class MainPage extends HookConsumerWidget {
             return Scaffold(
               body: Row(
                 children: [
-                  NavigationRail(
-                    selectedIndex: router.activeIndex,
-                    onDestinationSelected: router.setActiveIndex,
-                    leading: FloatingActionButton(
-                      foregroundColor: colorScheme.onTertiaryContainer,
-                      backgroundColor: colorScheme.tertiaryContainer,
-                      elevation: 0,
-                      onPressed: () => context.router.push(addCard.route),
-                      child: Icon(addCard.icon),
-                    ),
-                    destinations: [
-                      for (final destination in mainDestinations)
-                        NavigationRailDestination(
-                          icon: Icon(destination.icon),
-                          label: Text(destination.labelText),
-                        ),
-                      NavigationRailDestination(
-                        icon: Badge(
-                          isLabelVisible: notificationsCount.maybeWhen(
-                            orElse: () => false,
-                            data: (value) => value > 0,
-                          ),
-                          label: notificationsCount.whenOrNull(
-                            data: (value) => Text(value.toString()),
-                          ),
-                          child: Icon(notifications.icon),
-                        ),
-                        label: Text(notifications.labelText),
+                  SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
                       ),
-                    ],
+                      child: IntrinsicHeight(
+                        child: NavigationRail(
+                          labelType: NavigationRailLabelType.selected,
+                          selectedIndex: router.activeIndex,
+                          onDestinationSelected: router.setActiveIndex,
+                          leading: Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: Insets.large,
+                            ),
+                            child: ColumnPadded(
+                              children: [
+                                const AppLogo(
+                                  dimension: 56.0,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(12.0),
+                                  ),
+                                ),
+                                FloatingActionButton(
+                                  foregroundColor:
+                                      colorScheme.onTertiaryContainer,
+                                  backgroundColor:
+                                      colorScheme.tertiaryContainer,
+                                  elevation: 0,
+                                  onPressed: () =>
+                                      context.router.push(addCard.route),
+                                  child: Icon(addCard.icon),
+                                ),
+                              ],
+                            ),
+                          ),
+                          destinations: [
+                            for (final destination in mainDestinations)
+                              NavigationRailDestination(
+                                icon: Icon(destination.icon),
+                                label: Text(destination.labelText),
+                              ),
+                            NavigationRailDestination(
+                              icon: notificationIcon,
+                              label: Text(notifications.labelText),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   const VerticalDivider(thickness: 1, width: 1),
                   Expanded(child: SafeArea(child: child)),
@@ -153,7 +183,7 @@ class MainPage extends HookConsumerWidget {
           },
         );
       },
-      expanded: (context) {
+      expanded: (context, constraints) {
         return Container();
       },
     );
