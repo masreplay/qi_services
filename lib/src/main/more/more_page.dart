@@ -49,7 +49,7 @@ class MorePage extends HookConsumerWidget {
                 ],
               ),
             ),
-            M3Alert.warning(
+            M3Alert.secondary(
               title: Text(l10n.finishRegistrationTitle),
               subtitle: Text(l10n.finishRegistrationSubtitle),
               description: Text(l10n.finishRegistrationDescription),

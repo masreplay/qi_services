@@ -9,7 +9,7 @@ enum _M3AlertVariant { warning }
 /// also
 /// https://m3.material.io/components/cards#behavior
 class M3Alert extends StatelessWidget {
-  const M3Alert.warning({
+  const M3Alert.secondary({
     super.key,
     required this.image,
     required this.title,
@@ -55,11 +55,13 @@ class M3Alert extends StatelessWidget {
 
     final theme = M3AlertTheme.of(context);
 
-    final backgroundColor =
-        this.backgroundColor ?? theme.backgroundColor ?? colorScheme.tertiary;
+    final backgroundColor = this.backgroundColor ??
+        theme.backgroundColor ??
+        colorScheme.secondaryContainer;
 
-    final foregroundColor =
-        this.foregroundColor ?? theme.foregroundColor ?? colorScheme.onTertiary;
+    final foregroundColor = this.foregroundColor ??
+        theme.foregroundColor ??
+        colorScheme.onSecondaryContainer;
 
     final margin = this.margin ??
         theme.margin ??

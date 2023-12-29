@@ -34,12 +34,13 @@ class MainTheme {
   }
 
   TextTheme _buildTextTheme(ThemeData theme) {
-    switch (localeName) {
-      case 'ar':
-        return GoogleFonts.cairoTextTheme(theme.textTheme);
-      default:
-        return GoogleFonts.montserratTextTheme(theme.textTheme);
-    }
+    return GoogleFonts.cairoTextTheme(theme.textTheme);
+    // switch (localeName) {
+    //   case 'ar':
+    //     return GoogleFonts.cairoTextTheme(theme.textTheme);
+    //   default:
+    //     return GoogleFonts.montserratTextTheme(theme.textTheme);
+    // }
   }
 
   InputDecorationTheme _buildInputDecorationTheme(ThemeData theme) {
