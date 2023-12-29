@@ -67,7 +67,7 @@ class MainPage extends HookConsumerWidget {
       route: const NotificationsRoute()
     );
 
-    final Widget notificationIcon = Badge(
+    final notificationIcon = Badge(
       isLabelVisible: notificationsCount.maybeWhen(
         orElse: () => false,
         data: (value) => value > 0,
@@ -107,13 +107,7 @@ class MainPage extends HookConsumerWidget {
             final appBar = AppBar(
               title: const AppNameText(),
               actions: [
-                for (final destination in [notifications])
-                  IconButton(
-                    icon: Icon(destination.icon),
-                    onPressed: () {
-                      context.router.push(destination.route);
-                    },
-                  ),
+                notificationIcon,
               ],
             );
 
@@ -202,45 +196,73 @@ class MainPage extends HookConsumerWidget {
         );
       },
       expanded: (context, constraints) {
-        AppBar(
-          title: RowPadded(
-            spacing: Insets.small,
-            children: [
-              AppLogo(
-                dimension: IconSizes.large,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              Expanded(
-                child: ColumnPadded(
-                  spacing: Insets.xsmall,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    AppNameText(),
-                    // Animate(
-                    //   effects: const [SlideEffect(duration: Time.short)],
-                    //   child: Text(
-                    //     context.l10n.appNameSlogan,
-                    //     style: textTheme.bodySmall?.copyWith(
-                    //       color: colorScheme.onSurfaceVariant,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+        return AutoTabsRouter(
+          routes: [
+            for (final destination in mainDestinations) destination.route,
+            notifications.route,
+          ],
+          transitionBuilder: (context, child, animation) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          builder: (context, child) {
+            final router = context.tabsRouter;
+
+            final navigation = SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: NavigationRail(
+                    labelType: NavigationRailLabelType.selected,
+                    selectedIndex: router.activeIndex,
+                    onDestinationSelected: router.setActiveIndex,
+                    leading: ColumnPadded(
+                      children: [
+                        const AppLogo(
+                          dimension: 56.0,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12.0),
+                          ),
+                        ),
+                        FloatingActionButton(
+                          foregroundColor: colorScheme.onTertiaryContainer,
+                          backgroundColor: colorScheme.tertiaryContainer,
+                          elevation: 0,
+                          onPressed: () => context.router.push(addCard.route),
+                          child: Icon(addCard.icon),
+                        ),
+                      ],
+                    ),
+                    destinations: [
+                      for (final destination in mainDestinations)
+                        NavigationRailDestination(
+                          icon: Icon(destination.icon),
+                          label: Text(destination.labelText),
+                        ),
+                      NavigationRailDestination(
+                        icon: notificationIcon,
+                        label: Text(notifications.labelText),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ],
-          ),
-          actions: [
-            for (final destination in mainDestinations)
-              IconButton(
-                icon: Icon(destination.icon),
-                onPressed: () {
-                  context.router.push(destination.route);
-                },
+            );
+
+            final body = Expanded(child: SafeArea(child: child));
+
+            return Scaffold(
+              body: Row(
+                children: [
+                  navigation,
+                  const VerticalDivider(thickness: 1, width: 1),
+                  body,
+                ],
               ),
-          ],
+            );
+          },
         );
-        return Container();
       },
     );
   }

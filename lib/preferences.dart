@@ -6,5 +6,4 @@ abstract final class Preferences {
 
   static const String authentication = "authentication";
   static const String settings = "settings";
-  static const String servicesLayoutType = "servicesLayoutType";
 }

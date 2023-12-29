@@ -8,8 +8,8 @@ part of 'service_model.dart';
 
 _$ServiceModelImpl _$$ServiceModelImplFromJson(Map<String, dynamic> json) =>
     _$ServiceModelImpl(
-      title: json['title'] as String,
-      description: json['description'] as String,
+      titles: Map<String, String>.from(json['titles'] as Map),
+      descriptions: Map<String, String>.from(json['descriptions'] as Map),
       image: json['image'] as String,
       url: json['url'] as String,
       urlLaunchMode: const _LaunchModeJsonConverter()
@@ -29,8 +29,8 @@ _$ServiceModelImpl _$$ServiceModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ServiceModelImplToJson(_$ServiceModelImpl instance) =>
     <String, dynamic>{
-      'title': instance.title,
-      'description': instance.description,
+      'titles': instance.titles,
+      'descriptions': instance.descriptions,
       'image': instance.image,
       'url': instance.url,
       'urlLaunchMode':

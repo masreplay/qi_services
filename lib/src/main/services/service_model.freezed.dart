@@ -20,8 +20,10 @@ ServiceModel _$ServiceModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ServiceModel {
-  String get title => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError; // SVG or PNG
+// map of language code to title
+  Map<String, String> get titles => throw _privateConstructorUsedError;
+  Map<String, String> get descriptions =>
+      throw _privateConstructorUsedError; // SVG or PNG
   String get image => throw _privateConstructorUsedError; // Deeplink or link
   String get url => throw _privateConstructorUsedError;
   LaunchMode get urlLaunchMode => throw _privateConstructorUsedError; // colors
@@ -44,8 +46,8 @@ abstract class $ServiceModelCopyWith<$Res> {
       _$ServiceModelCopyWithImpl<$Res, ServiceModel>;
   @useResult
   $Res call(
-      {String title,
-      String description,
+      {Map<String, String> titles,
+      Map<String, String> descriptions,
       String image,
       String url,
       LaunchMode urlLaunchMode,
@@ -69,8 +71,8 @@ class _$ServiceModelCopyWithImpl<$Res, $Val extends ServiceModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = null,
-    Object? description = null,
+    Object? titles = null,
+    Object? descriptions = null,
     Object? image = null,
     Object? url = null,
     Object? urlLaunchMode = null,
@@ -81,14 +83,14 @@ class _$ServiceModelCopyWithImpl<$Res, $Val extends ServiceModel>
     Object? gradientEnd = freezed,
   }) {
     return _then(_value.copyWith(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
+      titles: null == titles
+          ? _value.titles
+          : titles // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      descriptions: null == descriptions
+          ? _value.descriptions
+          : descriptions // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -134,8 +136,8 @@ abstract class _$$ServiceModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String title,
-      String description,
+      {Map<String, String> titles,
+      Map<String, String> descriptions,
       String image,
       String url,
       LaunchMode urlLaunchMode,
@@ -157,8 +159,8 @@ class __$$ServiceModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = null,
-    Object? description = null,
+    Object? titles = null,
+    Object? descriptions = null,
     Object? image = null,
     Object? url = null,
     Object? urlLaunchMode = null,
@@ -169,14 +171,14 @@ class __$$ServiceModelImplCopyWithImpl<$Res>
     Object? gradientEnd = freezed,
   }) {
     return _then(_$ServiceModelImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
+      titles: null == titles
+          ? _value._titles
+          : titles // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      descriptions: null == descriptions
+          ? _value._descriptions
+          : descriptions // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -222,8 +224,8 @@ class __$$ServiceModelImplCopyWithImpl<$Res>
 ])
 class _$ServiceModelImpl extends _ServiceModel {
   const _$ServiceModelImpl(
-      {required this.title,
-      required this.description,
+      {required final Map<String, String> titles,
+      required final Map<String, String> descriptions,
       required this.image,
       required this.url,
       required this.urlLaunchMode,
@@ -232,16 +234,32 @@ class _$ServiceModelImpl extends _ServiceModel {
       required final List<Color>? gradientColors,
       required this.gradientBegin,
       required this.gradientEnd})
-      : _gradientColors = gradientColors,
+      : _titles = titles,
+        _descriptions = descriptions,
+        _gradientColors = gradientColors,
         super._();
 
   factory _$ServiceModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServiceModelImplFromJson(json);
 
+// map of language code to title
+  final Map<String, String> _titles;
+// map of language code to title
   @override
-  final String title;
+  Map<String, String> get titles {
+    if (_titles is EqualUnmodifiableMapView) return _titles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_titles);
+  }
+
+  final Map<String, String> _descriptions;
   @override
-  final String description;
+  Map<String, String> get descriptions {
+    if (_descriptions is EqualUnmodifiableMapView) return _descriptions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_descriptions);
+  }
+
 // SVG or PNG
   @override
   final String image;
@@ -274,7 +292,7 @@ class _$ServiceModelImpl extends _ServiceModel {
 
   @override
   String toString() {
-    return 'ServiceModel(title: $title, description: $description, image: $image, url: $url, urlLaunchMode: $urlLaunchMode, backgroundColor: $backgroundColor, foregroundColor: $foregroundColor, gradientColors: $gradientColors, gradientBegin: $gradientBegin, gradientEnd: $gradientEnd)';
+    return 'ServiceModel(titles: $titles, descriptions: $descriptions, image: $image, url: $url, urlLaunchMode: $urlLaunchMode, backgroundColor: $backgroundColor, foregroundColor: $foregroundColor, gradientColors: $gradientColors, gradientBegin: $gradientBegin, gradientEnd: $gradientEnd)';
   }
 
   @override
@@ -282,9 +300,9 @@ class _$ServiceModelImpl extends _ServiceModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ServiceModelImpl &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
+            const DeepCollectionEquality().equals(other._titles, _titles) &&
+            const DeepCollectionEquality()
+                .equals(other._descriptions, _descriptions) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.urlLaunchMode, urlLaunchMode) ||
@@ -305,8 +323,8 @@ class _$ServiceModelImpl extends _ServiceModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      title,
-      description,
+      const DeepCollectionEquality().hash(_titles),
+      const DeepCollectionEquality().hash(_descriptions),
       image,
       url,
       urlLaunchMode,
@@ -332,8 +350,8 @@ class _$ServiceModelImpl extends _ServiceModel {
 
 abstract class _ServiceModel extends ServiceModel {
   const factory _ServiceModel(
-      {required final String title,
-      required final String description,
+      {required final Map<String, String> titles,
+      required final Map<String, String> descriptions,
       required final String image,
       required final String url,
       required final LaunchMode urlLaunchMode,
@@ -347,10 +365,10 @@ abstract class _ServiceModel extends ServiceModel {
   factory _ServiceModel.fromJson(Map<String, dynamic> json) =
       _$ServiceModelImpl.fromJson;
 
+  @override // map of language code to title
+  Map<String, String> get titles;
   @override
-  String get title;
-  @override
-  String get description;
+  Map<String, String> get descriptions;
   @override // SVG or PNG
   String get image;
   @override // Deeplink or link

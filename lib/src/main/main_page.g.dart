@@ -7,7 +7,7 @@ part of 'main_page.dart';
 // **************************************************************************
 
 String _$getNotificationsCountHash() =>
-    r'7c7f4cd6b1ecc668dbd3b7caf167979ead38e9d6';
+    r'66825893344f32d46996996124018a50c5394a98';
 
 /// See also [getNotificationsCount].
 @ProviderFor(getNotificationsCount)

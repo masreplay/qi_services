@@ -4,19 +4,19 @@ import 'package:qi_services/common_lib.dart';
 /// https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#window_size_classes
 enum ResponsiveSize {
   /// Phone in portrait
-  compact(0, 599),
+  compact(min: 0, max: 599),
 
   /// Tablet in portrait
   /// Foldable in portrait (unfolded)
-  medium(600, 839),
+  medium(min: 600, max: 839),
 
   /// Phone in landscape
   /// Tablet in landscape
   /// Foldable in landscape (unfolded)
   /// Desktop
-  expanded(840, double.infinity);
+  expanded(min: 840, max: double.infinity);
 
-  const ResponsiveSize(this.min, this.max);
+  const ResponsiveSize({required this.min, required this.max});
 
   /// The minimum width of the screen
   final double min;
@@ -27,12 +27,12 @@ enum ResponsiveSize {
   factory ResponsiveSize.fromConstraints(BoxConstraints constraints) {
     final width = constraints.maxWidth;
 
-    if (width < medium.max) {
-      return compact;
-    } else if (width < expanded.max) {
+    if (width >= expanded.min) {
+      return expanded;
+    } else if (width >= medium.min) {
       return medium;
     } else {
-      return expanded;
+      return compact;
     }
   }
 }
@@ -51,7 +51,7 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
     required ResponsiveWidgetBuilder this.expanded,
   }) : orElse = null;
 
-  const ResponsiveLayoutBuilder.orElse({
+  const ResponsiveLayoutBuilder.maybeWhen({
     super.key,
     required ResponsiveWidgetBuilder this.orElse,
     this.compact,

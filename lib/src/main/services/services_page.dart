@@ -1,13 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/preferences.dart';
 import 'package:qi_services/src/main/services/service_model.dart';
 import 'package:qi_services/unimplemented.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'layout.dart';
+import 'layout_view.dart';
 import 'services_repository.dart';
 
 part 'services_page.g.dart';
@@ -48,20 +46,9 @@ class ServiceData {
 class ServicesPage extends HookConsumerWidget {
   const ServicesPage({super.key});
 
-  LayoutViewVariant _getLayoutType(WidgetRef ref) {
-    final raw = ref
-        .read(sharedPreferencesProvider)
-        .getString(Preferences.servicesLayoutType);
-
-    return raw == null
-        ? LayoutViewVariant.list
-        : LayoutViewVariant.fromJson(raw);
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(getServicesProvider);
-    final layout = useState<LayoutViewVariant>(_getLayoutType(ref));
 
     final l10n = context.l10n;
 
@@ -91,7 +78,7 @@ class ServicesPage extends HookConsumerWidget {
     );
 
     final digitalZoneService = ServiceData(
-      icon: const Icon(Icons.flutter_dash),
+      icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceDigitalZone,
       foregroundColor: Colors.white,
       gradient: const LinearGradient(
@@ -102,9 +89,10 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final installmentsService = ServiceData(
-      icon: const Icon(Icons.flutter_dash),
-      title: l10n.serviceInstallments,
+    final aksatiService = ServiceData(
+      icon: Assets.logo.aksatiLogo.image(),
+      title: l10n.serviceAksati,
+      description: l10n.serviceAksatiDescription,
       foregroundColor: Colors.white,
       gradient: const LinearGradient(
         begin: Alignment.topCenter,
@@ -115,7 +103,7 @@ class ServicesPage extends HookConsumerWidget {
     );
 
     final qiPlacesService = ServiceData(
-      icon: const Icon(Icons.flutter_dash),
+      icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceQiPlaces,
       foregroundColor: Colors.white,
       gradient: const LinearGradient(
@@ -127,7 +115,7 @@ class ServicesPage extends HookConsumerWidget {
     );
 
     final tasdeedService = ServiceData(
-      icon: const Icon(Icons.flutter_dash),
+      icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceTasdeed,
       foregroundColor: Colors.white,
       gradient: const LinearGradient(
@@ -139,7 +127,7 @@ class ServicesPage extends HookConsumerWidget {
     );
 
     final seliftyService = ServiceData(
-      icon: const Icon(Icons.flutter_dash),
+      icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceSelifty,
       foregroundColor: Colors.white,
       gradient: const LinearGradient(
@@ -151,8 +139,8 @@ class ServicesPage extends HookConsumerWidget {
     );
 
     final alRafidainLoansService = ServiceData(
-      icon: const Icon(Icons.flutter_dash),
       title: l10n.serviceAlRafidainLoans,
+      icon: Assets.logo.alrafidainLogo.image(),
       foregroundColor: Colors.white,
       gradient: const LinearGradient(
         begin: Alignment.topCenter,
@@ -164,7 +152,7 @@ class ServicesPage extends HookConsumerWidget {
 
     final data = [
       LayoutCategory(
-        title: "جديد",
+        title: l10n.serviceCategoryTitleNewest,
         layout: LayoutViewVariant.list,
         data: state.maybeWhen(
           orElse: () => <ServiceData>[],
@@ -174,7 +162,7 @@ class ServicesPage extends HookConsumerWidget {
         ),
       ),
       LayoutCategory(
-        title: "خدمات بطاقتي",
+        title: l10n.serviceCategoryTitleMyCardServices,
         layout: LayoutViewVariant.list,
         data: [
           cardIssuanceService,
@@ -182,16 +170,16 @@ class ServicesPage extends HookConsumerWidget {
         ],
       ),
       LayoutCategory(
-        title: "خدمات التقسيط",
+        title: l10n.serviceCategoryTitleInstallmentServices,
         layout: LayoutViewVariant.grid,
         data: [
-          installmentsService,
+          aksatiService,
           tasdeedService,
           seliftyService,
         ],
       ),
       LayoutCategory(
-        title: "خدمات أخرى",
+        title: l10n.serviceCategoryTitleOtherServices,
         layout: LayoutViewVariant.list,
         data: [
           qiPlacesService,
@@ -203,23 +191,33 @@ class ServicesPage extends HookConsumerWidget {
 
     return RefreshIndicator(
       onRefresh: () => ref.refresh(getServicesProvider.future),
-      child: LayoutView(
-        data,
-        type: layout.value,
-        padding: const EdgeInsets.symmetric(
-          horizontal: Insets.medium,
-          vertical: Insets.small,
-        ),
-        delegate: const LayoutViewDelegate(
-          crossAxisCount: 3,
-          crossAxisSpacing: Insets.xsmall,
-          mainAxisSpacing: Insets.xsmall,
-        ),
-        listTileBuilder: (context, index, item) {
-          return ServiceListTile(item, index: index);
+      child: ResponsiveLayoutBuilder.maybeWhen(
+        compact: (context, constraints) {
+          return LayoutView(
+            data,
+            type: LayoutViewVariant.mixed,
+            padding: const EdgeInsets.symmetric(
+              horizontal: Insets.medium,
+              vertical: Insets.small,
+            ),
+            delegate: const LayoutViewDelegate(
+              crossAxisCount: 4,
+              crossAxisSpacing: Insets.xsmall,
+              mainAxisSpacing: Insets.xsmall,
+            ),
+            listTileBuilder: (context, index, item) {
+              return ServiceListTile(item, index: index);
+            },
+            gridTileBuilder: (context, index, item) {
+              return ServiceGridTile(
+                item,
+                showDescription: true,
+              );
+            },
+          );
         },
-        gridTileBuilder: (context, index, item) {
-          return ServiceGridTile(item);
+        orElse: (context, constraints) {
+          return Container();
         },
       ),
     );
@@ -319,9 +317,12 @@ class ServiceGridTile extends StatelessWidget {
   const ServiceGridTile(
     this.data, {
     super.key,
+    this.showDescription = false,
   });
 
   final ServiceData data;
+
+  final bool showDescription;
 
   @override
   Widget build(BuildContext context) {
@@ -330,6 +331,8 @@ class ServiceGridTile extends StatelessWidget {
 
     final foregroundColor = data.foregroundColor;
     final borderRadius = BorderRadius.circular(Radiuses.large);
+
+    final description = data.description;
 
     return InkWell(
       onLongPress: () {
@@ -342,7 +345,7 @@ class ServiceGridTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(Insets.xsmall),
         child: ColumnPadded(
-          spacing: Insets.small,
+          spacing: Insets.xsmall,
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -363,10 +366,23 @@ class ServiceGridTile extends StatelessWidget {
                 ),
               ),
             ),
-            DefaultTextStyle(
-              style: textTheme.bodyMedium!,
-              child: Text(data.title),
+            Text(
+              data.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: textTheme.bodyLarge!.copyWith(
+                color: theme.colorScheme.onSurface,
+              ),
             ),
+            if (showDescription && description != null)
+              Text(
+                description,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.bodyMedium!.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
           ],
         ),
       ),

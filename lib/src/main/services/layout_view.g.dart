@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'layout.dart';
+part of 'layout_view.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

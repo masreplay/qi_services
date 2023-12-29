@@ -28,6 +28,7 @@ abstract final class DefaultIcons {
 
   // theme
   static const IconData theme = Icons.color_lens_outlined;
+  static const IconData placeholder = Icons.image_outlined;
 
   // common
   static const IconData search = Icons.search_outlined;

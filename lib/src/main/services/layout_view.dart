@@ -2,7 +2,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:qi_services/common_lib.dart';
 
-part 'layout.g.dart';
+part 'layout_view.g.dart';
 
 /// A layout view variant [LayoutViewVariant]
 @JsonEnum(
@@ -25,7 +25,7 @@ enum LayoutViewVariant {
 
 class LayoutViewDelegate {
   const LayoutViewDelegate({
-    required this.crossAxisCount,
+    this.crossAxisCount = 3,
     this.maxCrossAxisExtent,
     this.mainAxisSpacing = 0.0,
     this.crossAxisSpacing = 0.0,
@@ -86,10 +86,15 @@ class LayoutView<T extends Object> extends StatelessWidget {
   });
 
   final EdgeInsets? padding;
+
   final List<LayoutCategory<T>> data;
+
   final LayoutViewVariant type;
+
   final LayoutViewDelegate? delegate;
+
   final LayoutViewListTileBuilder<T> listTileBuilder;
+
   final LayoutViewGridTileBuilder<T> gridTileBuilder;
 
   @override

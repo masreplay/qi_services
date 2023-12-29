@@ -105,7 +105,7 @@ class AccountPage extends HookConsumerWidget {
                   ),
                   AccountServiceGridTile(
                     title: Text(l10n.alRafidainLoans),
-                    icon: const Icon(Icons.flutter_dash),
+                    icon: const Icon(DefaultIcons.placeholder),
                     backgroundColor: const Color(0xff34A853),
                     foregroundColor: Colors.white,
                     onTap: () {},
@@ -113,7 +113,7 @@ class AccountPage extends HookConsumerWidget {
                   AccountServiceGridTile(
                     title: Text(l10n.trackRequests),
                     icon: const Icon(
-                      Icons.flutter_dash,
+                      DefaultIcons.placeholder,
                       color: AppColors.darkPink,
                     ),
                     backgroundColor: AppColors.pink,
@@ -121,7 +121,7 @@ class AccountPage extends HookConsumerWidget {
                   ),
                   AccountServiceGridTile(
                     title: Text(l10n.salafati),
-                    icon: const Icon(Icons.flutter_dash),
+                    icon: const Icon(DefaultIcons.placeholder),
                     backgroundColor: const Color(0xffA85BF5),
                     foregroundColor: Colors.white,
                     onTap: () {},

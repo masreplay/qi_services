@@ -21,8 +21,9 @@ class ServiceModel with _$ServiceModel {
     ],
   )
   const factory ServiceModel({
-    required String title,
-    required String description,
+    // map of language code to title
+    required Map<String, String> titles,
+    required Map<String, String> descriptions,
 
     // SVG or PNG
     required String image,
@@ -44,6 +45,16 @@ class ServiceModel with _$ServiceModel {
   ServiceData toServiceData({
     required BuildContext context,
   }) {
+    final String title = switch (context.l10n.localeName) {
+      "ar" => titles["ar"]!,
+      _ => titles["en"]!,
+    };
+
+    final description = switch (context.l10n.localeName) {
+      "ar" => descriptions["ar"]!,
+      _ => descriptions["en"]!,
+    };
+
     return ServiceData(
       title: title,
       description: description,

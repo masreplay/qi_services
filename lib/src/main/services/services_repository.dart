@@ -21,8 +21,14 @@ class ServicesRepository {
     await Future.delayed(const Duration(seconds: 2));
     return [
       const ServiceModel(
-        title: "من سيربح المليون",
-        description: "اربح ملايين الدولارات بالإجابة على الأسئلة",
+        titles: {
+          "ar": "من سيربح المليون",
+          "en": "Who wants to be a millionaire",
+        },
+        descriptions: {
+          "ar": "اربح ملايين الدولارات بالإجابة على الأسئلة",
+          "en": "Win millions of dollars by answering questions",
+        },
         image:
             "https://play-lh.googleusercontent.com/QYz93ZggjS3jZLkKVovlTCU1yxScNLV9A8c5Z2SgY2gPyh8TVecSfWns2cL4-KtD3A",
         url:

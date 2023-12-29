@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:universal_io/io.dart';
 
 import 'common_lib.dart';
 import 'src/main/main.dart';
