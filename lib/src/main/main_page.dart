@@ -75,7 +75,7 @@ class MainPage extends HookConsumerWidget {
         );
       },
       expanded: (context, constraints) {
-        return _MainPageMedium(
+        return _MainPageExpanded(
           destinations: destinations,
           constraints: constraints,
         );
@@ -84,91 +84,21 @@ class MainPage extends HookConsumerWidget {
   }
 }
 
-class _MainPageMedium extends StatelessWidget {
-  const _MainPageMedium({
-    required this.destinations,
-    required this.constraints,
-  });
-
-  final List<AdaptiveDestination> destinations;
-  final BoxConstraints constraints;
-
+class _NotificationIcon extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = getNotificationsCountProvider;
+    final state = ref.watch(provider);
 
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    final destinations = [...this.destinations];
-    return AutoTabsRouter(
-      routes: [
-        for (final destination in destinations) destination.route,
-      ],
-      transitionBuilder: (context, child, animation) {
-        return FadeTransition(opacity: animation, child: child);
-      },
-      builder: (context, child) {
-        final router = context.tabsRouter;
-
-        final navigation = NavigationRail(
-          labelType: NavigationRailLabelType.selected,
-          selectedIndex: router.activeIndex,
-          onDestinationSelected: router.setActiveIndex,
-          leading: ColumnPadded(
-            children: [
-              const AppLogo(
-                dimension: 56.0,
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
-              // https://m3.material.io/components/menus/guidelines#c17824c1-2008-4b08-972c-03544df5c784
-              FloatingActionButton(
-                foregroundColor: colorScheme.onTertiaryContainer,
-                backgroundColor: colorScheme.tertiaryContainer,
-                elevation: 0,
-                onPressed: () {
-                  showMenu(
-                    context: context,
-                    position: const RelativeRect.fromLTRB(0, 0, 0, 0),
-                    items: [],
-                  );
-                },
-                child: const Icon(DefaultIcons.add_card),
-              ),
-            ],
-          ),
-          destinations: [
-            for (final destination in destinations)
-              NavigationRailDestination(
-                icon: Icon(destination.icon),
-                label: Text(destination.labelText),
-              ),
-            NavigationRailDestination(
-              icon: _NotificationIcon(),
-              label: Text(l10n.notifications),
-            ),
-          ],
-        );
-
-        final body = Expanded(child: SafeArea(child: child));
-
-        return Scaffold(
-          body: Row(
-            children: [
-              SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: navigation,
-                  ),
-                ),
-              ),
-              const VerticalDivider(thickness: 1, width: 1),
-              body,
-            ],
-          ),
-        );
-      },
+    return Badge(
+      isLabelVisible: state.maybeWhen(
+        orElse: () => false,
+        data: (value) => value > 0,
+      ),
+      label: state.whenOrNull(
+        data: (value) => Text(value.toString()),
+      ),
+      child: const Icon(DefaultIcons.notifications),
     );
   }
 }
@@ -182,8 +112,6 @@ class _MainPageCompact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -233,26 +161,7 @@ class _MainPageCompact extends StatelessWidget {
             backgroundColor: colorScheme.tertiaryContainer,
             elevation: 0,
             onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(
-                        leading: const Icon(DefaultIcons.qr_code_scanner),
-                        title: Text(l10n.addCardQRScanTitle),
-                        subtitle: Text(l10n.addCardQRScanSubtitle),
-                        onTap: () {
-                          context.router.pop();
-                          showUnimplementedFeature(context: context);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
+              _showAddCardBottomSheet(context: context);
             },
             child: const Icon(DefaultIcons.add_card),
           ),
@@ -265,21 +174,209 @@ class _MainPageCompact extends StatelessWidget {
   }
 }
 
-class _NotificationIcon extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final provider = getNotificationsCountProvider;
-    final state = ref.watch(provider);
+class _MainPageMedium extends StatelessWidget {
+  const _MainPageMedium({
+    required this.destinations,
+    required this.constraints,
+  });
 
-    return Badge(
-      isLabelVisible: state.maybeWhen(
-        orElse: () => false,
-        data: (value) => value > 0,
-      ),
-      label: state.whenOrNull(
-        data: (value) => Text(value.toString()),
-      ),
-      child: const Icon(DefaultIcons.notifications),
+  final List<AdaptiveDestination> destinations;
+  final BoxConstraints constraints;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    final destinations = <AdaptiveDestination>[
+      ...this.destinations,
+    ];
+    return AutoTabsRouter(
+      routes: [
+        const NotificationsRoute(),
+        for (final destination in destinations) destination.route,
+      ],
+      transitionBuilder: (context, child, animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      builder: (context, child) {
+        final router = context.tabsRouter;
+
+        final navigation = NavigationRail(
+          labelType: NavigationRailLabelType.selected,
+          selectedIndex: router.activeIndex,
+          onDestinationSelected: router.setActiveIndex,
+          leading: ColumnPadded(
+            children: [
+              const AppLogo(
+                dimension: 56.0,
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              // https://m3.material.io/components/menus/guidelines#c17824c1-2008-4b08-972c-03544df5c784
+              FloatingActionButton(
+                foregroundColor: colorScheme.onTertiaryContainer,
+                backgroundColor: colorScheme.tertiaryContainer,
+                elevation: 0,
+                onPressed: () {
+                  _showAddCardBottomSheet(context: context);
+                },
+                child: const Icon(DefaultIcons.add_card),
+              ),
+            ],
+          ),
+          destinations: [
+            NavigationRailDestination(
+              icon: _NotificationIcon(),
+              label: Text(l10n.notifications),
+            ),
+            for (final destination in destinations)
+              NavigationRailDestination(
+                icon: Icon(destination.icon),
+                label: Text(destination.labelText),
+              ),
+          ],
+        );
+
+        final body = Expanded(child: SafeArea(child: child));
+
+        return Scaffold(
+          body: Row(
+            children: [
+              SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: navigation,
+                  ),
+                ),
+              ),
+              const VerticalDivider(thickness: 1, width: 1),
+              body,
+            ],
+          ),
+        );
+      },
     );
   }
+}
+
+class _MainPageExpanded extends StatelessWidget {
+  const _MainPageExpanded({
+    required this.destinations,
+    required this.constraints,
+  });
+
+  final List<AdaptiveDestination> destinations;
+  final BoxConstraints constraints;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return AutoTabsRouter(
+      routes: [
+        const NotificationsRoute(),
+        for (final destination in destinations) destination.route,
+      ],
+      transitionBuilder: (context, child, animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      builder: (context, child) {
+        final router = context.tabsRouter;
+
+        final navigation = NavigationRail(
+          extended: true,
+          selectedIndex: router.activeIndex,
+          onDestinationSelected: router.setActiveIndex,
+          leading: Padding(
+            padding: const EdgeInsets.only(bottom: Insets.large),
+            child: ColumnPadded(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RowPadded(
+                  children: const [
+                    AppLogo(
+                      dimension: 56.0,
+                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                    ),
+                    AppNameText(),
+                  ],
+                ),
+                FloatingActionButton.extended(
+                  foregroundColor: colorScheme.onTertiaryContainer,
+                  backgroundColor: colorScheme.tertiaryContainer,
+                  elevation: 0,
+                  icon: const Icon(DefaultIcons.add_card),
+                  label: Text(l10n.addCard),
+                  onPressed: () {
+                    _showAddCardBottomSheet(context: context);
+                  },
+                ),
+              ],
+            ),
+          ),
+          destinations: [
+            NavigationRailDestination(
+              icon: _NotificationIcon(),
+              label: Text(l10n.notifications),
+            ),
+            for (final destination in destinations)
+              NavigationRailDestination(
+                icon: Icon(destination.icon),
+                label: Text(destination.labelText),
+              ),
+          ],
+        );
+
+        final body = Expanded(child: SafeArea(child: child));
+
+        return Scaffold(
+          body: Row(
+            children: [
+              SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: navigation,
+                  ),
+                ),
+              ),
+              const VerticalDivider(thickness: 1, width: 1),
+              body,
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+Future<T?> _showAddCardBottomSheet<T>({required BuildContext context}) {
+  final l10n = context.l10n;
+
+  return showModalBottomSheet<T>(
+    context: context,
+    builder: (context) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(DefaultIcons.qr_code_scanner),
+            title: Text(l10n.addCardQRScanTitle),
+            subtitle: Text(l10n.addCardQRScanSubtitle),
+            onTap: () {
+              context.router.pop();
+              showUnimplementedFeature(context: context);
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

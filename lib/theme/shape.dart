@@ -51,8 +51,10 @@ abstract final class IconSizes {
   static const double extraLarge = 48.0;
 }
 
-abstract final class StrokeWidths {
+abstract final class Widths {
   static const double none = 0.0;
+
+  static const double thin = 0.5;
 
   static const double xsmall = 1.0;
 

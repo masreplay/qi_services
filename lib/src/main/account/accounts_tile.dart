@@ -1,238 +1,218 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:timeago/timeago.dart';
 
-class AccountsPageView extends HookWidget {
-  const AccountsPageView(this.data, {super.key});
+const double creditCardAspectRatio = 1.586;
 
-  final List<AccountModel> data;
+class AccountTileLoadingState extends HookWidget {
+  const AccountTileLoadingState({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final index = useState<int>(0);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return ColumnPadded(
-      spacing: 2.0,
-      children: [
-        AspectRatio(
-          aspectRatio: 5 / 3,
-          child: PageView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: data.length,
-            onPageChanged: index.update,
-            itemBuilder: (context, index) {
-              final account = data[index];
-
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AccountGridTile(
-                  account: account,
-                  onTap: () {},
-                ),
-              );
-            },
+    return AspectRatio(
+      aspectRatio: creditCardAspectRatio,
+      child: Container(
+        decoration: BoxDecoration(
+          color: colorScheme.surfaceVariant,
+          borderRadius: BorderRadius.circular(
+            Radiuses.large,
           ),
         ),
-        // indicator
-        RowPadded(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            for (int i = 0; i < data.length; i++)
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                width: 8.0,
-                height: 8.0,
-                decoration: BoxDecoration(
-                  color: index.value == i
-                      ? colorScheme.primary
-                      : colorScheme.onSurfaceVariant.withOpacity(0.5),
-                  shape: BoxShape.circle,
-                ),
-              ),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }
 
-// TODO: return end with the start of the [when] or switch statement
-class AccountGridTile extends HookWidget {
-  const AccountGridTile({
+class AccountTile extends HookWidget {
+  const AccountTile(
+    this.data, {
     super.key,
-    required this.account,
-    required this.onTap,
+    this.onPressed,
   });
 
-  final AccountModel account;
-  final VoidCallback onTap;
+  final AccountModel data;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
 
-    final titleMedium = textTheme.titleMedium?.copyWith(
-      color: Colors.white,
-    );
-    final titleLarge = textTheme.titleLarge?.copyWith(
-      color: Colors.white,
+    final obscure = useState(true);
+
+    // based on brightness
+    final backgroundColor = data.map(
+      active: (value) => colorScheme.secondaryContainer,
+      blocked: (value) => colorScheme.surfaceVariant,
     );
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(12.0),
-      onTap: onTap,
-      child: Ink(
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-          color: account.mapOrNull(
-            blocked: (value) => Colors.grey,
-          ),
-          gradient: account.mapOrNull(
-            active: (value) => const LinearGradient(
-              begin: AlignmentDirectional.topCenter,
-              end: AlignmentDirectional.bottomCenter,
-              colors: [Color(0xff03BCFE), Color(0xff1D8EE3)],
+    final foregroundColor = data.map(
+      active: (value) => colorScheme.onSecondaryContainer,
+      blocked: (value) => colorScheme.onSurfaceVariant,
+    );
+
+    final foregroundVariantColor = data.map(
+      active: (value) => colorScheme.secondary,
+      blocked: (value) => colorScheme.onSurfaceVariant,
+    );
+
+    final borderRadius = BorderRadius.circular(Radiuses.large);
+
+    return ColumnPadded(
+      spacing: Insets.xsmall,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Insets.small),
+          child: data.map(
+            active: (value) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  l10n.active,
+                  style: textTheme.bodyLarge,
+                ),
+                IconButton.outlined(
+                  onPressed: onPressed,
+                  icon: const Icon(DefaultIcons.more),
+                ),
+              ],
+            ),
+            blocked: (value) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.blocked,
+                      style: textTheme.bodyLarge,
+                    ),
+                    Text(
+                      value.reason,
+                      style: textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+                IconButton.outlined(
+                  onPressed: onPressed,
+                  icon: const Icon(DefaultIcons.more),
+                ),
+              ],
             ),
           ),
         ),
-        child: Row(
-          children: [
-            Expanded(
+        AspectRatio(
+          aspectRatio: creditCardAspectRatio,
+          child: InkWell(
+            borderRadius: borderRadius,
+            onTap: onPressed,
+            child: Ink(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: borderRadius,
+              ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  Row(
                     children: [
+                      const Spacer(),
                       Text(
-                        l10n.accountNumber,
-                        style: titleMedium,
-                      ),
-                      Text(
-                        account.number,
-                        style: titleLarge?.copyWith(
+                        data.serviceName,
+                        style: textTheme.titleMedium?.copyWith(
+                          color: foregroundVariantColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  RowPadded(
+                    spacing: Insets.xsmall,
                     children: [
-                      Text(
-                        l10n.serviceName,
-                        style: titleMedium,
-                      ),
-                      Text(
-                        account.serviceName,
-                        style: titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.availableBalance,
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: foregroundColor,
+                              ),
+                            ),
+                            Text(
+                              "${data.balance} ${data.currency}",
+                              style: textTheme.headlineSmall?.copyWith(
+                                color: foregroundColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      IconButton.outlined(
+                        onPressed: () {
+                          obscure.value = !obscure.value;
+                        },
+                        color: foregroundColor,
+                        icon: obscure.value
+                            ? const Icon(DefaultIcons.invisible)
+                            : const Icon(DefaultIcons.visible),
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        l10n.availableBalance,
-                        style: titleMedium,
-                      ),
-                      Text(
-                        "${account.balance} ${account.currency}",
-                        style: textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xffFEBF0C),
+                      Animate(
+                        target: obscure.value ? 1 : 0,
+                        effects: const [ShakeEffect()],
+                        child: Text(
+                          obscure.value
+                              ? _obscuringText(data.number)
+                              : data.number,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: foregroundColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                      ),
+                      TimeAgo(
+                        duration: const Duration(minutes: 1),
+                        builder: (context, now) {
+                          return Text(
+                            format(
+                              data.lastUpdate,
+                              locale: context.l10n.localeName,
+                            ),
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: foregroundColor,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                account.map(
-                  active: (value) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      child: RowPadded(
-                        children: [
-                          Text(
-                            l10n.active,
-                            style: titleMedium?.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                          Container(
-                            width: 16.0,
-                            height: 16.0,
-                            decoration: const BoxDecoration(
-                              color: Color(0xff47EF1F),
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  blocked: (value) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 2.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      child: RowPadded(
-                        children: [
-                          Text(
-                            l10n.blocked,
-                            style: titleMedium?.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                          const Icon(
-                            Icons.lock_outline_rounded,
-                            size: 18.0,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                TimeAgo(
-                  duration: const Duration(minutes: 1),
-                  builder: (context, now) {
-                    return Text(
-                      format(account.lastUpdate),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: titleMedium?.copyWith(
-                        color: Colors.white,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
+  }
+
+  String _obscuringText(String number) {
+    final lastFourDigits = number.substring(number.length - 4);
+    return "**** $lastFourDigits";
   }
 }

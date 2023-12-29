@@ -16,8 +16,8 @@ Future<List<ServiceModel>> getServices(GetServicesRef ref) {
 }
 
 /// Referring to the scaffold as adaptive instead of responsive,
-class _ServiceData {
-  const _ServiceData({
+class ServiceData {
+  const ServiceData({
     required this.title,
     required this.foregroundColor,
     required this.icon,
@@ -52,7 +52,7 @@ class ServicesPage extends HookConsumerWidget {
 
     final l10n = context.l10n;
 
-    final cardIssuanceService = _ServiceData(
+    final cardIssuanceService = ServiceData(
       icon: const Icon(Icons.account_balance),
       title: l10n.serviceCardIssuance,
       description: l10n.serviceCardIssuanceDescription,
@@ -65,7 +65,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final specialCardsService = _ServiceData(
+    final specialCardsService = ServiceData(
       icon: const Icon(Icons.card_giftcard),
       title: l10n.serviceSpecialCards,
       foregroundColor: Colors.white,
@@ -77,7 +77,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final digitalZoneService = _ServiceData(
+    final digitalZoneService = ServiceData(
       icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceDigitalZone,
       foregroundColor: Colors.white,
@@ -89,7 +89,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final aksatiService = _ServiceData(
+    final aksatiService = ServiceData(
       icon: Assets.logo.aksatiLogo.image(),
       title: l10n.serviceAksati,
       description: l10n.serviceAksatiDescription,
@@ -102,7 +102,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final qiPlacesService = _ServiceData(
+    final qiPlacesService = ServiceData(
       icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceQiPlaces,
       foregroundColor: Colors.white,
@@ -114,7 +114,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final tasdeedService = _ServiceData(
+    final tasdeedService = ServiceData(
       icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceTasdeed,
       foregroundColor: Colors.white,
@@ -126,7 +126,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final seliftyService = _ServiceData(
+    final seliftyService = ServiceData(
       icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceSelifty,
       foregroundColor: Colors.white,
@@ -138,7 +138,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final alRafidainLoansService = _ServiceData(
+    final alRafidainLoansService = ServiceData(
       title: l10n.serviceAlRafidainLoans,
       icon: Assets.logo.alrafidainLogo.image(),
       foregroundColor: Colors.white,
@@ -155,7 +155,7 @@ class ServicesPage extends HookConsumerWidget {
         title: l10n.serviceCategoryTitleNewest,
         layout: LayoutViewVariant.list,
         data: state.maybeWhen(
-          orElse: () => <_ServiceData>[],
+          orElse: () => <ServiceData>[],
           data: (data) {
             return data.map((e) => e.toServiceData(context: context)).toList();
           },
@@ -209,7 +209,7 @@ class ServicesPage extends HookConsumerWidget {
 class _ServicesPageCompact extends StatelessWidget {
   const _ServicesPageCompact(this.services);
 
-  final List<LayoutCategory<_ServiceData>> services;
+  final List<LayoutCategory<ServiceData>> services;
 
   @override
   Widget build(BuildContext context) {
@@ -240,18 +240,19 @@ class _ServicesPageCompact extends StatelessWidget {
 class _ServicesPageMedium extends StatelessWidget {
   const _ServicesPageMedium(this.services);
 
-  final List<LayoutCategory<_ServiceData>> services;
+  final List<LayoutCategory<ServiceData>> services;
 
   @override
   Widget build(BuildContext context) {
     return LayoutView(
       services,
-      type: LayoutViewVariant.mixed,
+      type: LayoutViewVariant.grid,
       padding: const EdgeInsets.symmetric(
-        horizontal: Insets.medium,
+        horizontal: Insets.large,
         vertical: Insets.small,
       ),
       delegate: const LayoutViewDelegate(
+        crossAxisCount: 4,
         crossAxisSpacing: Insets.xsmall,
         mainAxisSpacing: Insets.xsmall,
       ),
@@ -271,7 +272,7 @@ class _ServicesPageMedium extends StatelessWidget {
 class _ServicesPageExpanded extends StatelessWidget {
   const _ServicesPageExpanded(this.services);
 
-  final List<LayoutCategory<_ServiceData>> services;
+  final List<LayoutCategory<ServiceData>> services;
 
   @override
   Widget build(BuildContext context) {
@@ -279,10 +280,11 @@ class _ServicesPageExpanded extends StatelessWidget {
       services,
       type: LayoutViewVariant.mixed,
       padding: const EdgeInsets.symmetric(
-        horizontal: Insets.medium,
+        horizontal: Insets.large,
         vertical: Insets.small,
       ),
       delegate: const LayoutViewDelegate(
+        crossAxisCount: 5,
         crossAxisSpacing: Insets.xsmall,
         mainAxisSpacing: Insets.xsmall,
       ),
@@ -305,7 +307,7 @@ class _ServiceListTile extends StatelessWidget {
     this.index,
   });
 
-  final _ServiceData data;
+  final ServiceData data;
 
   final int? index;
 
@@ -393,7 +395,7 @@ class _ServiceGridTile extends StatelessWidget {
     this.showDescription = false,
   });
 
-  final _ServiceData data;
+  final ServiceData data;
 
   final bool showDescription;
 
@@ -465,7 +467,7 @@ class _ServiceGridTile extends StatelessWidget {
 
 void _showServiceModalBottomSheet({
   required BuildContext context,
-  required _ServiceData data,
+  required ServiceData data,
 }) {
   showModalBottomSheet(
     context: context,

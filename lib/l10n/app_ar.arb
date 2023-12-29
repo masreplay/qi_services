@@ -89,5 +89,8 @@
     "finishRegistrationSubtitle": "اكمل التسجيل للحصول على افضل تجربة",
     "finishRegistrationDescription": "هذا يسمح لك بالوصول إلى جميع ميزات التطبيق ويسمح لنا بتقديم أفضل خدمة لك، من خلال التحقق من هويتك.",
     "logoutConfirmationTitle": "هل انت متاكد؟",
-    "cancel": "الغاء"
+    "cancel": "الغاء",
+    "open": "فتح",
+    "addCard": "اضافة بطاقة",
+    "notifications": "الاشعارات"
 }

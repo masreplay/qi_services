@@ -99,6 +99,9 @@ class LayoutView<T extends Object> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     final items = data.expand((category) => category.data).toList();
 
     final delegate = this.delegate ??
@@ -106,11 +109,9 @@ class LayoutView<T extends Object> extends StatelessWidget {
           crossAxisCount: 3,
         );
 
-    Widget widget;
-
     switch (type) {
       case LayoutViewVariant.list:
-        widget = ListView.separated(
+        return ListView.separated(
           padding: padding,
           itemCount: items.length,
           itemBuilder: (context, index) {
@@ -121,7 +122,7 @@ class LayoutView<T extends Object> extends StatelessWidget {
           },
         );
       case LayoutViewVariant.grid:
-        widget = AlignedGridView.count(
+        return AlignedGridView.count(
           padding: padding,
           crossAxisCount: delegate.crossAxisCount,
           mainAxisSpacing: delegate.mainAxisSpacing,
@@ -133,19 +134,22 @@ class LayoutView<T extends Object> extends StatelessWidget {
         );
 
       case LayoutViewVariant.mixed:
-        widget = SingleChildScrollView(
+        return SingleChildScrollView(
           padding: padding,
           child: ColumnPadded(
             spacing: Insets.medium,
             children: [
               for (final category in data)
                 ColumnPadded(
+                  spacing: Insets.xsmall,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (category.title != null)
                       Text(
                         category.title!,
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     if (category.layout == LayoutViewVariant.list)
                       ListView.separated(
@@ -189,11 +193,5 @@ class LayoutView<T extends Object> extends StatelessWidget {
           ),
         );
     }
-
-    return Column(
-      children: [
-        Expanded(child: widget),
-      ],
-    );
   }
 }

@@ -59,9 +59,15 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
     this.expanded,
   });
 
+  /// https://m3.material.io/foundations/layout/applying-layout/compact
   final ResponsiveWidgetBuilder? compact;
+
+  /// https://m3.material.io/foundations/layout/applying-layout/medium
   final ResponsiveWidgetBuilder? medium;
+
+  /// https://m3.material.io/foundations/layout/applying-layout/expanded
   final ResponsiveWidgetBuilder? expanded;
+
   final ResponsiveWidgetBuilder? orElse;
 
   @override
@@ -71,8 +77,9 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final orElse = this.orElse?.call(context, constraints);
-
-        switch (ResponsiveSize.fromConstraints(constraints)) {
+        final ResponsiveSize size = // ResponsiveSize.medium ??
+            ResponsiveSize.fromConstraints(constraints);
+        switch (size) {
           case ResponsiveSize.compact:
             return compact?.call(context, constraints) ??
                 orElse ??

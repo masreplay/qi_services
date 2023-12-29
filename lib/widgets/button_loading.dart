@@ -22,7 +22,7 @@ class ButtonLoading extends StatelessWidget {
       dimension: IconSizes.small,
       child: Center(
         child: CircularProgressIndicator(
-          strokeWidth: StrokeWidths.small,
+          strokeWidth: Widths.small,
           color: foregroundColor,
           valueColor: AlwaysStoppedAnimation<Color>(foregroundColor),
         ),

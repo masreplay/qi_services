@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
+import 'package:qi_services/unimplemented.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'accounts_repository.dart';
@@ -14,6 +17,20 @@ part 'account_page.g.dart';
 @riverpod
 Future<List<AccountModel>> getAccounts(GetAccountsRef ref) async {
   return ref.read(accountsRepositoryProvider).getAll();
+}
+
+class _AccountServiceData {
+  const _AccountServiceData({
+    required this.label,
+    required this.icon,
+    required this.foregroundColor,
+    this.backgroundColor,
+  });
+
+  final String label;
+  final IconData icon;
+  final Color foregroundColor;
+  final Color? backgroundColor;
 }
 
 @RoutePage()
@@ -27,56 +44,51 @@ class AccountPage extends HookConsumerWidget {
     final provider = getAccountsProvider;
     final state = ref.watch(provider);
 
-    final accountServices = [
-      (
+    final services = <_AccountServiceData>[
+      _AccountServiceData(
         label: l10n.accountInformation,
         icon: Icons.settings_rounded,
         foregroundColor: AppColors.vermilion,
-        backgroundColor: null,
       ),
-      (
+      _AccountServiceData(
         label: l10n.moneyTransfer,
         icon: Icons.swap_horiz_outlined,
         foregroundColor: AppColors.purple,
-        backgroundColor: null,
       ),
-      (
+      _AccountServiceData(
         label: l10n.linkedCards,
         icon: Icons.credit_card,
         foregroundColor: AppColors.yellow,
-        backgroundColor: null,
       ),
-      (
+      _AccountServiceData(
         label: l10n.updateAccount,
         icon: Icons.autorenew_rounded,
         foregroundColor: Colors.white,
         backgroundColor: AppColors.grey,
       ),
-      (
+      _AccountServiceData(
         label: l10n.financialTransactions,
         icon: Icons.list_outlined,
         foregroundColor: AppColors.green,
-        backgroundColor: null,
       ),
-      (
+      _AccountServiceData(
         label: l10n.updateInformation,
         icon: Icons.sync_problem_outlined,
         foregroundColor: AppColors.yellow,
-        backgroundColor: null,
       ),
-      (
+      _AccountServiceData(
         label: l10n.alRafidainLoans,
         icon: DefaultIcons.placeholder,
         foregroundColor: Colors.white,
         backgroundColor: const Color(0xff34A853),
       ),
-      (
+      _AccountServiceData(
         label: l10n.trackRequests,
         icon: DefaultIcons.placeholder,
         foregroundColor: AppColors.darkPink,
         backgroundColor: AppColors.pink,
       ),
-      (
+      _AccountServiceData(
         label: l10n.salafati,
         icon: DefaultIcons.placeholder,
         foregroundColor: Colors.white,
@@ -87,58 +99,166 @@ class AccountPage extends HookConsumerWidget {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () => ref.refresh(provider.future),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: state.when(
-                data: AccountsPageView.new,
-                error: (error, stackTrace) => Center(
-                  child: Text(l10n.defaultErrorMessage),
-                ),
-                loading: LinearProgressIndicator.new,
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.all(8.0),
-              sliver: SliverGrid.count(
-                crossAxisCount: 3,
-                childAspectRatio: 1 / 1,
-                mainAxisSpacing: 8.0,
-                crossAxisSpacing: 8.0,
-                children: [
-                  for (final service in accountServices)
-                    AccountServiceGridTile(
-                      title: Text(service.label),
-                      backgroundColor: const Color(0xffA85BF5),
-                      icon: Icon(
-                        service.icon,
-                        color: service.foregroundColor,
-                      ),
-                      onTap: () {},
-                    ),
-                ],
-              ),
-            ),
-            const SliverPadding(
-              padding: EdgeInsets.all(8.0),
-              sliver: SliverToBoxAdapter(
-                child: AspectRatio(
-                  aspectRatio: 11 / 3,
-                  child: Placeholder(),
-                ),
-              ),
-            ),
-            const SliverPadding(
-              padding: EdgeInsets.all(8.0),
-              sliver: SliverToBoxAdapter(
-                child: AspectRatio(
-                  aspectRatio: 11 / 3,
-                  child: Placeholder(),
-                ),
-              ),
-            ),
-          ],
+        child: ResponsiveLayoutBuilder.when(
+          compact: (context, constraints) {
+            return _AccountPageCompact(services, state: state);
+          },
+          medium: (context, constraints) {
+            return _AccountPageMedium(services, state: state);
+          },
+          expanded: (context, constraints) {
+            return Container();
+          },
         ),
+      ),
+    );
+  }
+}
+
+class _AccountPageCompact extends HookWidget {
+  const _AccountPageCompact(
+    this.services, {
+    required this.state,
+  });
+
+  final List<_AccountServiceData> services;
+  final AsyncValue<List<AccountModel>> state;
+
+  @override
+  Widget build(BuildContext context) {
+    const spacing = Insets.medium;
+
+    final controller = usePageController(
+      viewportFraction: 0.95,
+    );
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          state.when(
+            data: (data) {
+              return ExpandablePageView.builder(
+                controller: controller,
+                itemCount: data.length,
+                padEnds: false,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsetsDirectional.only(
+                      start: spacing,
+                    ),
+                    child: AccountTile(
+                      data[index],
+                      onPressed: () {
+                        showUnimplementedFeature(context: context);
+                      },
+                    ),
+                  );
+                },
+              );
+            },
+            error: (error, stackTrace) {
+              return Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+              );
+            },
+            loading: () {
+              return Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+              );
+            },
+          ),
+          // AspectRatio(
+          //   aspectRatio: 2 / 1,
+          //   child: Container(
+          //     color: Colors.red,
+          //   ),
+          // ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AccountPageMedium extends StatelessWidget {
+  const _AccountPageMedium(
+    this.services, {
+    required this.state,
+  });
+
+  final List<_AccountServiceData> services;
+  final AsyncValue<List<AccountModel>> state;
+
+  @override
+  Widget build(BuildContext context) {
+    // https://m3.material.io/foundations/layout/applying-layout/medium#4899a0c6-bc71-4e86-8095-39e5d517db6a
+    // margin or spacer
+    const spacing = Insets.large;
+    const itemsSpacing = Insets.small;
+    const verticalPadding = EdgeInsets.symmetric(vertical: Insets.medium);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: spacing),
+      child: RowPadded(
+        spacing: spacing,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: state.when(
+              skipLoadingOnRefresh: false,
+              data: (data) {
+                return SingleChildScrollView(
+                  padding: verticalPadding,
+                  child: ColumnPadded(
+                    spacing: itemsSpacing,
+                    children: [
+                      for (final account in data) ...[
+                        AccountTile(
+                          account,
+                          onPressed: () {
+                            showUnimplementedFeature(context: context);
+                          },
+                        ),
+                        if (data.last != account)
+                          const Divider(
+                            height: Widths.xsmall,
+                            thickness: Widths.xsmall,
+                            indent: spacing,
+                            endIndent: spacing,
+                          ),
+                      ],
+                    ],
+                  ),
+                );
+              },
+              error: (error, stackTrace) {
+                return Container();
+              },
+              loading: () {
+                return SingleChildScrollView(
+                  padding: verticalPadding,
+                  child: ColumnPadded(
+                    spacing: itemsSpacing,
+                    children: [
+                      for (int i = 0; i < 3; i++)
+                        const AccountTileLoadingState()
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Container(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

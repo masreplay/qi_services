@@ -25,7 +25,7 @@ Future<void> showLoadingBottomSheet({
             const SizedBox.square(
               dimension: IconSizes.medium,
               child: CircularProgressIndicator(
-                strokeWidth: StrokeWidths.small,
+                strokeWidth: Widths.small,
               ),
             ),
             Text(

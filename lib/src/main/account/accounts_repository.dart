@@ -22,15 +22,15 @@ class AccountsRepository {
     await Future.delayed(const Duration(seconds: 2));
     return [
       AccountModel.active(
-        number: "123456789",
+        number: "5412 5412 5412 5412",
         serviceName: 'MasterCard ISC Branded',
         balance: '1,000,000',
         currency: 'IQD',
         lastUpdate: DateTime.now(),
       ),
       AccountModel.blocked(
-        number: "123456789",
-        serviceName: 'MasterCard ISC Branded',
+        number: "1234 1234 1234 1234",
+        serviceName: 'Visa',
         balance: '0',
         currency: 'USD',
         lastUpdate: DateTime.now(),
