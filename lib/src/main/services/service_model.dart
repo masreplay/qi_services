@@ -42,7 +42,7 @@ class ServiceModel with _$ServiceModel {
     required Alignment? gradientEnd,
   }) = _ServiceModel;
 
-  ServiceData toServiceData({
+  _ServiceData toServiceData({
     required BuildContext context,
   }) {
     final String title = switch (context.l10n.localeName) {
@@ -55,7 +55,7 @@ class ServiceModel with _$ServiceModel {
       _ => descriptions["en"]!,
     };
 
-    return ServiceData(
+    return _ServiceData(
       title: title,
       description: description,
       foregroundColor: foregroundColor,

@@ -15,9 +15,9 @@ Future<List<ServiceModel>> getServices(GetServicesRef ref) {
   return ref.read(servicesRepositoryProvider).getAll();
 }
 
-/// A provider that exposes a [Future] of a [List] of [ServiceModel].
-class ServiceData {
-  const ServiceData({
+/// Referring to the scaffold as adaptive instead of responsive,
+class _ServiceData {
+  const _ServiceData({
     required this.title,
     required this.foregroundColor,
     required this.icon,
@@ -52,7 +52,7 @@ class ServicesPage extends HookConsumerWidget {
 
     final l10n = context.l10n;
 
-    final cardIssuanceService = ServiceData(
+    final cardIssuanceService = _ServiceData(
       icon: const Icon(Icons.account_balance),
       title: l10n.serviceCardIssuance,
       description: l10n.serviceCardIssuanceDescription,
@@ -65,7 +65,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final specialCardsService = ServiceData(
+    final specialCardsService = _ServiceData(
       icon: const Icon(Icons.card_giftcard),
       title: l10n.serviceSpecialCards,
       foregroundColor: Colors.white,
@@ -77,7 +77,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final digitalZoneService = ServiceData(
+    final digitalZoneService = _ServiceData(
       icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceDigitalZone,
       foregroundColor: Colors.white,
@@ -89,7 +89,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final aksatiService = ServiceData(
+    final aksatiService = _ServiceData(
       icon: Assets.logo.aksatiLogo.image(),
       title: l10n.serviceAksati,
       description: l10n.serviceAksatiDescription,
@@ -102,7 +102,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final qiPlacesService = ServiceData(
+    final qiPlacesService = _ServiceData(
       icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceQiPlaces,
       foregroundColor: Colors.white,
@@ -114,7 +114,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final tasdeedService = ServiceData(
+    final tasdeedService = _ServiceData(
       icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceTasdeed,
       foregroundColor: Colors.white,
@@ -126,7 +126,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final seliftyService = ServiceData(
+    final seliftyService = _ServiceData(
       icon: const Icon(DefaultIcons.placeholder),
       title: l10n.serviceSelifty,
       foregroundColor: Colors.white,
@@ -138,7 +138,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final alRafidainLoansService = ServiceData(
+    final alRafidainLoansService = _ServiceData(
       title: l10n.serviceAlRafidainLoans,
       icon: Assets.logo.alrafidainLogo.image(),
       foregroundColor: Colors.white,
@@ -150,12 +150,12 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final data = [
+    final services = [
       LayoutCategory(
         title: l10n.serviceCategoryTitleNewest,
         layout: LayoutViewVariant.list,
         data: state.maybeWhen(
-          orElse: () => <ServiceData>[],
+          orElse: () => <_ServiceData>[],
           data: (data) {
             return data.map((e) => e.toServiceData(context: context)).toList();
           },
@@ -191,47 +191,121 @@ class ServicesPage extends HookConsumerWidget {
 
     return RefreshIndicator(
       onRefresh: () => ref.refresh(getServicesProvider.future),
-      child: ResponsiveLayoutBuilder.maybeWhen(
+      child: ResponsiveLayoutBuilder.when(
         compact: (context, constraints) {
-          return LayoutView(
-            data,
-            type: LayoutViewVariant.mixed,
-            padding: const EdgeInsets.symmetric(
-              horizontal: Insets.medium,
-              vertical: Insets.small,
-            ),
-            delegate: const LayoutViewDelegate(
-              crossAxisCount: 4,
-              crossAxisSpacing: Insets.xsmall,
-              mainAxisSpacing: Insets.xsmall,
-            ),
-            listTileBuilder: (context, index, item) {
-              return ServiceListTile(item, index: index);
-            },
-            gridTileBuilder: (context, index, item) {
-              return ServiceGridTile(
-                item,
-                showDescription: true,
-              );
-            },
-          );
+          return _ServicesPageCompact(services);
         },
-        orElse: (context, constraints) {
-          return Container();
+        medium: (context, constraints) {
+          return _ServicesPageMedium(services);
+        },
+        expanded: (context, constraints) {
+          return _ServicesPageExpanded(services);
         },
       ),
     );
   }
 }
 
-class ServiceListTile extends StatelessWidget {
-  const ServiceListTile(
+class _ServicesPageCompact extends StatelessWidget {
+  const _ServicesPageCompact(this.services);
+
+  final List<LayoutCategory<_ServiceData>> services;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutView(
+      services,
+      type: LayoutViewVariant.list,
+      padding: const EdgeInsets.symmetric(
+        horizontal: Insets.medium,
+        vertical: Insets.small,
+      ),
+      delegate: const LayoutViewDelegate(
+        crossAxisSpacing: Insets.xsmall,
+        mainAxisSpacing: Insets.xsmall,
+      ),
+      listTileBuilder: (context, index, item) {
+        return _ServiceListTile(item, index: index);
+      },
+      gridTileBuilder: (context, index, item) {
+        return _ServiceGridTile(
+          item,
+          showDescription: true,
+        );
+      },
+    );
+  }
+}
+
+class _ServicesPageMedium extends StatelessWidget {
+  const _ServicesPageMedium(this.services);
+
+  final List<LayoutCategory<_ServiceData>> services;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutView(
+      services,
+      type: LayoutViewVariant.mixed,
+      padding: const EdgeInsets.symmetric(
+        horizontal: Insets.medium,
+        vertical: Insets.small,
+      ),
+      delegate: const LayoutViewDelegate(
+        crossAxisSpacing: Insets.xsmall,
+        mainAxisSpacing: Insets.xsmall,
+      ),
+      listTileBuilder: (context, index, item) {
+        return _ServiceListTile(item, index: index);
+      },
+      gridTileBuilder: (context, index, item) {
+        return _ServiceGridTile(
+          item,
+          showDescription: true,
+        );
+      },
+    );
+  }
+}
+
+class _ServicesPageExpanded extends StatelessWidget {
+  const _ServicesPageExpanded(this.services);
+
+  final List<LayoutCategory<_ServiceData>> services;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutView(
+      services,
+      type: LayoutViewVariant.mixed,
+      padding: const EdgeInsets.symmetric(
+        horizontal: Insets.medium,
+        vertical: Insets.small,
+      ),
+      delegate: const LayoutViewDelegate(
+        crossAxisSpacing: Insets.xsmall,
+        mainAxisSpacing: Insets.xsmall,
+      ),
+      listTileBuilder: (context, index, item) {
+        return _ServiceListTile(item, index: index);
+      },
+      gridTileBuilder: (context, index, item) {
+        return _ServiceGridTile(
+          item,
+          showDescription: true,
+        );
+      },
+    );
+  }
+}
+
+class _ServiceListTile extends StatelessWidget {
+  const _ServiceListTile(
     this.data, {
-    super.key,
     this.index,
   });
 
-  final ServiceData data;
+  final _ServiceData data;
 
   final int? index;
 
@@ -246,7 +320,7 @@ class ServiceListTile extends StatelessWidget {
 
     return InkWell(
       onLongPress: () {
-        showServiceModalBottomSheet(
+        _showServiceModalBottomSheet(
           context: context,
           data: data,
         );
@@ -313,14 +387,13 @@ class ServiceListTile extends StatelessWidget {
   }
 }
 
-class ServiceGridTile extends StatelessWidget {
-  const ServiceGridTile(
+class _ServiceGridTile extends StatelessWidget {
+  const _ServiceGridTile(
     this.data, {
-    super.key,
     this.showDescription = false,
   });
 
-  final ServiceData data;
+  final _ServiceData data;
 
   final bool showDescription;
 
@@ -336,7 +409,7 @@ class ServiceGridTile extends StatelessWidget {
 
     return InkWell(
       onLongPress: () {
-        showServiceModalBottomSheet(
+        _showServiceModalBottomSheet(
           context: context,
           data: data,
         );
@@ -390,9 +463,9 @@ class ServiceGridTile extends StatelessWidget {
   }
 }
 
-void showServiceModalBottomSheet({
+void _showServiceModalBottomSheet({
   required BuildContext context,
-  required ServiceData data,
+  required _ServiceData data,
 }) {
   showModalBottomSheet(
     context: context,

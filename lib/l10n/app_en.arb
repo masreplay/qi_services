@@ -47,6 +47,8 @@
     "share": "Share",
     "serviceAksati": "Aksati",
     "serviceAksatiDescription": "Pay for your purchases in installments",
+    "addCardQRScanTitle": "Scan QR code",
+    "addCardQRScanSubtitle": "Put the QR code in the frame to scan it",
     "rateUs": "Rate app",
     "rateCallCenterService": "Rate call center service",
     "aboutApp": "About the app",

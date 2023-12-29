@@ -71,6 +71,8 @@
     "serviceAksati": "اقساطي",
     "serviceCategoryTitleNewest": "خدمات جديدة",
     "serviceAksatiDescription": "تقسيط المشتريات من خلال بطاقة كي كارد او ماستر كي",
+    "addCardQRScanTitle": "ادخل بواسطة QR",
+    "addCardQRScanSubtitle": "ضع الكاميرا على الكود",
     "serviceCategoryTitleMyCardServices": "خدمات البطاقة",
     "serviceCategoryTitleInstallmentServices": "خدمات التقسيط",
     "serviceCategoryTitleOtherServices": "خدمات أخرى",

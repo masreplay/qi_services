@@ -27,6 +27,63 @@ class AccountPage extends HookConsumerWidget {
     final provider = getAccountsProvider;
     final state = ref.watch(provider);
 
+    final accountServices = [
+      (
+        label: l10n.accountInformation,
+        icon: Icons.settings_rounded,
+        foregroundColor: AppColors.vermilion,
+        backgroundColor: null,
+      ),
+      (
+        label: l10n.moneyTransfer,
+        icon: Icons.swap_horiz_outlined,
+        foregroundColor: AppColors.purple,
+        backgroundColor: null,
+      ),
+      (
+        label: l10n.linkedCards,
+        icon: Icons.credit_card,
+        foregroundColor: AppColors.yellow,
+        backgroundColor: null,
+      ),
+      (
+        label: l10n.updateAccount,
+        icon: Icons.autorenew_rounded,
+        foregroundColor: Colors.white,
+        backgroundColor: AppColors.grey,
+      ),
+      (
+        label: l10n.financialTransactions,
+        icon: Icons.list_outlined,
+        foregroundColor: AppColors.green,
+        backgroundColor: null,
+      ),
+      (
+        label: l10n.updateInformation,
+        icon: Icons.sync_problem_outlined,
+        foregroundColor: AppColors.yellow,
+        backgroundColor: null,
+      ),
+      (
+        label: l10n.alRafidainLoans,
+        icon: DefaultIcons.placeholder,
+        foregroundColor: Colors.white,
+        backgroundColor: const Color(0xff34A853),
+      ),
+      (
+        label: l10n.trackRequests,
+        icon: DefaultIcons.placeholder,
+        foregroundColor: AppColors.darkPink,
+        backgroundColor: AppColors.pink,
+      ),
+      (
+        label: l10n.salafati,
+        icon: DefaultIcons.placeholder,
+        foregroundColor: Colors.white,
+        backgroundColor: const Color(0xffA85BF5),
+      ),
+    ];
+
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () => ref.refresh(provider.future),
@@ -45,87 +102,20 @@ class AccountPage extends HookConsumerWidget {
               padding: const EdgeInsets.all(8.0),
               sliver: SliverGrid.count(
                 crossAxisCount: 3,
-                childAspectRatio: 6 / 5,
+                childAspectRatio: 1 / 1,
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 8.0,
                 children: [
-                  AccountServiceGridTile(
-                    title: Text(l10n.moneyTransfer),
-                    icon: const Icon(
-                      Icons.swap_horiz_outlined,
-                      color: AppColors.purple,
-                    ),
-                    onTap: () {},
-                  ),
-                  AccountServiceGridTile(
-                    title: Text(l10n.accountInformation),
-                    icon: const Icon(
-                      Icons.settings_rounded,
-                      color: AppColors.vermilion,
-                    ),
-                    onTap: () {},
-                  ),
-                  AccountServiceGridTile(
-                    title: Text(l10n.linkedCards),
-                    icon: const Icon(
-                      Icons.credit_card,
-                      color: AppColors.yellow,
-                    ),
-                    onTap: () {},
-                  ),
-                  AccountServiceGridTile(
-                    title: Text(l10n.updateAccount),
-                    icon: Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.grey,
+                  for (final service in accountServices)
+                    AccountServiceGridTile(
+                      title: Text(service.label),
+                      backgroundColor: const Color(0xffA85BF5),
+                      icon: Icon(
+                        service.icon,
+                        color: service.foregroundColor,
                       ),
-                      child: const Icon(
-                        Icons.autorenew_rounded,
-                        color: Colors.white,
-                      ),
+                      onTap: () {},
                     ),
-                    onTap: () {},
-                  ),
-                  AccountServiceGridTile(
-                    title: Text(l10n.financialTransactions),
-                    icon: const Icon(
-                      Icons.list_outlined,
-                      color: AppColors.green,
-                    ),
-                    onTap: () {},
-                  ),
-                  AccountServiceGridTile(
-                    title: Text(l10n.updateInformation),
-                    icon: const Icon(
-                      Icons.sync_problem_outlined,
-                      color: AppColors.yellow,
-                    ),
-                    onTap: () {},
-                  ),
-                  AccountServiceGridTile(
-                    title: Text(l10n.alRafidainLoans),
-                    icon: const Icon(DefaultIcons.placeholder),
-                    backgroundColor: const Color(0xff34A853),
-                    foregroundColor: Colors.white,
-                    onTap: () {},
-                  ),
-                  AccountServiceGridTile(
-                    title: Text(l10n.trackRequests),
-                    icon: const Icon(
-                      DefaultIcons.placeholder,
-                      color: AppColors.darkPink,
-                    ),
-                    backgroundColor: AppColors.pink,
-                    onTap: () {},
-                  ),
-                  AccountServiceGridTile(
-                    title: Text(l10n.salafati),
-                    icon: const Icon(DefaultIcons.placeholder),
-                    backgroundColor: const Color(0xffA85BF5),
-                    foregroundColor: Colors.white,
-                    onTap: () {},
-                  ),
                 ],
               ),
             ),

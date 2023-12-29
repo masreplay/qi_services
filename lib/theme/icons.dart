@@ -9,22 +9,16 @@ import 'package:qi_services/icons/icons.dart';
 /// implementation:
 /// https://m3.material.io/styles/icons/overview
 abstract final class DefaultIcons {
-  // account
+  // main
   static const IconData account = Icons.credit_card;
-
-  // service
   static const IconData service = GeneratedIcons.service;
-
-  // more
   static const IconData more = Icons.more_horiz_outlined;
-
-  // transfer
   static const IconData transfer = Icons.currency_exchange;
 
-  // notifications
   static const IconData notifications = Icons.notifications_outlined;
-  
   static const IconData add_card = Icons.add_card_outlined;
+
+  static const IconData qr_code_scanner = Icons.qr_code_scanner;
 
   // theme
   static const IconData theme = Icons.color_lens_outlined;
