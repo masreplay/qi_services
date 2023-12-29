@@ -80,12 +80,12 @@ class LayoutView<T extends Object> extends StatelessWidget {
     super.key,
     this.type = LayoutViewVariant.list,
     this.delegate,
-    this.padding,
+    this.padding = EdgeInsets.zero,
     required this.listTileBuilder,
     required this.gridTileBuilder,
   });
 
-  final EdgeInsets? padding;
+  final EdgeInsets padding;
 
   final List<LayoutCategory<T>> data;
 
@@ -112,6 +112,8 @@ class LayoutView<T extends Object> extends StatelessWidget {
     switch (type) {
       case LayoutViewVariant.list:
         return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           padding: padding,
           itemCount: items.length,
           itemBuilder: (context, index) {
@@ -123,6 +125,8 @@ class LayoutView<T extends Object> extends StatelessWidget {
         );
       case LayoutViewVariant.grid:
         return AlignedGridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           padding: padding,
           crossAxisCount: delegate.crossAxisCount,
           mainAxisSpacing: delegate.mainAxisSpacing,
@@ -134,7 +138,7 @@ class LayoutView<T extends Object> extends StatelessWidget {
         );
 
       case LayoutViewVariant.mixed:
-        return SingleChildScrollView(
+        return Padding(
           padding: padding,
           child: ColumnPadded(
             spacing: Insets.medium,

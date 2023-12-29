@@ -6,6 +6,7 @@ import 'package:qi_services/unimplemented.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'layout_view.dart';
+import 'service_data.dart';
 import 'services_repository.dart';
 
 part 'services_page.g.dart';
@@ -13,33 +14,6 @@ part 'services_page.g.dart';
 @riverpod
 Future<List<ServiceModel>> getServices(GetServicesRef ref) {
   return ref.read(servicesRepositoryProvider).getAll();
-}
-
-/// Referring to the scaffold as adaptive instead of responsive,
-class ServiceData {
-  const ServiceData({
-    required this.title,
-    required this.foregroundColor,
-    required this.icon,
-    required this.onTap,
-    this.description,
-    this.gradient,
-    this.backgroundColor,
-  }) : assert(gradient == null || backgroundColor == null);
-
-  final String title;
-
-  final String? description;
-
-  final Color foregroundColor;
-
-  final LinearGradient? gradient;
-
-  final Color? backgroundColor;
-
-  final Widget icon;
-
-  final VoidCallback onTap;
 }
 
 @RoutePage()
@@ -150,7 +124,7 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final services = [
+    final services = <LayoutCategory<ServiceData>>[
       LayoutCategory(
         title: l10n.serviceCategoryTitleNewest,
         layout: LayoutViewVariant.list,
@@ -225,10 +199,10 @@ class _ServicesPageCompact extends StatelessWidget {
         mainAxisSpacing: Insets.xsmall,
       ),
       listTileBuilder: (context, index, item) {
-        return _ServiceListTile(item, index: index);
+        return ServiceListTile(item, index: index);
       },
       gridTileBuilder: (context, index, item) {
-        return _ServiceGridTile(
+        return ServiceGridTile(
           item,
           showDescription: true,
         );
@@ -257,10 +231,10 @@ class _ServicesPageMedium extends StatelessWidget {
         mainAxisSpacing: Insets.xsmall,
       ),
       listTileBuilder: (context, index, item) {
-        return _ServiceListTile(item, index: index);
+        return ServiceListTile(item, index: index);
       },
       gridTileBuilder: (context, index, item) {
-        return _ServiceGridTile(
+        return ServiceGridTile(
           item,
           showDescription: true,
         );
@@ -289,228 +263,14 @@ class _ServicesPageExpanded extends StatelessWidget {
         mainAxisSpacing: Insets.xsmall,
       ),
       listTileBuilder: (context, index, item) {
-        return _ServiceListTile(item, index: index);
+        return ServiceListTile(item, index: index);
       },
       gridTileBuilder: (context, index, item) {
-        return _ServiceGridTile(
+        return ServiceGridTile(
           item,
           showDescription: true,
         );
       },
     );
   }
-}
-
-class _ServiceListTile extends StatelessWidget {
-  const _ServiceListTile(
-    this.data, {
-    this.index,
-  });
-
-  final ServiceData data;
-
-  final int? index;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-    final description = data.description;
-
-    final index = this.index;
-
-    return InkWell(
-      onLongPress: () {
-        _showServiceModalBottomSheet(
-          context: context,
-          data: data,
-        );
-      },
-      onTap: data.onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Insets.xsmall,
-          vertical: Insets.small,
-        ),
-        child: RowPadded(
-          spacing: Insets.medium,
-          children: [
-            if (index != null)
-              Text(
-                '${index + 1}',
-                style: textTheme.bodyLarge!.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
-              ),
-            Container(
-              width: 56.0,
-              height: 56.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Radiuses.medium),
-                gradient: data.gradient,
-              ),
-              child: IconTheme(
-                data: IconThemeData(color: data.foregroundColor),
-                child: FractionallySizedBox(
-                  widthFactor: 0.5,
-                  child: data.icon,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    data.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.bodyLarge!.copyWith(
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                  if (description != null)
-                    Text(
-                      description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: textTheme.bodyMedium!.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ServiceGridTile extends StatelessWidget {
-  const _ServiceGridTile(
-    this.data, {
-    this.showDescription = false,
-  });
-
-  final ServiceData data;
-
-  final bool showDescription;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
-    final foregroundColor = data.foregroundColor;
-    final borderRadius = BorderRadius.circular(Radiuses.large);
-
-    final description = data.description;
-
-    return InkWell(
-      onLongPress: () {
-        _showServiceModalBottomSheet(
-          context: context,
-          data: data,
-        );
-      },
-      onTap: data.onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(Insets.xsmall),
-        child: ColumnPadded(
-          spacing: Insets.xsmall,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            AspectRatio(
-              aspectRatio: 1 / 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: borderRadius,
-                  gradient: data.gradient,
-                ),
-                child: IconTheme(
-                  data: IconThemeData(color: foregroundColor),
-                  child: FractionallySizedBox(
-                    widthFactor: 0.5,
-                    child: FittedBox(child: data.icon),
-                  ),
-                ),
-              ),
-            ),
-            Text(
-              data.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.bodyLarge!.copyWith(
-                color: theme.colorScheme.onSurface,
-              ),
-            ),
-            if (showDescription && description != null)
-              Text(
-                description,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: textTheme.bodyMedium!.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-void _showServiceModalBottomSheet({
-  required BuildContext context,
-  required ServiceData data,
-}) {
-  showModalBottomSheet(
-    context: context,
-    builder: (context) {
-      final description = data.description;
-
-      return Padding(
-        padding: const EdgeInsets.all(Insets.medium),
-        child: ColumnPadded(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: Text(data.title),
-              subtitle: description == null ? null : Text(description),
-              leading: AspectRatio(
-                aspectRatio: 1 / 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Radiuses.large),
-                    gradient: data.gradient,
-                  ),
-                  child: IconTheme(
-                    data: IconThemeData(color: data.foregroundColor),
-                    child: FractionallySizedBox(
-                      widthFactor: 0.5,
-                      child: FittedBox(child: data.icon),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            FilledButton.icon(
-              onPressed: () {
-                context.router.pop();
-                data.onTap();
-              },
-              icon: const Icon(Icons.open_in_new),
-              label: Text(context.l10n.open),
-            ),
-          ],
-        ),
-      );
-    },
-  );
 }

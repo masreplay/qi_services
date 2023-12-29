@@ -4,6 +4,7 @@ import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/url.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'service_data.dart';
 import 'services.dart';
 
 part 'service_model.freezed.dart';

@@ -74,6 +74,7 @@ class AccountTile extends HookWidget {
           child: data.map(
             active: (value) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   l10n.active,
@@ -87,6 +88,7 @@ class AccountTile extends HookWidget {
             ),
             blocked: (value) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

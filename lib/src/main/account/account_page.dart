@@ -1,36 +1,21 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:expandable_page_view/expandable_page_view.dart';
+import 'package:qi_services/src/main/main.dart';
+import 'package:qi_services/src/main/services/service_data.dart';
 import 'package:qi_services/unimplemented.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'accounts_repository.dart';
-import 'accounts_tile.dart';
 
 part 'account_page.g.dart';
 
 @riverpod
 Future<List<AccountModel>> getAccounts(GetAccountsRef ref) async {
   return ref.read(accountsRepositoryProvider).getAll();
-}
-
-class _AccountServiceData {
-  const _AccountServiceData({
-    required this.label,
-    required this.icon,
-    required this.foregroundColor,
-    this.backgroundColor,
-  });
-
-  final String label;
-  final IconData icon;
-  final Color foregroundColor;
-  final Color? backgroundColor;
 }
 
 @RoutePage()
@@ -44,53 +29,61 @@ class AccountPage extends HookConsumerWidget {
     final provider = getAccountsProvider;
     final state = ref.watch(provider);
 
-    final services = <_AccountServiceData>[
-      _AccountServiceData(
-        label: l10n.accountInformation,
-        icon: Icons.settings_rounded,
+    final services = [
+      ServiceData(
+        title: l10n.accountInformation,
+        icon: const Icon(Icons.settings_rounded),
         foregroundColor: AppColors.vermilion,
+        backgroundColor: null,
+        description: null,
+        gradient: null,
+        onTap: () {},
       ),
-      _AccountServiceData(
-        label: l10n.moneyTransfer,
-        icon: Icons.swap_horiz_outlined,
+      ServiceData(
+        title: l10n.moneyTransfer,
+        icon: const Icon(Icons.swap_horiz_outlined),
         foregroundColor: AppColors.purple,
+        backgroundColor: null,
       ),
-      _AccountServiceData(
-        label: l10n.linkedCards,
-        icon: Icons.credit_card,
+      ServiceData(
+        title: l10n.linkedCards,
+        icon: const Icon(Icons.credit_card),
         foregroundColor: AppColors.yellow,
+        backgroundColor: null,
       ),
-      _AccountServiceData(
-        label: l10n.updateAccount,
-        icon: Icons.autorenew_rounded,
+      ServiceData(
+        title: l10n.updateAccount,
+        icon: const Icon(Icons.autorenew_rounded),
         foregroundColor: Colors.white,
         backgroundColor: AppColors.grey,
       ),
-      _AccountServiceData(
-        label: l10n.financialTransactions,
-        icon: Icons.list_outlined,
+      ServiceData(
+        title: l10n.financialTransactions,
+        icon: const Icon(Icons.list_outlined),
         foregroundColor: AppColors.green,
+        backgroundColor: null,
       ),
-      _AccountServiceData(
-        label: l10n.updateInformation,
-        icon: Icons.sync_problem_outlined,
+      ServiceData(
+        title: l10n.updateInformation,
+        icon: const Icon(Icons.sync_problem_outlined),
         foregroundColor: AppColors.yellow,
+        backgroundColor: null,
       ),
-      _AccountServiceData(
-        label: l10n.alRafidainLoans,
-        icon: DefaultIcons.placeholder,
+      ServiceData(
+        title: l10n.alRafidainLoans,
+        icon: const Icon(DefaultIcons.placeholder),
         foregroundColor: Colors.white,
         backgroundColor: const Color(0xff34A853),
       ),
-      _AccountServiceData(
-        label: l10n.trackRequests,
-        icon: DefaultIcons.placeholder,
+      ServiceData(
+        title: l10n.trackRequests,
+        icon: const Icon(DefaultIcons.placeholder),
         foregroundColor: AppColors.darkPink,
         backgroundColor: AppColors.pink,
       ),
-      _AccountServiceData(
-        label: l10n.salafati,
-        icon: DefaultIcons.placeholder,
+      ServiceData(
+        title: l10n.salafati,
+        icon: const Icon(DefaultIcons.placeholder),
         foregroundColor: Colors.white,
         backgroundColor: const Color(0xffA85BF5),
       ),
@@ -121,11 +114,18 @@ class _AccountPageCompact extends HookWidget {
     required this.state,
   });
 
-  final List<_AccountServiceData> services;
+  final List<ServiceData> services;
   final AsyncValue<List<AccountModel>> state;
 
   @override
   Widget build(BuildContext context) {
+    final services = [
+      LayoutCategory(
+        layout: LayoutViewVariant.grid,
+        data: this.services,
+      ),
+    ];
+
     const spacing = Insets.medium;
 
     final controller = usePageController(
@@ -143,8 +143,9 @@ class _AccountPageCompact extends HookWidget {
                 padEnds: false,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                      start: spacing,
+                    padding: EdgeInsetsDirectional.only(
+                      start: index == 0 ? spacing : Insets.xsmall,
+                      end: index == data.length - 1 ? spacing : Insets.xsmall,
                     ),
                     child: AccountTile(
                       data[index],
@@ -164,19 +165,44 @@ class _AccountPageCompact extends HookWidget {
               );
             },
             loading: () {
-              return Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
+              const items = 3;
+              return ExpandablePageView.builder(
+                controller: controller,
+                itemCount: items,
+                padEnds: false,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsetsDirectional.only(
+                      start: index == 0 ? spacing : Insets.xsmall,
+                      end: index == items - 1 ? spacing : Insets.xsmall,
+                    ),
+                    child: const AccountTileLoadingState(),
+                  );
+                },
               );
             },
           ),
-          // AspectRatio(
-          //   aspectRatio: 2 / 1,
-          //   child: Container(
-          //     color: Colors.red,
-          //   ),
-          // ),
+          LayoutView(
+            services,
+            type: LayoutViewVariant.list,
+            padding: const EdgeInsets.symmetric(
+              horizontal: Insets.medium,
+              vertical: Insets.small,
+            ),
+            delegate: const LayoutViewDelegate(
+              crossAxisSpacing: Insets.xsmall,
+              mainAxisSpacing: Insets.xsmall,
+            ),
+            listTileBuilder: (context, index, item) {
+              return ServiceListTile(item, index: index);
+            },
+            gridTileBuilder: (context, index, item) {
+              return ServiceGridTile(
+                item,
+                showDescription: true,
+              );
+            },
+          ),
         ],
       ),
     );
@@ -189,7 +215,7 @@ class _AccountPageMedium extends StatelessWidget {
     required this.state,
   });
 
-  final List<_AccountServiceData> services;
+  final List<ServiceData> services;
   final AsyncValue<List<AccountModel>> state;
 
   @override
@@ -259,87 +285,6 @@ class _AccountPageMedium extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class AccountServiceGridTile extends StatelessWidget {
-  const AccountServiceGridTile({
-    super.key,
-    required this.title,
-    required this.icon,
-    required this.onTap,
-    this.backgroundColor,
-    this.foregroundColor,
-  });
-
-  final Widget title;
-  final Widget icon;
-  final VoidCallback onTap;
-  final Color? backgroundColor;
-  final Color? foregroundColor;
-
-  @override
-  Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.circular(16.0);
-
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-
-    final backgroundColor = this.backgroundColor ?? colorScheme.surfaceVariant;
-    final foregroundColor = this.foregroundColor ?? colorScheme.onSurface;
-
-    return Card(
-      elevation: 0.0,
-      margin: const EdgeInsets.all(0.0),
-      shape: RoundedRectangleBorder(borderRadius: borderRadius),
-      color: backgroundColor,
-      child: InkWell(
-        borderRadius: borderRadius,
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8.0,
-            // vertical: 16.0,
-          ),
-          child: IconTheme(
-            data: IconThemeData(color: foregroundColor),
-            child: DefaultTextStyle(
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.bodyMedium!.copyWith(
-                color: foregroundColor,
-              ),
-              child: ColumnPadded(
-                spacing: 8.0,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Align(
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: SizedBox.square(
-                      dimension: IconSizes.medium,
-                      child: icon,
-                    ),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(child: title),
-                      const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        size: 16.0,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
