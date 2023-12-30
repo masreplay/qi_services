@@ -25,7 +25,7 @@ class MorePage extends HookConsumerWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(Insets.large),
               child: ColumnPadded(
                 children: [
                   Text(

@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/faker.dart';
-import 'package:qi_services/phone_number/phone_number.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:qi_services/unimplemented.dart';
 
@@ -19,8 +19,8 @@ class LoginPage extends HookConsumerWidget {
 
     final formKey = useFormKey();
 
-    final areaCode = useState<AreaCode>(iraqAreaCode);
-    final mobileNumber = useTextEditingController();
+    final phone = useState<PhoneNumber?>(null);
+    final phoneController = useTextEditingController();
     final password = useTextEditingController();
 
     final l10n = context.l10n;
@@ -29,13 +29,11 @@ class LoginPage extends HookConsumerWidget {
     return Scaffold(
       body: FormBody(
         formKey: formKey,
-        spacing: 16.0,
+        spacing: Insets.medium,
         children: [
           PhoneNumberFormField(
-            controller: mobileNumber,
-            areaCode: areaCode.value,
-            onAreaCodeChanged: areaCode.update,
-            optional: false,
+            controller: phoneController,
+            onChanged: phone.update,
           ),
           PasswordFormField(
             controller: password,
@@ -45,7 +43,7 @@ class LoginPage extends HookConsumerWidget {
             onLongPress: !kDebugMode
                 ? null
                 : () {
-                    mobileNumber.text = AppFaker.mobileNumber;
+                    phoneController.text = AppFaker.phone;
                     password.text = AppFaker.password;
                   },
             onPressed: state.value.isLoading
@@ -56,10 +54,7 @@ class LoginPage extends HookConsumerWidget {
                     }
 
                     final body = LoginRequest(
-                      phone: PhoneNumberConvertor.merge(
-                        areaCode: areaCode.value,
-                        mobileNumber: mobileNumber.text,
-                      ),
+                      phone: phone.value!.full,
                       password: password.text,
                     );
 
@@ -101,4 +96,43 @@ class LoginPage extends HookConsumerWidget {
       ),
     );
   }
+}
+
+// TODO: allow adding 0 at the beginning of the iraqi phone number
+class PhoneNumberFormField extends StatelessWidget {
+  const PhoneNumberFormField({
+    super.key,
+    required this.controller,
+    required this.onChanged,
+  });
+
+  final TextEditingController controller;
+
+  final ValueChanged<PhoneNumber?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return InternationalPhoneNumberInput(
+      onInputChanged: onChanged,
+      inputBorder: const OutlineInputBorder(),
+      selectorConfig: const SelectorConfig(
+        setSelectorButtonAsPrefixIcon: true,
+        leadingPadding: Insets.medium,
+        selectorType: PhoneInputSelectorType.DIALOG,
+        useBottomSheetSafeArea: true,
+      ),
+      locale: context.l10n.localeName,
+      countries: const ["IQ", "US", "GB", "AE"],
+      autoValidateMode: AutovalidateMode.disabled,
+      textFieldController: controller,
+      keyboardType: const TextInputType.numberWithOptions(
+        signed: true,
+        decimal: true,
+      ),
+    );
+  }
+}
+
+extension on PhoneNumber {
+  String get full => dialCode! + phoneNumber!;
 }

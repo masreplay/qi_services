@@ -41,9 +41,9 @@ class AppNameText extends StatelessWidget {
 class AppLogo extends StatelessWidget {
   const AppLogo({
     super.key,
-    required this.dimension,
+    this.dimension = 56.0,
     this.borderRadius = const BorderRadius.all(
-      Radius.circular(Radiuses.small),
+      Radius.circular(12.0),
     ),
   });
 

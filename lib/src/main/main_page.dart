@@ -202,10 +202,7 @@ class _MainPageMedium extends StatelessWidget {
           onDestinationSelected: router.setActiveIndex,
           leading: ColumnPadded(
             children: [
-              const AppLogo(
-                dimension: 56.0,
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
+              const AppLogo(),
               // https://m3.material.io/components/menus/guidelines#c17824c1-2008-4b08-972c-03544df5c784
               FloatingActionButton(
                 foregroundColor: colorScheme.onTertiaryContainer,
@@ -294,10 +291,7 @@ class _MainPageExpanded extends StatelessWidget {
               children: [
                 RowPadded(
                   children: const [
-                    AppLogo(
-                      dimension: 56.0,
-                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                    ),
+                    AppLogo(),
                     AppNameText(),
                   ],
                 ),

@@ -157,7 +157,7 @@ class AccountTile extends HookWidget {
             borderRadius: borderRadius,
             onTap: onPressed,
             child: Ink(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(Insets.medium),
               decoration: BoxDecoration(
                 color: backgroundColor,
                 borderRadius: borderRadius,

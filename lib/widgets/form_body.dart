@@ -4,7 +4,7 @@ class FormBody extends StatelessWidget {
   const FormBody({
     super.key,
     required this.formKey,
-    this.padding = const EdgeInsets.all(16.0),
+    this.padding = const EdgeInsets.all(Insets.medium),
     this.spacing = 0.0,
     this.alignment = Alignment.center,
     this.mainAxisAlignment = MainAxisAlignment.center,
