@@ -2,21 +2,24 @@ import 'package:qi_services/common_lib.dart';
 
 /// https://m3.material.io/foundations/layout/applying-layout/window-size-classes
 /// https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#window_size_classes
-enum ResponsiveSize {
+enum Responsive {
   /// Phone in portrait
+  /// https://m3.material.io/foundations/layout/applying-layout/compact
   compact(min: 0, max: 599),
 
   /// Tablet in portrait
   /// Foldable in portrait (unfolded)
+  /// https://m3.material.io/foundations/layout/applying-layout/medium
   medium(min: 600, max: 839),
 
   /// Phone in landscape
   /// Tablet in landscape
   /// Foldable in landscape (unfolded)
   /// Desktop
+  /// https://m3.material.io/foundations/layout/applying-layout/expanded
   expanded(min: 840, max: double.infinity);
 
-  const ResponsiveSize({required this.min, required this.max});
+  const Responsive({required this.min, required this.max});
 
   /// The minimum width of the screen
   final double min;
@@ -24,7 +27,7 @@ enum ResponsiveSize {
   /// The maximum width of the screen
   final double max;
 
-  factory ResponsiveSize.fromSize(Size size) {
+  factory Responsive.fromSize(Size size) {
     final width = size.width;
 
     if (width >= expanded.min) {
@@ -35,57 +38,37 @@ enum ResponsiveSize {
       return compact;
     }
   }
-}
 
-typedef ResponsiveWidgetBuilder = Widget Function(
-  BuildContext context,
-  Size size,
-);
+  static R when<R>({
+    required BuildContext context,
+    required ResponsiveBuilder<R> compact,
+    required ResponsiveBuilder<R> medium,
+    required ResponsiveBuilder<R> expanded,
+  }) {
+    final type = Responsive.fromSize(MediaQuery.sizeOf(context));
 
-/// No need to prevent unnecessary rebuilds because it's already implemented in [LayoutBuilder]
-class ResponsiveLayoutBuilder extends StatelessWidget {
-  const ResponsiveLayoutBuilder.when({
-    super.key,
-    required ResponsiveWidgetBuilder this.compact,
-    required ResponsiveWidgetBuilder this.medium,
-    required ResponsiveWidgetBuilder this.expanded,
-  }) : orElse = null;
+    return switch (type) {
+      Responsive.compact => compact(),
+      Responsive.medium => medium(),
+      Responsive.expanded => expanded(),
+    };
+  }
 
-  const ResponsiveLayoutBuilder.maybeWhen({
-    super.key,
-    required ResponsiveWidgetBuilder this.orElse,
-    this.compact,
-    this.medium,
-    this.expanded,
-  });
+  static R maybeWhen<R>({
+    required BuildContext context,
+    ResponsiveBuilder<R>? compact,
+    ResponsiveBuilder<R>? medium,
+    ResponsiveBuilder<R>? expanded,
+    required ResponsiveBuilder<R> orElse,
+  }) {
+    final type = Responsive.fromSize(MediaQuery.sizeOf(context));
 
-  /// https://m3.material.io/foundations/layout/applying-layout/compact
-  final ResponsiveWidgetBuilder? compact;
-
-  /// https://m3.material.io/foundations/layout/applying-layout/medium
-  final ResponsiveWidgetBuilder? medium;
-
-  /// https://m3.material.io/foundations/layout/applying-layout/expanded
-  final ResponsiveWidgetBuilder? expanded;
-
-  final ResponsiveWidgetBuilder? orElse;
-
-  @override
-  Widget build(BuildContext context) {
-    const Widget defaultWidget = SizedBox.shrink();
-
-    final Size size = MediaQuery.sizeOf(context);
-
-    final orElse = this.orElse?.call(context, size);
-    final type = // ResponsiveSize.medium ??
-        ResponsiveSize.fromSize(size);
-    switch (type) {
-      case ResponsiveSize.compact:
-        return compact?.call(context, size) ?? orElse ?? defaultWidget;
-      case ResponsiveSize.medium:
-        return medium?.call(context, size) ?? orElse ?? defaultWidget;
-      case ResponsiveSize.expanded:
-        return expanded?.call(context, size) ?? orElse ?? defaultWidget;
-    }
+    return switch (type) {
+      Responsive.compact => compact?.call() ?? orElse(),
+      Responsive.medium => medium?.call() ?? orElse(),
+      Responsive.expanded => expanded?.call() ?? orElse(),
+    };
   }
 }
+
+typedef ResponsiveBuilder<R> = R Function();

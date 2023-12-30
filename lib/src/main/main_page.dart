@@ -64,14 +64,15 @@ class MainPage extends HookConsumerWidget {
       ),
     ];
 
-    return ResponsiveLayoutBuilder.when(
-      compact: (context, size) {
+    return Responsive.when(
+      context: context,
+      compact: () {
         return _MainPageCompact(destinations: destinations);
       },
-      medium: (context, size) {
+      medium: () {
         return _MainPageMedium(destinations: destinations);
       },
-      expanded: (context, size) {
+      expanded: () {
         return _MainPageExpanded(destinations: destinations);
       },
     );

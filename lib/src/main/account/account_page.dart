@@ -90,14 +90,15 @@ class AccountPage extends HookConsumerWidget {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () => ref.refresh(provider.future),
-        child: ResponsiveLayoutBuilder.when(
-          compact: (context, size) {
+        child: Responsive.when(
+          context: context,
+          compact: () {
             return _AccountPageCompact(services, state: state);
           },
-          medium: (context, size) {
+          medium: () {
             return _AccountPageMedium(services, state: state);
           },
-          expanded: (context, size) {
+          expanded: () {
             return _AccountPageExpanded(services, state: state);
           },
         ),

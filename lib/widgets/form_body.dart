@@ -11,6 +11,7 @@ class FormBody extends StatelessWidget {
     this.crossAxisAlignment = CrossAxisAlignment.stretch,
     this.mainAxisSize = MainAxisSize.min,
     required this.children,
+    required this.maxWidth,
   });
 
   final Alignment alignment;
@@ -29,21 +30,26 @@ class FormBody extends StatelessWidget {
 
   final List<Widget> children;
 
+  final double maxWidth;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Align(
         alignment: Alignment.center,
-        child: SingleChildScrollView(
-          padding: padding,
-          child: Form(
-            key: formKey,
-            child: ColumnPadded(
-              spacing: spacing,
-              mainAxisAlignment: mainAxisAlignment,
-              crossAxisAlignment: crossAxisAlignment,
-              mainAxisSize: mainAxisSize,
-              children: children,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxWidth),
+          child: SingleChildScrollView(
+            padding: padding,
+            child: Form(
+              key: formKey,
+              child: ColumnPadded(
+                spacing: spacing,
+                mainAxisAlignment: mainAxisAlignment,
+                crossAxisAlignment: crossAxisAlignment,
+                mainAxisSize: mainAxisSize,
+                children: children,
+              ),
             ),
           ),
         ),

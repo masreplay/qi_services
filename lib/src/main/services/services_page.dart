@@ -143,14 +143,15 @@ class ServicesPage extends HookConsumerWidget {
     return RefreshIndicator(
       onRefresh: () => ref.refresh(getServicesProvider.future),
       child: SingleChildScrollView(
-        child: ResponsiveLayoutBuilder.when(
-          compact: (context, size) {
+        child: Responsive.when(
+          context: context,
+          compact: () {
             return _ServicesPageCompact(services);
           },
-          medium: (context, size) {
+          medium: () {
             return _ServicesPageMedium(services);
           },
-          expanded: (context, size) {
+          expanded: () {
             return _ServicesPageExpanded(services);
           },
         ),
