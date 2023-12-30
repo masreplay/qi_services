@@ -55,16 +55,21 @@ class AppRouter extends _$AppRouter {
           ),
         ],
       ),
-      AutoRoute(
-        path: '/settings',
-        page: SettingsRoute.page,
-        guards: [_authenticatedGuard],
-      ),
       // auth
       AutoRoute(
         path: '/auth/login',
         page: LoginRoute.page,
         guards: [_notAuthenticatedGuard],
+      ),
+      AutoRoute(
+        path: '/auth/forgot_password',
+        page: ForgotPasswordRoute.page,
+        guards: [_notAuthenticatedGuard],
+      ),
+      AutoRoute(
+        path: '/settings',
+        page: SettingsRoute.page,
+        guards: [_authenticatedGuard],
       ),
       AutoRoute(
         path: '/add_card',

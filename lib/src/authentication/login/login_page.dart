@@ -62,7 +62,9 @@ class LoginPage extends HookConsumerWidget {
             : Text(l10n.login),
       ),
       TextButton(
-        onPressed: () {},
+        onPressed: () {
+          context.router.push(const ForgotPasswordRoute());
+        },
         child: Text(l10n.forgotYourPassword),
       ),
       TextButton(

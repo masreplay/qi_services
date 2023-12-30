@@ -85,6 +85,8 @@
     "serviceCategoryTitleAccountServices": "Account services",
     "accountInformationDescription": "View your account information",
     "updateAccountDescription": "Update your account information",
+    "forgotPassword": "Forgot password",
+    "forgotPasswordSuccess": "A 6 digit code has been sent to your mobile number",
     "serviceAlRafidainLoans": "Al rafidain loans",
     "shareAppWithFriendsTitle": "Invite your friends!",
     "shareAppWithFriendsSubtitle": "Share the app with others",

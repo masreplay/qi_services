@@ -12,6 +12,7 @@
     "serviceName": "اسم الخدمة",
     "availableBalance": "الرصيد المتاح",
     "blocked": "محظور",
+    "forgotPassword": "نسيت كلمة المرور",
     "password": "كلمة المرور",
     "account": "الحساب",
     "transfer": "تحويل",
@@ -94,6 +95,7 @@
     "serviceCategoryTitleFinancialServices": "خدمات مالية",
     "accountInformationDescription": "اظهار المعلومات المتعلقة بالحساب",
     "updateAccountDescription": "تحديث المعلومات المتعلقة بالحساب",
+    "forgotPasswordSuccess": "تم ارسال كلمة المرور الجديدة الى رقم الجوال",
     "serviceCategoryTitleAccountServices": "خدمات الحساب",
     "addCard": "اضافة بطاقة",
     "notifications": "الاشعارات"

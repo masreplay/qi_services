@@ -31,6 +31,18 @@ class AuthenticationRepository {
     return result;
   }
 
+  Future<ForgotPasswordResponse> forgotPassword(
+    ForgotPasswordRequest body,
+  ) async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    final result = ForgotPasswordResponse(
+      token: faker.guid.guid(),
+    );
+
+    return result;
+  }
+
   Future<LogoutResponse> logout() async {
     await Future.delayed(const Duration(seconds: 2));
     return LogoutResponse();
