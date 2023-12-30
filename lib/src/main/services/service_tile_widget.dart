@@ -7,18 +7,22 @@ class ServiceData {
   const ServiceData({
     required this.title,
     required this.icon,
-    required this.foregroundColor,
+    this.foregroundColor,
     this.onTap,
     this.description,
     this.gradient,
     this.backgroundColor,
-  });
+  }) : assert(
+          gradient == null || backgroundColor == null,
+          'Cannot provide both a gradient and a backgroundColor\n'
+          'To have a solid color please provide a backgroundColor',
+        );
 
   final String title;
 
   final String? description;
 
-  final Color foregroundColor;
+  final Color? foregroundColor;
 
   final LinearGradient? gradient;
 
@@ -42,12 +46,19 @@ class ServiceListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final index = this.index;
+    final description = data.description;
+    final title = data.title;
+    final icon = data.icon;
+    final onTap = data.onTap;
+
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
-    final description = data.description;
 
-    final index = this.index;
+    final gradient = data.gradient;
+    final backgroundColor = data.backgroundColor ?? colorScheme.secondary;
+    final foregroundColor = data.foregroundColor ?? colorScheme.onSecondary;
 
     return InkWell(
       onLongPress: () {
@@ -56,7 +67,7 @@ class ServiceListTile extends StatelessWidget {
           data: data,
         );
       },
-      onTap: data.onTap,
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: Insets.xsmall,
@@ -77,13 +88,14 @@ class ServiceListTile extends StatelessWidget {
               height: 56.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Radiuses.medium),
-                gradient: data.gradient,
+                gradient: gradient,
+                color: backgroundColor,
               ),
               child: IconTheme(
-                data: IconThemeData(color: data.foregroundColor),
+                data: IconThemeData(color: foregroundColor),
                 child: FractionallySizedBox(
                   widthFactor: 0.5,
-                  child: data.icon,
+                  child: icon,
                 ),
               ),
             ),
@@ -92,7 +104,7 @@ class ServiceListTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    data.title,
+                    title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodyLarge!.copyWith(
@@ -131,13 +143,20 @@ class ServiceGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final description = data.description;
+    final title = data.title;
+    final icon = data.icon;
+    final onTap = data.onTap;
+
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
 
-    final foregroundColor = data.foregroundColor;
-    final borderRadius = BorderRadius.circular(Radiuses.large);
+    final gradient = data.gradient;
+    final backgroundColor = data.backgroundColor ?? colorScheme.secondary;
+    final foregroundColor = data.foregroundColor ?? colorScheme.onSecondary;
 
-    final description = data.description;
+    final borderRadius = BorderRadius.circular(Radiuses.large);
 
     return InkWell(
       onLongPress: () {
@@ -146,7 +165,7 @@ class ServiceGridTile extends StatelessWidget {
           data: data,
         );
       },
-      onTap: data.onTap,
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(Insets.xsmall),
         child: ColumnPadded(
@@ -160,20 +179,21 @@ class ServiceGridTile extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: borderRadius,
-                  gradient: data.gradient,
+                  gradient: gradient,
+                  color: backgroundColor,
                 ),
                 child: IconTheme(
                   data: IconThemeData(color: foregroundColor),
                   child: FractionallySizedBox(
                     widthFactor: 0.5,
-                    child: FittedBox(child: data.icon),
+                    child: FittedBox(child: icon),
                   ),
                 ),
               ),
             ),
             Text(
-              data.title,
-              maxLines: 1,
+              title,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: textTheme.bodyLarge!.copyWith(
                 color: theme.colorScheme.onSurface,

@@ -1,11 +1,9 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:qi_services/common_lib.dart';
+import 'package:qi_services/src/main/services/services.dart';
 import 'package:qi_services/url.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import 'service_data.dart';
-import 'services.dart';
 
 part 'service_model.freezed.dart';
 part 'service_model.g.dart';

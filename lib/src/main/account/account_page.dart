@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+// ignore: depend_on_referenced_packages
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qi_services/api/api.dart';
+import 'package:qi_services/api_error_handler.dart';
 import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/main/main.dart';
-import 'package:qi_services/src/main/services/service_data.dart';
 import 'package:qi_services/unimplemented.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -29,63 +30,50 @@ class AccountPage extends HookConsumerWidget {
     final provider = getAccountsProvider;
     final state = ref.watch(provider);
 
-    final services = [
-      ServiceData(
-        title: l10n.accountInformation,
-        icon: const Icon(Icons.settings_rounded),
-        foregroundColor: AppColors.vermilion,
-        backgroundColor: null,
-        description: null,
-        gradient: null,
-        onTap: () {},
-      ),
-      ServiceData(
-        title: l10n.moneyTransfer,
-        icon: const Icon(Icons.swap_horiz_outlined),
-        foregroundColor: AppColors.purple,
-        backgroundColor: null,
-      ),
-      ServiceData(
-        title: l10n.linkedCards,
-        icon: const Icon(Icons.credit_card),
-        foregroundColor: AppColors.yellow,
-        backgroundColor: null,
-      ),
-      ServiceData(
-        title: l10n.updateAccount,
-        icon: const Icon(Icons.autorenew_rounded),
-        foregroundColor: Colors.white,
-        backgroundColor: AppColors.grey,
-      ),
-      ServiceData(
-        title: l10n.financialTransactions,
-        icon: const Icon(Icons.list_outlined),
-        foregroundColor: AppColors.green,
-        backgroundColor: null,
-      ),
-      ServiceData(
-        title: l10n.updateInformation,
-        icon: const Icon(Icons.sync_problem_outlined),
-        foregroundColor: AppColors.yellow,
-        backgroundColor: null,
-      ),
-      ServiceData(
-        title: l10n.alRafidainLoans,
-        icon: const Icon(DefaultIcons.placeholder),
-        foregroundColor: Colors.white,
-        backgroundColor: const Color(0xff34A853),
-      ),
-      ServiceData(
-        title: l10n.trackRequests,
-        icon: const Icon(DefaultIcons.placeholder),
-        foregroundColor: AppColors.darkPink,
-        backgroundColor: AppColors.pink,
-      ),
-      ServiceData(
-        title: l10n.salafati,
-        icon: const Icon(DefaultIcons.placeholder),
-        foregroundColor: Colors.white,
-        backgroundColor: const Color(0xffA85BF5),
+    final services = <LayoutCategory<ServiceData>>[
+      LayoutCategory(
+        title: l10n.services,
+        layout: LayoutViewVariant.list,
+        data: [
+          ServiceData(
+            title: l10n.accountInformation,
+            icon: const Icon(Icons.settings_outlined),
+            foregroundColor: Colors.white,
+            gradient: const LinearGradient(
+              colors: [Color(0xff4187BA), Color(0xff1A5582)],
+            ),
+          ),
+          ServiceData(
+            title: l10n.moneyTransfer,
+            icon: const Icon(DefaultIcons.transfer),
+          ),
+          ServiceData(
+            title: l10n.linkedCards,
+            icon: const Icon(Icons.credit_card_outlined),
+          ),
+          ServiceData(
+            title: l10n.updateAccount,
+            icon: const Icon(Icons.autorenew_rounded),
+          ),
+          ServiceData(
+            title: l10n.financialTransactions,
+            icon: const Icon(Icons.list_outlined),
+          ),
+          ServiceData(
+            title: l10n.updateInformation,
+            icon: const Icon(Icons.sync_problem_outlined),
+          ),
+          ServicesData.getAlRafidainLoans(context: context),
+          ServiceData(
+            title: l10n.trackRequests,
+            icon: const Icon(DefaultIcons.placeholder),
+            foregroundColor: Colors.white,
+            gradient: const LinearGradient(
+              colors: [Color(0xffC06981), Color(0xffF7CBD8)],
+            ),
+          ),
+          ServicesData.getSalafati(context: context),
+        ],
       ),
     ];
 
@@ -114,18 +102,11 @@ class _AccountPageCompact extends HookWidget {
     required this.state,
   });
 
-  final List<ServiceData> services;
+  final List<LayoutCategory<ServiceData>> services;
   final AsyncValue<List<AccountModel>> state;
 
   @override
   Widget build(BuildContext context) {
-    final services = [
-      LayoutCategory(
-        layout: LayoutViewVariant.grid,
-        data: this.services,
-      ),
-    ];
-
     const spacing = Insets.medium;
 
     final controller = usePageController(
@@ -157,13 +138,11 @@ class _AccountPageCompact extends HookWidget {
                 },
               );
             },
-            error: (error, stackTrace) {
-              return Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
-              );
-            },
+            error: apiErrorHandler(
+              orElse: () {
+                return Container();
+              },
+            ),
             loading: () {
               const items = 3;
               return ExpandablePageView.builder(
@@ -184,7 +163,7 @@ class _AccountPageCompact extends HookWidget {
           ),
           LayoutView(
             services,
-            type: LayoutViewVariant.list,
+            type: LayoutViewVariant.grid,
             padding: const EdgeInsets.symmetric(
               horizontal: Insets.medium,
               vertical: Insets.small,
@@ -215,7 +194,7 @@ class _AccountPageMedium extends StatelessWidget {
     required this.state,
   });
 
-  final List<ServiceData> services;
+  final List<LayoutCategory<ServiceData>> services;
   final AsyncValue<List<AccountModel>> state;
 
   @override
@@ -270,7 +249,7 @@ class _AccountPageMedium extends StatelessWidget {
                     spacing: itemsSpacing,
                     children: [
                       for (int i = 0; i < 3; i++)
-                        const AccountTileLoadingState()
+                        const AccountTileLoadingState(),
                     ],
                   ),
                 );

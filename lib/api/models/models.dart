@@ -1,3 +1,4 @@
+export "service_model.dart";
 export "notification_model.dart";
 export "logout_model.dart";
 export "account_model.dart";

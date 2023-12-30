@@ -1,5 +1,4 @@
 export "main_theme.dart";
-export "colors.dart";
 export "time.dart";
 export "responsive.dart";
 export "shape.dart";

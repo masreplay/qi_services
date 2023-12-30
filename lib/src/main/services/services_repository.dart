@@ -1,5 +1,5 @@
+import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/src/main/services/service_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

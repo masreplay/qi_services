@@ -55,7 +55,7 @@
     "updateInformation": "تحديث المعلومات",
     "alRafidainLoans": "قروض الرافدين",
     "trackRequests": "تتبع الطلبات",
-    "salafati": "صلفتي",
+
     "logout": "تسجيل الخروج",
     "systemTheme": "وضع النظام",
     "lightTheme": "الوضع الفاتح",
@@ -78,7 +78,7 @@
     "serviceCategoryTitleOtherServices": "خدمات أخرى",
     "serviceQiPlaces": "اماكن كي",
     "serviceTasdeed": "تسديد",
-    "serviceSelifty": "سلفتي",
+    "serviceSalafati": "سلفتي",
     "serviceAlRafidainLoans": "قروض الرافدين",
     "shareAppWithFriendsTitle": "ادعو اصدقائك لتجربة التطبيق",
     "shareAppWithFriendsSubtitle": "شارك التطبيق مع الاخرين",

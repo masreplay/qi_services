@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:qi_services/api/api.dart';
 import 'package:qi_services/common_lib.dart';
-import 'package:qi_services/src/main/services/service_model.dart';
 import 'package:qi_services/unimplemented.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'layout_view.dart';
-import 'service_data.dart';
+import 'service_tile_widget.dart';
+import 'services_data.dart';
 import 'services_repository.dart';
 
 part 'services_page.g.dart';
@@ -100,30 +101,6 @@ class ServicesPage extends HookConsumerWidget {
       onTap: () => showUnimplementedFeature(context: context),
     );
 
-    final seliftyService = ServiceData(
-      icon: const Icon(DefaultIcons.placeholder),
-      title: l10n.serviceSelifty,
-      foregroundColor: Colors.white,
-      gradient: const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xff5F60FC), Color(0xff933BF6)],
-      ),
-      onTap: () => showUnimplementedFeature(context: context),
-    );
-
-    final alRafidainLoansService = ServiceData(
-      title: l10n.serviceAlRafidainLoans,
-      icon: Assets.logo.alrafidainLogo.image(),
-      foregroundColor: Colors.white,
-      gradient: const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xff2BA045), Color(0xff42BE64)],
-      ),
-      onTap: () => showUnimplementedFeature(context: context),
-    );
-
     final services = <LayoutCategory<ServiceData>>[
       LayoutCategory(
         title: l10n.serviceCategoryTitleNewest,
@@ -149,7 +126,7 @@ class ServicesPage extends HookConsumerWidget {
         data: [
           aksatiService,
           tasdeedService,
-          seliftyService,
+          ServicesData.getSalafati(context: context),
         ],
       ),
       LayoutCategory(
@@ -158,23 +135,25 @@ class ServicesPage extends HookConsumerWidget {
         data: [
           qiPlacesService,
           digitalZoneService,
-          alRafidainLoansService,
+          ServicesData.getAlRafidainLoans(context: context),
         ],
       ),
     ];
 
     return RefreshIndicator(
       onRefresh: () => ref.refresh(getServicesProvider.future),
-      child: ResponsiveLayoutBuilder.when(
-        compact: (context, constraints) {
-          return _ServicesPageCompact(services);
-        },
-        medium: (context, constraints) {
-          return _ServicesPageMedium(services);
-        },
-        expanded: (context, constraints) {
-          return _ServicesPageExpanded(services);
-        },
+      child: SingleChildScrollView(
+        child: ResponsiveLayoutBuilder.when(
+          compact: (context, constraints) {
+            return _ServicesPageCompact(services);
+          },
+          medium: (context, constraints) {
+            return _ServicesPageMedium(services);
+          },
+          expanded: (context, constraints) {
+            return _ServicesPageExpanded(services);
+          },
+        ),
       ),
     );
   }
