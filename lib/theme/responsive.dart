@@ -19,7 +19,10 @@ enum Responsive {
   /// https://m3.material.io/foundations/layout/applying-layout/expanded
   expanded(min: 840, max: double.infinity);
 
-  const Responsive({required this.min, required this.max});
+  const Responsive({
+    required this.min,
+    required this.max,
+  });
 
   /// The minimum width of the screen
   final double min;

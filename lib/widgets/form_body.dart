@@ -4,14 +4,14 @@ class FormBody extends StatelessWidget {
   const FormBody({
     super.key,
     required this.formKey,
-    this.padding = const EdgeInsets.all(Insets.medium),
+    this.padding = EdgeInsets.zero,
     this.spacing = 0.0,
     this.alignment = Alignment.center,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.stretch,
     this.mainAxisSize = MainAxisSize.min,
+    this.maxWidth,
     required this.children,
-    required this.maxWidth,
   });
 
   final Alignment alignment;
@@ -30,29 +30,35 @@ class FormBody extends StatelessWidget {
 
   final List<Widget> children;
 
-  final double maxWidth;
+  final double? maxWidth;
 
   @override
   Widget build(BuildContext context) {
+    Widget current = SingleChildScrollView(
+      padding: padding,
+      child: Form(
+        key: formKey,
+        child: ColumnPadded(
+          spacing: spacing,
+          mainAxisAlignment: mainAxisAlignment,
+          crossAxisAlignment: crossAxisAlignment,
+          mainAxisSize: mainAxisSize,
+          children: children,
+        ),
+      ),
+    );
+
+    if (maxWidth != null) {
+      current = ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth!),
+        child: current,
+      );
+    }
+
     return SafeArea(
       child: Align(
         alignment: Alignment.center,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth),
-          child: SingleChildScrollView(
-            padding: padding,
-            child: Form(
-              key: formKey,
-              child: ColumnPadded(
-                spacing: spacing,
-                mainAxisAlignment: mainAxisAlignment,
-                crossAxisAlignment: crossAxisAlignment,
-                mainAxisSize: mainAxisSize,
-                children: children,
-              ),
-            ),
-          ),
-        ),
+        child: current,
       ),
     );
   }

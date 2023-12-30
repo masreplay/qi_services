@@ -7,8 +7,6 @@ import 'package:qi_services/common_lib.dart';
 import 'package:qi_services/src/authentication/authentication.dart';
 import 'package:qi_services/unimplemented.dart';
 
-import 'phone_number.dart';
-
 @RoutePage()
 class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
@@ -64,7 +62,7 @@ class LoginPage extends HookConsumerWidget {
             : Text(l10n.login),
       ),
       TextButton(
-        onPressed: () => showUnimplementedFeature(context: context),
+        onPressed: () {},
         child: Text(l10n.forgotYourPassword),
       ),
       TextButton(
@@ -73,25 +71,60 @@ class LoginPage extends HookConsumerWidget {
       ),
     ];
 
-    return Scaffold(
-      body: FormBody(
-        formKey: formKey,
-        spacing: Insets.medium,
-        maxWidth: 500,
+    final logo = Center(
+      child: ColumnPadded(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Center(
-            child: ColumnPadded(
-              children: [
-                AppLogo(
-                  dimension: 124.0,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                const AppNameText(fontSize: 28),
-              ],
-            ),
+          AppLogo(
+            dimension: 124.0,
+            borderRadius: BorderRadius.circular(24),
           ),
-          ...formBody,
+          const AppNameText(fontSize: 28),
         ],
+      ),
+    );
+
+    return Scaffold(
+      body: Responsive.maybeWhen(
+        context: context,
+        compact: () {
+          return FormBody(
+            formKey: formKey,
+            spacing: Insets.medium,
+            padding: const EdgeInsets.all(Insets.medium),
+            maxWidth: 500,
+            children: [
+              logo,
+              ...formBody,
+            ],
+          );
+        },
+        orElse: () {
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1000),
+              child: Padding(
+                padding: const EdgeInsets.all(Insets.large),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: logo,
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: FormBody(
+                        formKey: formKey,
+                        spacing: Insets.medium,
+                        children: formBody,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
