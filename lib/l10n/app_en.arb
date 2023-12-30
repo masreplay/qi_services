@@ -87,6 +87,7 @@
     "updateAccountDescription": "Update your account information",
     "forgotPassword": "Forgot password",
     "forgotPasswordSuccess": "A 6 digit code has been sent to your mobile number",
+    "forgotPasswordDescription": "Write your mobile number to receive a 6 digit code for password reset",
     "serviceAlRafidainLoans": "Al rafidain loans",
     "shareAppWithFriendsTitle": "Invite your friends!",
     "shareAppWithFriendsSubtitle": "Share the app with others",

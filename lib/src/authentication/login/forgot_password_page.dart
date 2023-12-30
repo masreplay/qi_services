@@ -22,6 +22,10 @@ class ForgotPasswordPage extends HookConsumerWidget {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     final formBody = <Widget>[
+      Text(
+        l10n.forgotPasswordDescription,
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
       PhoneNumberFormField(onChanged: phone.update),
       FilledButton(
         onPressed: state.value.isLoading
