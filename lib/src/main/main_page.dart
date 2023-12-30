@@ -65,20 +65,14 @@ class MainPage extends HookConsumerWidget {
     ];
 
     return ResponsiveLayoutBuilder.when(
-      compact: (context, constraints) {
+      compact: (context, size) {
         return _MainPageCompact(destinations: destinations);
       },
-      medium: (context, constraints) {
-        return _MainPageMedium(
-          destinations: destinations,
-          constraints: constraints,
-        );
+      medium: (context, size) {
+        return _MainPageMedium(destinations: destinations);
       },
-      expanded: (context, constraints) {
-        return _MainPageExpanded(
-          destinations: destinations,
-          constraints: constraints,
-        );
+      expanded: (context, size) {
+        return _MainPageExpanded(destinations: destinations);
       },
     );
   }
@@ -177,11 +171,9 @@ class _MainPageCompact extends StatelessWidget {
 class _MainPageMedium extends StatelessWidget {
   const _MainPageMedium({
     required this.destinations,
-    required this.constraints,
   });
 
   final List<AdaptiveDestination> destinations;
-  final BoxConstraints constraints;
 
   @override
   Widget build(BuildContext context) {
@@ -195,8 +187,8 @@ class _MainPageMedium extends StatelessWidget {
     ];
     return AutoTabsRouter(
       routes: [
-        const NotificationsRoute(),
         for (final destination in destinations) destination.route,
+        const NotificationsRoute(),
       ],
       transitionBuilder: (context, child, animation) {
         return FadeTransition(opacity: animation, child: child);
@@ -227,15 +219,15 @@ class _MainPageMedium extends StatelessWidget {
             ],
           ),
           destinations: [
-            NavigationRailDestination(
-              icon: _NotificationIcon(),
-              label: Text(l10n.notifications),
-            ),
             for (final destination in destinations)
               NavigationRailDestination(
                 icon: Icon(destination.icon),
                 label: Text(destination.labelText),
               ),
+            NavigationRailDestination(
+              icon: _NotificationIcon(),
+              label: Text(l10n.notifications),
+            ),
           ],
         );
 
@@ -244,13 +236,19 @@ class _MainPageMedium extends StatelessWidget {
         return Scaffold(
           body: Row(
             children: [
-              SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: navigation,
-                  ),
-                ),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: IntrinsicHeight(
+                        child: navigation,
+                      ),
+                    ),
+                  );
+                },
               ),
               const VerticalDivider(thickness: 1, width: 1),
               body,
@@ -263,13 +261,9 @@ class _MainPageMedium extends StatelessWidget {
 }
 
 class _MainPageExpanded extends StatelessWidget {
-  const _MainPageExpanded({
-    required this.destinations,
-    required this.constraints,
-  });
+  const _MainPageExpanded({required this.destinations});
 
   final List<AdaptiveDestination> destinations;
-  final BoxConstraints constraints;
 
   @override
   Widget build(BuildContext context) {
@@ -280,8 +274,8 @@ class _MainPageExpanded extends StatelessWidget {
 
     return AutoTabsRouter(
       routes: [
-        const NotificationsRoute(),
         for (final destination in destinations) destination.route,
+        const NotificationsRoute(),
       ],
       transitionBuilder: (context, child, animation) {
         return FadeTransition(opacity: animation, child: child);
@@ -321,15 +315,15 @@ class _MainPageExpanded extends StatelessWidget {
             ),
           ),
           destinations: [
-            NavigationRailDestination(
-              icon: _NotificationIcon(),
-              label: Text(l10n.notifications),
-            ),
             for (final destination in destinations)
               NavigationRailDestination(
                 icon: Icon(destination.icon),
                 label: Text(destination.labelText),
               ),
+            NavigationRailDestination(
+              icon: _NotificationIcon(),
+              label: Text(l10n.notifications),
+            ),
           ],
         );
 
@@ -338,13 +332,19 @@ class _MainPageExpanded extends StatelessWidget {
         return Scaffold(
           body: Row(
             children: [
-              SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: navigation,
-                  ),
-                ),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: IntrinsicHeight(
+                        child: navigation,
+                      ),
+                    ),
+                  );
+                },
               ),
               const VerticalDivider(thickness: 1, width: 1),
               body,

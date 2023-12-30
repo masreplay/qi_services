@@ -91,6 +91,10 @@
     "logoutConfirmationTitle": "هل انت متاكد؟",
     "cancel": "الغاء",
     "open": "فتح",
+    "serviceCategoryTitleFinancialServices": "خدمات مالية",
+    "accountInformationDescription": "اظهار المعلومات المتعلقة بالحساب",
+    "updateAccountDescription": "تحديث المعلومات المتعلقة بالحساب",
+    "serviceCategoryTitleAccountServices": "خدمات الحساب",
     "addCard": "اضافة بطاقة",
     "notifications": "الاشعارات"
 }

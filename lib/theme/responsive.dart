@@ -24,8 +24,8 @@ enum ResponsiveSize {
   /// The maximum width of the screen
   final double max;
 
-  factory ResponsiveSize.fromConstraints(BoxConstraints constraints) {
-    final width = constraints.maxWidth;
+  factory ResponsiveSize.fromSize(Size size) {
+    final width = size.width;
 
     if (width >= expanded.min) {
       return expanded;
@@ -39,7 +39,7 @@ enum ResponsiveSize {
 
 typedef ResponsiveWidgetBuilder = Widget Function(
   BuildContext context,
-  BoxConstraints constraints,
+  Size size,
 );
 
 /// No need to prevent unnecessary rebuilds because it's already implemented in [LayoutBuilder]
@@ -74,26 +74,18 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     const Widget defaultWidget = SizedBox.shrink();
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final orElse = this.orElse?.call(context, constraints);
-        final ResponsiveSize size = // ResponsiveSize.medium ??
-            ResponsiveSize.fromConstraints(constraints);
-        switch (size) {
-          case ResponsiveSize.compact:
-            return compact?.call(context, constraints) ??
-                orElse ??
-                defaultWidget;
-          case ResponsiveSize.medium:
-            return medium?.call(context, constraints) ??
-                orElse ??
-                defaultWidget;
-          case ResponsiveSize.expanded:
-            return expanded?.call(context, constraints) ??
-                orElse ??
-                defaultWidget;
-        }
-      },
-    );
+    final Size size = MediaQuery.sizeOf(context);
+
+    final orElse = this.orElse?.call(context, size);
+    final type = // ResponsiveSize.medium ??
+        ResponsiveSize.fromSize(size);
+    switch (type) {
+      case ResponsiveSize.compact:
+        return compact?.call(context, size) ?? orElse ?? defaultWidget;
+      case ResponsiveSize.medium:
+        return medium?.call(context, size) ?? orElse ?? defaultWidget;
+      case ResponsiveSize.expanded:
+        return expanded?.call(context, size) ?? orElse ?? defaultWidget;
+    }
   }
 }

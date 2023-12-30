@@ -14,16 +14,49 @@ class AccountTileLoadingState extends HookWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return AspectRatio(
-      aspectRatio: creditCardAspectRatio,
-      child: Container(
-        decoration: BoxDecoration(
-          color: colorScheme.surfaceVariant,
-          borderRadius: BorderRadius.circular(
-            Radiuses.large,
+    return ColumnPadded(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Insets.small),
+          child: RowPadded(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceVariant,
+                    borderRadius: BorderRadius.circular(
+                      Radiuses.small,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceVariant,
+                  borderRadius: BorderRadius.circular(
+                    Radiuses.small,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-      ),
+        AspectRatio(
+          aspectRatio: creditCardAspectRatio,
+          child: Container(
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(
+                Radiuses.large,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -72,13 +105,16 @@ class AccountTile extends HookWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Insets.small),
           child: data.map(
-            active: (value) => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            active: (value) => RowPadded(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  l10n.active,
-                  style: textTheme.bodyLarge,
+                Expanded(
+                  child: Text(
+                    l10n.active,
+                    style: textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                 ),
                 IconButton.outlined(
                   onPressed: onPressed,
@@ -86,22 +122,26 @@ class AccountTile extends HookWidget {
                 ),
               ],
             ),
-            blocked: (value) => Row(
+            blocked: (value) => RowPadded(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.blocked,
-                      style: textTheme.bodyLarge,
-                    ),
-                    Text(
-                      value.reason,
-                      style: textTheme.bodySmall,
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.blocked,
+                        style: textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      Text(
+                        value.reason,
+                        style: textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
                 ),
                 IconButton.outlined(
                   onPressed: onPressed,
